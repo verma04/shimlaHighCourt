@@ -1,0 +1,27 @@
+version: "3"
+services:
+  nginxx:
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - graphql
+      - client
+  graphql:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    volumes:
+      - /app/node_modules
+      - ./backend:/app
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    depends_on:
+      - graphql
