@@ -13,7 +13,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: {
   
-        authorization: 'Bearer ' + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTMzMzU0NDVjN2ZkNzcxMjJhOTg2Y2QiLCJlbWFpbCI6InNkZHNAZ21haWwuY29tIiwiaWF0IjoxNjMxNzc2MTQ3LCJleHAiOjZlKzM3fQ.jhjbjO1mDb2uu-28Qt9tE4XtJ6GKxtEq1omMVBs-6hQ"
+        authorization: 'Bearer ' + localStorage.getItem('jwtToken')
       }
   });
 

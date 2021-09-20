@@ -1,25 +1,37 @@
 
-import { useGetUser } from '@/apollo/actions';
-import Redirect from '@/components/shared/Redirect';
+import { useGetUser } from '../apollo/actions';
+import Redirect from '../compoents/shared/Redirect'
 
-export default (WrappedComponent, role) => (props) => {
- 
+export default (WrappedComponent, role, options = {ssr: false}) => {
+  function WithAuth(props) {
+    const { data: { getUser } = {}, loading, error } = useGetUser({fetchPolicy: 'network-only'});
+  
 
-  if (
-    !loading &&
-    (!user || error) &&
-    typeof window !== 'undefined'
-  ) {
-    return <Redirect to="/" />
-  }
 
-  // TODO: Send a message to login page
-  if (user) {
-    if (role && user.role !== role) {
-      return <Redirect to="/" />
+    if (
+      !loading &&
+      (!getUser || error) &&
+      typeof window !== 'undefined'
+    ) {
+   
+      localStorage.removeItem("jwtToken");
+
+      return <Redirect to="/login" query={{message: 'NOT_AUTHENTICATED'}} />
     }
-    return <WrappedComponent {...props} />
-  }
 
-  return <p>Authenticating...</p>;
+    // TODO: Send a message to login page
+    if (getUser) {
+    
+      return <WrappedComponent {...props} />
+    }
+
+    return (
+      <div className="spinner-container">
+      sddsds
+      </div>
+    )
+   }
+
+
+  return WithAuth;
 }

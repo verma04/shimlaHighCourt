@@ -14,14 +14,15 @@ import {
   GET_CITIES,
   CREATE_CITY,
   FILTER_CAFE,
-  CREATE_EVENT 
+  CREATE_EVENT ,
+  GET_MEMBERS
  
  
 } from '../queries/index'
 
 
 
-export const useGetCafes = () => useQuery(GET_CAFES);
+export const useGetMembers = () => useQuery(GET_MEMBERS);
 export const useGetCities = () => useQuery(GET_CITIES);
 export const useGetEvents = () => useQuery(GET_EVENTS);
 
@@ -76,19 +77,22 @@ export const useCreateCafe  = () => useMutation(CREATE_CAFE, {
 // Auth actions start -----------------------
 
 export const useSignIn = () => useMutation(SIGN_IN, {
-  update(cache, { data: { signIn: signedInUser }}) {
-
-
+  update(cache, { data: { login: signedInUser }}) {
+ 
      const { token } = signedInUser;
      localStorage.setItem("jwtToken", token);
   }
 })
 
-export const useSignOut = () => useMutation(SIGN_OUT)
+export const useSignOut = () => {
+  localStorage.removeItem("jwtToken");
+}
 
 
 export const useLazyGetUser = () => useLazyQuery(GET_USER)
 export const useGetUser = () => useQuery(GET_USER)
+
+
 
 
 // Auth actions end -----------------------

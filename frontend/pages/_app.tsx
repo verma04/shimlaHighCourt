@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { Provider } from "react-redux";
 import { AuthContextProvider } from '../store/authContext'
 import jwt_decode from "jwt-decode";
+import withApplo from '../hoc/withapplo'
 function MyApp({ Component, pageProps }: AppProps) {
 
   // if (typeof window !== "undefined") {
@@ -75,4 +76,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   </div>
   )
 }
-export default MyApp
+export default withApplo(MyApp)

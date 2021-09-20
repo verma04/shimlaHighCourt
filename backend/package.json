@@ -1,15 +1,13 @@
 {
-  "name": "merng",
+  "name": "backend1",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "serve": "node index",
-    "start": "nodemon index",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "build": "tsc",
+    "start": "tsc & node .",
+    "dev": "tsc -w & nodemon ."
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -18,7 +16,8 @@
     "graphql": "^15.5.3",
     "graphql-tag": "^2.12.5",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.6"
+    "mongoose": "^6.0.6",
+    "node-cron": "^3.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -35,4 +34,6 @@
     "nodemon": "^2.0.12",
     "prettier": "^2.4.1"
   }
+
+ 
 }
