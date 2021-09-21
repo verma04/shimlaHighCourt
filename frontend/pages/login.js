@@ -1,10 +1,10 @@
 
 import { useEffect, useRef } from 'react';
-import LoginForm from '../compoents/form/Login';
+import LoginForm from '../components/form/Login';
 
 import { useSignIn } from '../apollo/actions';
 import { useRouter } from 'next/router';
-import Redirect from '../compoents/shared/Redirect';
+import Redirect from '../components/shared/Redirect';
 
 
 const Login = () => {
@@ -23,19 +23,14 @@ const errorMessage = error => {
 
   return (
     <>
-      <div className="bwm-form mt-5">
-        <div className="row">
-          <div className="col-md-5 mx-auto">
-            <h1 className="page-title">Login</h1>
+   
            
             <LoginForm
               loading={loading}
               onSubmit={(signInData) => Login({variables: signInData})}/>
-            { data && data.login &&  <Redirect to="/set" /> }
+            { data && data.login &&  <Redirect to="/dashbaord" /> }
             { error && <div className="alert alert-danger">{errorMessage(error)}</div>}
-          </div>
-        </div>
-      </div>
+      
     </>
   )
 }

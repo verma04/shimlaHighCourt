@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Servcie = void 0;
+exports.Servcies = void 0;
 const { model, Schema } = require('mongoose');
 const ServiceSchema = new Schema({
     servicesName: {
@@ -11,7 +11,7 @@ const ServiceSchema = new Schema({
     createdAt: String,
     servcieList: [
         {
-            Member: String,
+            member: String,
             createdAt: String,
         },
     ],
@@ -22,6 +22,6 @@ const ServiceSchema = new Schema({
         ref: 'users',
     },
 });
-const Servcie = model('Service', ServiceSchema);
-exports.Servcie = Servcie;
+const Servcies = model('Service', ServiceSchema);
+exports.Servcies = Servcies;
 //# sourceMappingURL=Services.js.map

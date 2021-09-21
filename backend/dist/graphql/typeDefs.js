@@ -49,6 +49,14 @@ module.exports = gql `
     
   }
 
+  type Chamber {
+ 
+    member: String!
+  
+    
+  }
+  
+
   type Member {
     id: ID!
     email: String!
@@ -96,6 +104,7 @@ module.exports = gql `
     login(username: String!, password: String!): User!
     createServices(servicesName: String!): Services!
     deleteServices(id: ID ): Services
+    addChambers(member:String!): [Chamber]!
  
   }
   type Subscription {

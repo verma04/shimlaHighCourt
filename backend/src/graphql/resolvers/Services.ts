@@ -4,7 +4,7 @@ const { UserInputError } = require('apollo-server');
 const checkAuth = require('../../util/checkAuth');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
 
-const { Services } = require('../../models/Services');
+const { Servcies } = require('../../models/Services');
 
 function generateToken(user:any) {
   return jwt.sign(
@@ -22,32 +22,53 @@ const ServicesResolvers = {
   Query: {
     async getServices(_:any, { body }:any, context:any) {
      
-      const user = checkAuth(context);
+     
 
 
       try {
-        const services = await Services.find().sort({ createdAt: -1 });
+        const services = await Servcies.find().sort({ createdAt: -1 });
         return services;
       } catch (err) {
         throw new Error(err);
       }
     },
+
+    async deleteServices(_:any, { id }:any, context:any) {
+      
+
+      // const user = checkAuth(context);
+      try {
+           
+      const data  = Servcies.findOneAndDelete({_id:id})
+     
+      return data
+    
+     
+    
+    }
+    catch (err) {
+      console.log(err)
+    }
+    
+    }
     },
   Mutation: {
     async createServices(_:any, { servicesName }:any, context:any) {
       
-      const user = checkAuth(context);
+  
 
         try {
              
-            const ser = await Services.find({servicesName})
+            const ser = await  Servcies.findOne({servicesName})
+              
             
+
             if(ser) {
                 return   new UserInputError('Service Exist')
                 
             }
 
-        const newUser = new Services({
+        const newUser = new  Servcies({
          servicesName,
             createdAt: new Date().toISOString(),
           });
@@ -67,24 +88,37 @@ const ServicesResolvers = {
 
 },
 
-async deleteServices(_:any, { id }:any, context:any) {
-      
 
-  const user = checkAuth(context);
+async addChambers(_:any, { member }:any, context:any) {
+      
+  
+
   try {
        
-  const data  = Services.findOneAndDelete({_id:id})
- 
-  return data
-
- 
+      
+        const data = {
+          member,
+          createdAt: new Date().toISOString(),
+        }
+   
+   
+      Servcies.findOneAndUpdate({servicesName: "Chambers"},{ "$push":{ "servcieList": data }} , {new: true}, (err:any, doc:any) => {
+        if (err) {
+            console.log("Something wrong when updating data!");
+        }
+    
+      
+           return doc.servcieList
+    });
+    
 
 }
 catch (err) {
   console.log(err)
 }
 
-}
+},
+
    
   },
 }

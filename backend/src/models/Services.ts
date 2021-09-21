@@ -11,7 +11,7 @@ const ServiceSchema = new Schema({
   createdAt: String,
   servcieList: [
     {
-      Member: String,
+      member: String,
       createdAt: String,
     },
   ],
@@ -26,6 +26,6 @@ const ServiceSchema = new Schema({
   },
 });
 
-const Servcie = model('Service', ServiceSchema);
+const Servcies = model('Service', ServiceSchema);
 
-export { Servcie}
+export { Servcies }

@@ -1,10 +1,18 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Provider } from "react-redux";
-import { AuthContextProvider } from '../store/authContext'
+import Head from 'next/head'
+
 import jwt_decode from "jwt-decode";
 import withApplo from '../hoc/withapplo'
+import { ToastContainer, toast } from 'react-toastify';
+import  colors  from '../theme/lightTheme'
+import { ThemeProvider } from "styled-components";
+import GlobalFonts from '../theme/theme';
+import{ Reset } from '../theme/reset'
 function MyApp({ Component, pageProps }: AppProps) {
+
+
 
   // if (typeof window !== "undefined") {
   
@@ -70,9 +78,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
   
   <div>
-    <AuthContextProvider >
+
+    <ThemeProvider theme={colors}>
+    <Reset/>
+    <GlobalFonts/>
+    <ToastContainer />
   <Component {...pageProps} />
-  </AuthContextProvider>
+
+
+  </ThemeProvider>
   </div>
   )
 }
