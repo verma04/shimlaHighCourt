@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken');
 const { UserInputError } = require('apollo-server');
 const checkAuth = require('../../util/checkAuth');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
-
+const { Member } = require('../../models/Member');
 const { Servcies } = require('../../models/Services');
-
+const { v4: uuidv4 } = require('uuid');
 function generateToken(user:any) {
   return jwt.sign(
     {
@@ -23,7 +23,7 @@ const ServicesResolvers = {
     async getServices(_:any, { body }:any, context:any) {
      
      
-
+      // const user = checkAuth(context);
 
       try {
         const services = await Servcies.find().sort({ createdAt: -1 });
@@ -89,7 +89,7 @@ const ServicesResolvers = {
 },
 
 
-async addChambers(_:any, { member }:any, context:any) {
+async addChambers(_:any, { id }:any, context:any) {
       
   
 
@@ -97,19 +97,28 @@ async addChambers(_:any, { member }:any, context:any) {
        
       
         const data = {
-          member,
           createdAt: new Date().toISOString(),
+          chamberId:uuidv4()
         }
    
    
       Servcies.findOneAndUpdate({servicesName: "Chambers"},{ "$push":{ "servcieList": data }} , {new: true}, (err:any, doc:any) => {
         if (err) {
-            console.log("Something wrong when updating data!");
+           console.log(err)
         }
     
-      
-           return doc.servcieList
+        
     });
+  
+  //   Member.findOneAndUpdate({_id: member},{ "$set":{ "Chamber": data }} , {new: true}, (err:any, doc:any) => {
+  //     if (err) {
+  //         console.log("Something wrong when updating data!");
+  //     }
+  
+      
+  // });
+
+    return Servcies.findOne({servicesName: "Chambers"})
     
 
 }

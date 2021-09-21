@@ -28,6 +28,7 @@ module.exports = gql`
     id: ID!
     createdAt: String!
     servicesName: String!
+    servcieList : [Chamber]!
   }
   type User {
     id: ID!
@@ -41,7 +42,8 @@ module.exports = gql`
   type Chamber {
  
     member: String!
-  
+    id: ID!
+    chamberId: String!
     
   }
   
@@ -53,6 +55,7 @@ module.exports = gql`
     username: String!
     createdAt: String!
     avatar: String
+    Chamber: String
   }
 
   
@@ -93,7 +96,8 @@ module.exports = gql`
     login(username: String!, password: String!): User!
     createServices(servicesName: String!): Services!
     deleteServices(id: ID ): Services
-    addChambers(member:String!): [Chamber]!
+    addChambers(id:String!): Services!
+    addChamberToMember(id:String! , memberId:ID):Member!
  
   }
   type Subscription {
@@ -110,7 +114,7 @@ cron.schedule('* * * * *', async  () => {
    
     member.forEach((element:any) => {
      
-      console.log(element.avatar)
+      console.log(element.Chamber)
     });
 
    } catch (error) {

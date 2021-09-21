@@ -5,7 +5,7 @@ const { UserInputError } = require('apollo-server');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
 const checkAuth = require('../../util/checkAuth');
 const { Member } = require('../../models/Member');
-
+const { Servcies } = require('../../models/Services');
 function generateToken(user:any) {
   return jwt.sign(
     {
@@ -24,7 +24,7 @@ const MemberResolvers  = {
   Query: {
     async deleteMember(_:any, { id }:any, context:any) {
      
-      const user = checkAuth(context);
+      // const user = checkAuth(context);
  
 
       try {
@@ -41,7 +41,7 @@ const MemberResolvers  = {
 
     async getMember(_:any,   { body }:any, context:any) {
 
-      const user = checkAuth(context);
+      // const user = checkAuth(context);
       // Validate user data
       // const user = checkAuth(context);
     try {
@@ -105,6 +105,56 @@ const MemberResolvers  = {
         console.log(err)
     }
   },
+
+
+  async addChamberToMember(   _:any,  { id , memberId} :any, context:any) {
+    // Validate user data
+    // const user = checkAuth(context);
+   interface member  {
+      id:Number,
+      chamber: String
+
+
+    }
+
+  try {
+  
+   
+
+    let mem =  await   Member.findOne({Chamber: id})
+
+  if (mem) {
+    return   new UserInputError('Chamber Already Assign to member')
+    
+}
+
+
+  await  Member.findOneAndUpdate({_id: memberId},{ "$set":{ "Chamber": id }} , {new: true}, (err:any, doc:number) => {
+      if (err) {
+         console.log(err)
+      }
+  
+    })
+
+   await Servcies.findOneAndUpdate({servicesName: "Chambers", "servcieList.chamberId":id},{ $set: {"servcieList.$.member": memberId } },  { new: true, upsert: true },function(err:any, result:any) {
+      if (err) {
+      console.log(err)
+      } 
+    
+      
+    
+       console.log(result)
+    
+    
+      
+    });
+  }
+
+  
+  catch (err) {
+      console.log(err)
+  }
+},
 }
 
 };

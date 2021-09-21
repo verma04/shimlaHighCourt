@@ -7,6 +7,9 @@ const MemberSchema = new Schema({
   createdAt: String,
   avatar: String,
   gender: String,
+  Chamber: String,
+
+  
 });
 
 const Member = model('Member', MemberSchema);

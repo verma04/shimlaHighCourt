@@ -11,7 +11,11 @@ const ServiceSchema = new Schema({
   createdAt: String,
   servcieList: [
     {
-      member: String,
+     member: {
+       type: String ,
+       default:"empty"
+      },
+      chamberId:String,
       createdAt: String,
     },
   ],

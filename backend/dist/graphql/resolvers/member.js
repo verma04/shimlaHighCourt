@@ -16,6 +16,7 @@ const { UserInputError } = require('apollo-server');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
 const checkAuth = require('../../util/checkAuth');
 const { Member } = require('../../models/Member');
+const { Servcies } = require('../../models/Services');
 function generateToken(user) {
     return jwt.sign({
         id: user.id,
@@ -27,7 +28,7 @@ const MemberResolvers = {
     Query: {
         deleteMember(_, { id }, context) {
             return __awaiter(this, void 0, void 0, function* () {
-                const user = checkAuth(context);
+                // const user = checkAuth(context);
                 try {
                     const member = yield Member.findByIdAndRemove({ _id: id });
                     return member;
@@ -39,7 +40,7 @@ const MemberResolvers = {
         },
         getMember(_, { body }, context) {
             return __awaiter(this, void 0, void 0, function* () {
-                const user = checkAuth(context);
+                // const user = checkAuth(context);
                 // Validate user data
                 // const user = checkAuth(context);
                 try {
@@ -87,6 +88,32 @@ const MemberResolvers = {
                     const res = yield newUser.save();
                     // Create auth token
                     return Object.assign(Object.assign({}, res._doc), { id: res._id });
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
+        },
+        addChamberToMember(_, { id, memberId }, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                // Validate user data
+                // const user = checkAuth(context);
+                try {
+                    let mem = yield Member.findOne({ Chamber: id });
+                    if (mem) {
+                        return new UserInputError('Chamber Already Assign to member');
+                    }
+                    yield Member.findOneAndUpdate({ _id: memberId }, { "$set": { "Chamber": id } }, { new: true }, (err, doc) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                    yield Servcies.findOneAndUpdate({ servicesName: "Chambers", "servcieList.chamberId": id }, { $set: { "servcieList.$.member": memberId } }, { new: true, upsert: true }, function (err, result) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log(result);
+                    });
                 }
                 catch (err) {
                     console.log(err);
