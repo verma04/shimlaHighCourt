@@ -20,8 +20,10 @@ export default (WrappedComponent, role, options = {ssr: false}) => {
     }
 
     // TODO: Send a message to login page
-    if (getUser) {
-    
+    if (user) {
+      if (role && !role.includes(user.role)) {
+        return <Redirect to="/login" query={{message: 'NOT_AUTHORIZED'}}/>
+      }
       return <WrappedComponent {...props} />
     }
 
