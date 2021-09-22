@@ -1,26 +1,47 @@
 import { useState, useEffect } from 'react';
-import Garph from './Garph'
+import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { useGetMembers } from '../../apollo/actions'
 import  { Section  } from './Style';
 import ContentLoader, { Facebook } from 'react-content-loader'
+import {
+
+
+  GET_MEMBERS
+ 
+ 
+} from '../../apollo/queries'
 
  const  Dashboard = () => {
 
- const { data , error , loading }  = useGetMembers()
+  interface members {
+   
+    id: String
+  
+  }
+  
+  interface RocketInventoryData {
+    getMember: members[];
+  }
+  
+ 
+
+  const { loading, data } = useQuery<RocketInventoryData>(
+    GET_MEMBERS,
+    
+  );
   
 
-  if (loading) {
-      return (
-      
-            <ContentLoader viewBox="0 0 380 70">
-              {/* Only SVG shapes */}    
-              <rect x="0" y="0" rx="5" ry="5" width="70" height="70" />
-              <rect x="100" y="17" rx="4" ry="4" width="70" height="70" />
-              <rect x="200" y="40" rx="3" ry="3" width="70" height="70" />
-            </ContentLoader>
-          )
-      
-  }
+
+
+ if(loading) {
+   return (
+     <div>
+
+sdsdsd
+       </div>
+
+   )
+ }
 
         return (
             <>
@@ -47,15 +68,20 @@ import ContentLoader, { Facebook } from 'react-content-loader'
                      </div>
 
                      <div className='flex-2' >
-                     <div className='garph' >
-   
-   <Garph/>
 
-   </div>
-   <div className='payments' >
-   
 
-   </div>
+   { data && data.getMember.map((data:any ) =>
+   <div  className="chamber" key={data._id} >
+
+{data.id}
+
+
+     </div>
+   
+   )
+
+   }
+
 
                      </div>
 

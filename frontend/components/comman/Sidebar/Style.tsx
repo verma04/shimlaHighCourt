@@ -12,7 +12,7 @@ justify-content:center;
    z-index: 1;
     height:100vh;
     left:0;
-    width:20%;
+    width:13%;
     top: 0%;
 	    background-color: #4e73df;
     
@@ -24,6 +24,15 @@ justify-content:center;
   border-radius: 4px;
   padding-top:1rem;
  
+.img-wrapper {
+  position: relative;
+  height: 15%;
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+
+}
+
 .navbar__link {
     
   height:2.5rem;

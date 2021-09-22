@@ -10,8 +10,7 @@ function generateToken(user:any) {
   return jwt.sign(
     {
       id: user.id,
-      email: user.email,
-      username: user.username,
+   
     },
     `"sddsdds"`,
     { expiresIn: '1h' }
@@ -28,6 +27,21 @@ const ServicesResolvers = {
       try {
         const services = await Servcies.find().sort({ createdAt: -1 });
         return services;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+
+    async getChamber(_:any, { body }:any, context:any) {
+     
+     
+      // const user = checkAuth(context);
+
+      try {
+        const services = await Servcies.findOne({servicesName: "Chambers"})
+       
+       
+        return services.servcieList;
       } catch (err) {
         throw new Error(err);
       }

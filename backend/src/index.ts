@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 import { Request, Response } from 'express';
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
-
+const socket = require("socket.io");
 
 
 const PORT = process.env.port || 5000;
@@ -31,7 +31,9 @@ mongoose
   })
 
 
-  
+ 
   .catch((err:any) => {
     console.error(err);
   });
+
+  

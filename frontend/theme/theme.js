@@ -4,7 +4,9 @@ import {  createGlobalStyle } from "styled-components";
  export default   createGlobalStyle`
 
 
-
+div {
+  font-family: 'Merienda', cursive;
+}
 a { 
   text-decoration: none; 
   color: ${props => props.theme.colors.darkBrown};
@@ -19,7 +21,7 @@ h1 {
   
        font-family: 'Merienda', cursive;
       overflow-x: hidden;
-       background-color: ${props => props.theme.colors.mainBack};
+       background-color: 	#E8E8E8;
       ::-webkit-scrollbar {
   width: 10px;
   #nprogress .bar {

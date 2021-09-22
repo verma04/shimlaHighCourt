@@ -19,16 +19,14 @@ const checkAuth = require('../../util/checkAuth');
 function generateToken(user) {
     return jwt.sign({
         id: user.id,
-        email: user.email,
-        username: user.username,
     }, `"sddsdds"`, { expiresIn: '1h' });
 }
 const usersResolvers = {
     Query: {
         getUser(_, {}, context) {
             return __awaiter(this, void 0, void 0, function* () {
-                const { email } = checkAuth(context);
-                return User.findOne({ email });
+                const { id } = checkAuth(context);
+                return User.findOne({ id });
             });
         }
     },

@@ -2,7 +2,7 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Provider } from "react-redux";
 import Head from 'next/head'
-
+import 'react-toastify/dist/ReactToastify.css';
 import jwt_decode from "jwt-decode";
 import withApplo from '../hoc/withapplo'
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,6 +10,7 @@ import  colors  from '../theme/lightTheme'
 import { ThemeProvider } from "styled-components";
 import GlobalFonts from '../theme/theme';
 import{ Reset } from '../theme/reset'
+import ScrollToTop from "react-scroll-to-top";
 function MyApp({ Component, pageProps }: AppProps) {
 
 
@@ -82,10 +83,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={colors}>
     <Reset/>
     <GlobalFonts/>
-    <ToastContainer />
+    <ToastContainer theme="dark" />
   <Component {...pageProps} />
 
-
+  <ScrollToTop smooth />
   </ThemeProvider>
   </div>
   )

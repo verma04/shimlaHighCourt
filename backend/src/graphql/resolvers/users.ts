@@ -10,8 +10,7 @@ function generateToken(user:any) {
   return jwt.sign(
     {
       id: user.id,
-      email: user.email,
-      username: user.username,
+     
     },
     `"sddsdds"`,
     { expiresIn: '1h' }
@@ -22,11 +21,11 @@ function generateToken(user:any) {
    Query: {
     async getUser(_:any ,{}, context:any) {
 
-      const {email} = checkAuth(context);
+      const {id} = checkAuth(context);
 
 
 
-      return User.findOne({email})
+      return User.findOne({id})
   
     }
    },

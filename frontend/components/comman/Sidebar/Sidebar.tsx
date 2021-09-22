@@ -4,7 +4,7 @@ import { Side  } from './Style'
 import { useRouter } from "next/router";
 
 import { useLazyGetUser } from '../../../apollo/actions';
-
+import Image from 'next/image'
 
 
  const Sidebar =() => {
@@ -18,6 +18,15 @@ import { useLazyGetUser } from '../../../apollo/actions';
         return (
             <Side>
                   
+                  <div className="img-wrapper" >
+                  <Image
+          layout="fill"
+          objectFit="contain"
+      src="https://res.cloudinary.com/dzcmadjl1/image/upload/v1632304120/xyrhepqhn7gstz1cjzsd.ico"
+      alt="Picture of the author"
+     
+    />
+                  </div>
                   <Link
            href="/dashboard"
            passHref
@@ -113,10 +122,17 @@ import { useLazyGetUser } from '../../../apollo/actions';
  <i className="fas fa-cog"> <h3>Payment</h3> </i>  
       </Link>
   
-    <a
-    href="/logout" ><i className="fas fa-cog"> <h3>Logout</h3></i>  
+      <Link
+  
+   
+  href="/logout"
+  passHref
+>
+   
+   <i className="fas fa-cog"> <h3>Logout</h3></i>  
     
-    </a>
+    
+    </Link>
    
             </Side>
         )

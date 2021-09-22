@@ -21,8 +21,6 @@ const { v4: uuidv4 } = require('uuid');
 function generateToken(user) {
     return jwt.sign({
         id: user.id,
-        email: user.email,
-        username: user.username,
     }, `"sddsdds"`, { expiresIn: '1h' });
 }
 const ServicesResolvers = {
@@ -33,6 +31,18 @@ const ServicesResolvers = {
                 try {
                     const services = yield Servcies.find().sort({ createdAt: -1 });
                     return services;
+                }
+                catch (err) {
+                    throw new Error(err);
+                }
+            });
+        },
+        getChamber(_, { body }, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                // const user = checkAuth(context);
+                try {
+                    const services = yield Servcies.findOne({ servicesName: "Chambers" });
+                    return services.servcieList;
                 }
                 catch (err) {
                     throw new Error(err);

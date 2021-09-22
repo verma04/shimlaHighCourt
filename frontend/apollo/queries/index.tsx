@@ -8,8 +8,9 @@ export const GET_USER = gql`
 query getuser {
   getUser {
     id
-    
-  }
+    role
+    email
+     }
 }
 `
 
@@ -20,8 +21,15 @@ query getemembers {
   }
 }
 `
-
-
+export const GET_CHAMBERS = gql`
+query  getChamber {
+  getChamber {
+  member
+  id
+  chamberId
+}
+}
+`
 
 
 export const SIGN_IN = gql`
