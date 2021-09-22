@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // const { default: gql } = require('graphql-tag');
+const { Servcies } = require('../models/Services');
 const Member_1 = require("../models/Member");
 const { gql } = require('apollo-server');
 const cron = require('node-cron');
@@ -67,6 +68,30 @@ module.exports = gql `
     createdAt: String!
     avatar: String
     Chamber: String
+    chamberDet : [ChamberDet]
+    notifcations: [Notifications]!
+
+  }
+
+
+  type Notifications {
+    id: ID!
+    type: String!
+    createdAt: String!
+    message: String!
+ 
+
+  }
+
+  type ChamberDet {
+    id: ID!
+    month: String!
+    payment: String!
+    chamberId: String!
+    status: String!
+    createdAt: String!
+ 
+
   }
 
   
@@ -115,13 +140,52 @@ module.exports = gql `
     newPost: Post!
   }
 `;
-cron.schedule('* * * * *', () => __awaiter(void 0, void 0, void 0, function* () {
+cron.schedule("*/2 * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const member = yield Member_1.Member.find({});
-        console.log(member);
         member.forEach((element) => {
-            console.log(element.Chamber);
+            const data = element.chamberDet.filter((element1) => element1.status === "Due");
+            data.forEach((element) => {
+                const data1 = {
+                    type: "Red",
+                    message: `Payment due ${element.month}`
+                };
+                console.log(element);
+                Member_1.Member.findOneAndUpdate({ Chamber: element.chamberId }, { $push: { "notifcations": data1 } }, { new: true }, (err, doc) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            });
         });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}));
+cron.schedule("*/2 * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const member = yield Member_1.Member.find({});
+        member.forEach((element) => __awaiter(void 0, void 0, void 0, function* () {
+            const ser = yield Servcies.findOne({ servicesName: "Chambers" });
+            const data = ser.servcieList.filter((element1) => element1.chamberId === element.Chamber);
+            data.forEach((element2) => __awaiter(void 0, void 0, void 0, function* () {
+                let mem = yield Member_1.Member.findOne({ Chamber: element2.chamberId });
+                const dateObj = new Date();
+                const data = {
+                    month: dateObj.toLocaleString("default", { month: "long" }),
+                    payment: "dssd",
+                    status: "Due",
+                    chamberId: element2.chamberId,
+                    createdAt: new Date().toISOString(),
+                };
+                Member_1.Member.findOneAndUpdate({ Chamber: element2.chamberId }, { $push: { "chamberDet": data } }, { new: true }, (err, doc) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            }));
+        }));
     }
     catch (error) {
         console.log(error);

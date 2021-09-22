@@ -8,7 +8,39 @@ const MemberSchema = new Schema({
   avatar: String,
   gender: String,
   Chamber: String,
+  notifcations: [
+    {
+     type: {
+       type: String ,
+      
+      },
+      message: {
+        type: String ,
+       
+       },
+      createdAt: String,
+    },
+  ],
 
+  chamberDet: [
+    {
+     month: {
+       type: String ,
+      
+      },
+      payment: {
+        type: String ,
+      },
+      status: {
+        type: String,
+      },
+      chamberId: {
+        type: String,
+      },
+      createdAt: String,
+    
+    },
+  ],
   
 });
 

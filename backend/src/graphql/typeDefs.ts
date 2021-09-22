@@ -1,4 +1,5 @@
 // const { default: gql } = require('graphql-tag');
+const { Servcies } = require('../models/Services');
 import { Member } from "../models/Member";
 const { gql } = require('apollo-server');
 const cron = require('node-cron');
@@ -56,6 +57,30 @@ module.exports = gql`
     createdAt: String!
     avatar: String
     Chamber: String
+    chamberDet : [ChamberDet]
+    notifcations: [Notifications]!
+
+  }
+
+
+  type Notifications {
+    id: ID!
+    type: String!
+    createdAt: String!
+    message: String!
+ 
+
+  }
+
+  type ChamberDet {
+    id: ID!
+    month: String!
+    payment: String!
+    chamberId: String!
+    status: String!
+    createdAt: String!
+ 
+
   }
 
   
@@ -106,16 +131,48 @@ module.exports = gql`
 `;
 
 
-cron.schedule('* * * * *', async  () => {
+cron.schedule("*/2 * * * *", async  () => {
 
    try {
     const member = await Member.find({})
-    console.log(member)
-   
-    member.forEach((element:any) => {
+
+ 
+    
+       member.forEach((element:any) => {
+
+
+        const data  =  element.chamberDet.filter((element1:any) => element1.status === "Due" )   
+       
      
-      console.log(element.Chamber)
-    });
+      
+        data.forEach((element:any) => {
+
+          
+          const data1 = {
+            type:"Red",
+             message:`Payment due ${element.month}`
+             }
+
+               console.log(element)
+      Member.findOneAndUpdate({Chamber: element.chamberId},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
+        if (err) {
+           console.log(err)
+        }
+
+     
+    
+        
+     });
+        });
+
+         
+       });
+      
+
+     
+
+
+    
 
    } catch (error) {
 
@@ -123,4 +180,57 @@ cron.schedule('* * * * *', async  () => {
      
    }
    
+});
+
+
+
+cron.schedule("*/2 * * * *", async  () => {
+
+  try {
+   
+    const member = await Member.find({})
+
+    member.forEach(async  (element:any) => {
+
+      const ser =  await     Servcies.findOne({servicesName: "Chambers"})
+       
+  
+
+   const data  =  ser.servcieList.filter((element1:any) => element1.chamberId === element.Chamber )   
+  
+    data.forEach( async ( element2:any) => {
+    
+  
+      let mem =  await   Member.findOne({Chamber: element2.chamberId})
+      const dateObj = new Date()
+   
+      const data = {
+      month : dateObj.toLocaleString("default", { month: "long" }),
+      payment: "dssd",
+      status: "Due",
+      chamberId:element2.chamberId,
+      createdAt: new Date().toISOString(),
+      }
+
+     
+      Member.findOneAndUpdate({Chamber: element2.chamberId},{ $push:{ "chamberDet": data }} , {new: true}, (err:any, doc:any) => {
+        if (err) {
+           console.log(err)
+        }
+
+     
+    
+        
+    });
+
+  
+    });
+
+    });
+  } catch (error) {
+
+ 
+   console.log(error) 
+  }
+  
 });

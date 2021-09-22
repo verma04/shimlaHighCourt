@@ -81,7 +81,7 @@ const ServicesResolvers = {
                         createdAt: new Date().toISOString(),
                         chamberId: uuidv4()
                     };
-                    Servcies.findOneAndUpdate({ servicesName: "Chambers" }, { "$push": { "servcieList": data } }, { new: true }, (err, doc) => {
+                    Servcies.findOneAndUpdate({ servicesName: "Chambers" }, { $push: { "servcieList": data } }, { new: true }, (err, doc) => {
                         if (err) {
                             console.log(err);
                         }

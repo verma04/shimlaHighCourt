@@ -102,7 +102,7 @@ async addChambers(_:any, { id }:any, context:any) {
         }
    
    
-      Servcies.findOneAndUpdate({servicesName: "Chambers"},{ "$push":{ "servcieList": data }} , {new: true}, (err:any, doc:any) => {
+      Servcies.findOneAndUpdate({servicesName: "Chambers"},{ $push:{ "servcieList": data }} , {new: true}, (err:any, doc:any) => {
         if (err) {
            console.log(err)
         }

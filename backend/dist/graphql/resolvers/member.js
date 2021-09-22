@@ -57,7 +57,7 @@ const MemberResolvers = {
         registerMember(_, { username, email, password, confirmPassword, gender }, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 // Validate user data
-                const user = checkAuth(context);
+                // const user = checkAuth(context);
                 try {
                     const { errors, valid } = validateRegisterInput(username, email, password, confirmPassword, gender);
                     if (!valid) {
@@ -96,24 +96,23 @@ const MemberResolvers = {
         },
         addChamberToMember(_, { id, memberId }, context) {
             return __awaiter(this, void 0, void 0, function* () {
-                // Validate user data
-                // const user = checkAuth(context);
                 try {
                     let mem = yield Member.findOne({ Chamber: id });
                     if (mem) {
+                        console.log(mem);
                         return new UserInputError('Chamber Already Assign to member');
                     }
-                    yield Member.findOneAndUpdate({ _id: memberId }, { "$set": { "Chamber": id } }, { new: true }, (err, doc) => {
+                    yield Member.findOneAndUpdate({ _id: memberId }, { $set: { "Chamber": id } }, { new: true }, (err, doc) => __awaiter(this, void 0, void 0, function* () {
                         if (err) {
                             console.log(err);
                         }
-                    });
-                    yield Servcies.findOneAndUpdate({ servicesName: "Chambers", "servcieList.chamberId": id }, { $set: { "servcieList.$.member": memberId } }, { new: true, upsert: true }, function (err, result) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        console.log(result);
-                    });
+                        yield Servcies.findOneAndUpdate({ "servicesName": "Chambers", "servcieList.chamberId": id }, { $set: { "servcieList.$.member": memberId } }, { new: true, upsert: true }, function (err, result) {
+                            if (err) {
+                                console.log(err);
+                            }
+                            console.log(result);
+                        });
+                    }));
                 }
                 catch (err) {
                     console.log(err);

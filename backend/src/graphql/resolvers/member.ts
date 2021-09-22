@@ -58,7 +58,7 @@ const MemberResolvers  = {
  
     async registerMember(_:any,  { username, email, password, confirmPassword  , gender}:any, context:any) {
       // Validate user data
-      const user = checkAuth(context);
+      // const user = checkAuth(context);
     try {
       const { errors, valid } = validateRegisterInput(username, email, password, confirmPassword, gender);
 
@@ -124,30 +124,31 @@ const MemberResolvers  = {
     let mem =  await   Member.findOne({Chamber: id})
 
   if (mem) {
+    console.log(mem)
     return   new UserInputError('Chamber Already Assign to member')
     
 }
 
 
-  await  Member.findOneAndUpdate({_id: memberId},{ "$set":{ "Chamber": id }} , {new: true}, (err:any, doc:number) => {
+  await  Member.findOneAndUpdate({_id: memberId},{ $set:{ "Chamber": id }} , {new: true}, async (err:any, doc:any) => {
       if (err) {
          console.log(err)
       }
-  
+      await Servcies.findOneAndUpdate({"servicesName": "Chambers", "servcieList.chamberId":id},{ $set: {"servcieList.$.member": memberId } },  { new: true, upsert: true },function(err:any, result:any) {
+        if (err) {
+        console.log(err)
+        } 
+      
+        
+      
+         console.log(result)
+      
+      
+        
+      });
     })
 
-   await Servcies.findOneAndUpdate({servicesName: "Chambers", "servcieList.chamberId":id},{ $set: {"servcieList.$.member": memberId } },  { new: true, upsert: true },function(err:any, result:any) {
-      if (err) {
-      console.log(err)
-      } 
-    
-      
-    
-       console.log(result)
-    
-    
-      
-    });
+  
   }
 
   
