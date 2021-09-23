@@ -1,10 +1,10 @@
 
 import { useEffect, useRef } from 'react';
-import LoginForm from '../../components/form/Login';
+import LoginForm from '../components/form/Login';
 
-import { useSignIn } from '../../apollo/actions';
+import { useSignIn } from '../apollo/actions';
 import { useRouter } from 'next/router';
-import Redirect from '../../components/shared/Redirect';
+import Redirect from '../components/shared/Redirect';
 import { toast ,ToastContainer} from 'react-toastify';
 
 

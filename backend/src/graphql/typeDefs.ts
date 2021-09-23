@@ -132,42 +132,42 @@ module.exports = gql`
 `;
 
 
-// cron.schedule("*/2 * * * *", async  () => {
+cron.schedule("* * */2 * *", async  () => {
 
-//    try {
-//     const member = await Member.find({})
+   try {
+    const member = await Member.find({})
 
  
     
-//        member.forEach((element:any) => {
+       member.forEach((element:any) => {
 
 
-//         const data  =  element.chamberDet.filter((element1:any) => element1.status === "Due" )   
+        const data  =  element.chamberDet.filter((element1:any) => element1.status === "Due" )   
        
      
       
-//         data.forEach((element:any) => {
+        data.forEach((element:any) => {
 
           
-//           const data1 = {
-//             type:"Red",
-//              message:`Payment due ${element.month}`
-//              }
+          const data1 = {
+            type:"Red",
+             message:`Payment due ${element.month}`
+             }
 
-//                console.log(element)
-//       Member.findOneAndUpdate({Chamber: element.chamberId},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
-//         if (err) {
-//            console.log(err)
-//         }
+               console.log(element)
+      Member.findOneAndUpdate({Chamber: element.chamberId},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
+        if (err) {
+           console.log(err)
+        }
 
      
     
         
-//      });
-//         });
+     });
+        });
 
          
-//        });
+       });
       
 
      
@@ -175,63 +175,63 @@ module.exports = gql`
 
     
 
-//    } catch (error) {
+   } catch (error) {
 
-//     console.log(error)
+    console.log(error)
      
-//    }
+   }
    
-// });
+});
 
 
 
-// cron.schedule("*/2 * * * *", async  () => {
+cron.schedule("* * */2 * *", async  () => {
 
-//   try {
+  try {
    
-//     const member = await Member.find({})
+    const member = await Member.find({})
 
-//     member.forEach(async  (element:any) => {
+    member.forEach(async  (element:any) => {
 
-//       const ser =  await     Servcies.findOne({servicesName: "Chambers"})
+      const ser =  await     Servcies.findOne({servicesName: "Chambers"})
        
   
 
-//    const data  =  ser.servcieList.filter((element1:any) => element1.chamberId === element.Chamber )   
+   const data  =  ser.servcieList.filter((element1:any) => element1.chamberId === element.Chamber )   
   
-//     data.forEach( async ( element2:any) => {
+    data.forEach( async ( element2:any) => {
     
   
-//       let mem =  await   Member.findOne({Chamber: element2.chamberId})
-//       const dateObj = new Date()
+      let mem =  await   Member.findOne({Chamber: element2.chamberId})
+      const dateObj = new Date()
    
-//       const data = {
-//       month : dateObj.toLocaleString("default", { month: "long" }),
-//       payment: "dssd",
-//       status: "Due",
-//       chamberId:element2.chamberId,
-//       createdAt: new Date().toISOString(),
-//       }
+      const data = {
+      month : dateObj.toLocaleString("default", { month: "long" }),
+      payment: "dssd",
+      status: "Due",
+      chamberId:element2.chamberId,
+      createdAt: new Date().toISOString(),
+      }
 
      
-//       Member.findOneAndUpdate({Chamber: element2.chamberId},{ $push:{ "chamberDet": data }} , {new: true}, (err:any, doc:any) => {
-//         if (err) {
-//            console.log(err)
-//         }
+      Member.findOneAndUpdate({Chamber: element2.chamberId},{ $push:{ "chamberDet": data }} , {new: true}, (err:any, doc:any) => {
+        if (err) {
+           console.log(err)
+        }
 
      
     
         
-//     });
+    });
 
   
-//     });
+    });
 
-//     });
-//   } catch (error) {
+    });
+  } catch (error) {
 
  
-//    console.log(error) 
-//   }
+   console.log(error) 
+  }
   
-// });
+});

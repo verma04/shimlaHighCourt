@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 import { Request, Response } from 'express';
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
-const socket = require("socket.io");
+
 
 
 const PORT = process.env.port || 5000;
@@ -12,6 +12,9 @@ const PORT = process.env.port || 5000;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  cors: {
+    origin: true
+  },
   // so we can access the request body in the context, so we can do stuff like checking for authentication in protected routes
   context: ({ req }:any) => ({ req}),
 });

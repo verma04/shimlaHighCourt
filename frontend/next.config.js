@@ -3,7 +3,7 @@ module.exports = {
   reactStrictMode: true,
   images: {
  
-    domains: ['res.cloudinary.com'],
+    domains: ['res.cloudinary.com' , 'https://avatars.dicebear.com'],
     loader: 'imgix',
     path: '',
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
