@@ -31,6 +31,12 @@ module.exports = gql `
     username: String!
     body: String!
   }
+  type Parking {
+    id: ID!
+    createdAt: String!
+    memberId: String!
+    parkingCharge: String!
+  }
   type Like {
     id: ID!
     createdAt: String!
@@ -59,6 +65,12 @@ module.exports = gql `
     chamberId: String!
     
   }
+  type Activity {
+
+ id: ID!
+ message: String!
+ createdAt: String!
+}
   
 
   type Member {
@@ -117,6 +129,8 @@ module.exports = gql `
     getMember: [Member]
     deleteMember(id: ID!): Member
     getUser:User!
+    getParking: [Parking]!
+    getActivity:[Activity]!
   }
   type Mutation {
     register(   username: String! password: String! confirmPassword: String! email: String!): User!
@@ -135,6 +149,7 @@ module.exports = gql `
     deleteServices(id: ID ): Services
     addChambers(id:String!): Services!
     addChamberToMember(id:String! , memberId:ID):Member!
+    createParking( memberId: String! ,parkingCharge:String! ):Parking!
  
   }
   type Subscription {

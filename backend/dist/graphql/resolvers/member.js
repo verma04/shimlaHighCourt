@@ -17,6 +17,7 @@ const { validateRegisterInput, validateLoginInput } = require('../../util/valida
 const checkAuth = require('../../util/checkAuth');
 const { Member } = require('../../models/Member');
 const { Servcies } = require('../../models/Services');
+const { Activity } = require('../../models/Activity');
 function generateToken(user) {
     return jwt.sign({
         id: user.id,
@@ -31,6 +32,11 @@ const MemberResolvers = {
                 // const user = checkAuth(context);
                 try {
                     const member = yield Member.findByIdAndRemove({ _id: id });
+                    const data = {
+                        message: `Member deleted with id ${id}`,
+                        createdAt: new Date().toISOString(),
+                    };
+                    yield Activity.create({ data });
                     return member;
                 }
                 catch (err) {
@@ -87,6 +93,11 @@ const MemberResolvers = {
                     // save the user to the DB
                     const res = yield newUser.save();
                     // Create auth token
+                    const newActivity = new Activity({
+                        message: `Member created with email ${email}`,
+                        createdAt: new Date().toISOString(),
+                    });
+                    yield newActivity.save();
                     return Object.assign(Object.assign({}, res._doc), { id: res._id });
                 }
                 catch (err) {

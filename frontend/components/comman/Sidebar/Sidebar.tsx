@@ -7,6 +7,8 @@ import { useLazyGetUser } from '../../../apollo/actions';
 import Image from 'next/image'
 
 
+
+
  const Sidebar =() => {
    const router = useRouter();
    const [user, setUser] = useState(null);
@@ -52,10 +54,10 @@ import Image from 'next/image'
     <Link
   
    
-       href="/"
+       href="/admin/activities"
        passHref
     >
-    <i className="fas fa-city"><h3>Services</h3></i>  
+    <i id={router.pathname == "/admin/activities" ? "active" : ""} className="fas fa-city"><h3>Activities</h3></i>  
     </Link>
     <Link
   

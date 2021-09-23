@@ -14,6 +14,17 @@ query getuser {
 }
 `
 
+export const GET_PARKING = gql`
+query getParking {
+  getParking {
+    id
+    createdAt
+    memberId
+    parkingCharge
+     }
+}
+`
+
 export const GET_MEMBERS = gql`
 query getemembers {
   getMember {
@@ -39,6 +50,17 @@ query  getChamber {
 }
 `
 
+
+export const GET_ACT = gql`
+query  getActivity {
+ 
+  getActivity {
+    id
+    message
+    createdAt
+  }
+}
+`
 
 export const SIGN_IN = gql`
   mutation Login(

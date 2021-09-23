@@ -30,9 +30,10 @@ justify-content:center;
       overflow: visible;
       display:flex;
 
-   justify-content:space-between;
+   justify-content:space-around;
    align-items:center;
 
+   flex-wrap: wrap;
   
    .chamber {
      width: 15%;

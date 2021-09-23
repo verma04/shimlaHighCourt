@@ -9,7 +9,8 @@ import {
 
 
   GET_CHAMBERS,
-  GET_MEMBERS
+  GET_MEMBERS,
+  GET_PARKING
  
  
 } from '../../apollo/queries'
@@ -35,6 +36,17 @@ interface dashboard {
   getMember: members[];
 }
 
+interface parking {
+   
+  id: String
+
+}
+interface getparking {
+
+  getParking: parking[];
+}
+
+
 
 
 const { loading, data } = useQuery<dashboard>(
@@ -44,9 +56,15 @@ const { loading, data } = useQuery<dashboard>(
 );
 
 
+const { loading:loading1, data:data1 } = useQuery<getparking>(
+
+  GET_PARKING,
+
+);
 
 
-  if (loading) {
+
+  if (loading || loading1) {
       return (
       
             <ContentLoader viewBox="0 0 380 70">
@@ -92,7 +110,7 @@ const { loading, data } = useQuery<dashboard>(
        <i className="fas fa-comments"></i>
        <h4>Parking Subscriptions</h4>
 
-<span>200</span>
+<span> { data1 &&  data1.getParking.length}</span>
        </div>
 
                      </div>
