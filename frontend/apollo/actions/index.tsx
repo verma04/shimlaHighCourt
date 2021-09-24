@@ -38,6 +38,8 @@ export const useSignOut = () => {
   localStorage.removeItem("jwtToken");
 }
 
+
+export const useLazyGetUser = () => useLazyQuery(GET_USER)
 export const useGetUser = () => useQuery(GET_USER)
 
 
