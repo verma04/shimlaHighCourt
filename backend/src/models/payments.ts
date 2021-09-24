@@ -13,8 +13,10 @@ const MemberSchema = new Schema({
        },
        
      
-      createdAt: String,
-    
+      createdAt:  {
+        type: String ,
+       
+       },
   
 
 
