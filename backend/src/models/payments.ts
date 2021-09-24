@@ -7,9 +7,16 @@ const MemberSchema = new Schema({
        type: String ,
       
       },
+      price: {
+        type: String ,
+       
+       },
+       
      
-      createdAt: String,
-    
+      createdAt:  {
+        type: String ,
+       
+       },
   
 
 
