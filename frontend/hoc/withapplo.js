@@ -8,7 +8,7 @@ const httpLink = new HttpLink({ uri: 'http://localhost:5000' });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
 
-  console.log(localStorage.getItem('jwtToken'), "sdssd")
+  
   // add the authorization to the headers
   operation.setContext({
     headers: {
