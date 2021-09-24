@@ -13,6 +13,7 @@ exports.usersResolvers = void 0;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { UserInputError } = require('apollo-server');
+const { Member } = require('../../models/Member');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
 const { User } = require('../../models/User');
 const checkAuth = require('../../util/checkAuth');
@@ -27,6 +28,17 @@ const usersResolvers = {
             return __awaiter(this, void 0, void 0, function* () {
                 const { id } = checkAuth(context);
                 return User.findOne({ id });
+            });
+        },
+        duePayment(_, {}, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const member = yield Member.find({});
+                const arr = [];
+                yield member.forEach((element) => {
+                    arr.push(...element.chamberDet);
+                });
+                const data = arr.filter((element1) => element1.status === "Due");
+                return data;
             });
         }
     },

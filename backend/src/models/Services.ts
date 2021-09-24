@@ -15,6 +15,7 @@ const ServiceSchema = new Schema({
        type: String ,
        default:"empty"
       },
+      price:Number,
       chamberId:String,
       createdAt: String,
     },

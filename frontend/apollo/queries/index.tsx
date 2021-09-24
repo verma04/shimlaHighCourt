@@ -27,7 +27,7 @@ query getParking {
 
 export const GET_MEMBERS = gql`
 query getemembers {
-  getMember {
+  getMembers {
     id
     email
     
@@ -47,6 +47,20 @@ query  getChamber {
   id
   chamberId
 }
+}
+`
+
+export const GET_DUEPAYMENTS = gql`
+query  getChamber {
+  duePayment {
+    id
+    createdAt
+    chamberId
+    status
+    payment
+    month
+  }
+
 }
 `
 

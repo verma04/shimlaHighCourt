@@ -44,7 +44,7 @@ const MemberResolvers = {
                 }
             });
         },
-        getMember(_, { body }, context) {
+        getMembers(_, { body }, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 // const user = checkAuth(context);
                 // Validate user data
@@ -56,6 +56,12 @@ const MemberResolvers = {
                 catch (err) {
                     console.log(err);
                 }
+            });
+        },
+        getMember(_, {}, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const { id } = checkAuth(context);
+                return Member.findOne({ id });
             });
         },
     },
@@ -105,31 +111,71 @@ const MemberResolvers = {
                 }
             });
         },
+        memberLogin(_, { email, password }) {
+            return __awaiter(this, void 0, void 0, function* () {
+                console.log(email, password);
+                const user = yield Member.findOne({ email });
+                if (!user) {
+                    throw new UserInputError('User not found');
+                }
+                // wrong password
+                const match = yield bcrypt.compare(password, user.password);
+                if (!match) {
+                    throw new UserInputError('Wrong credentials');
+                }
+                // login is good, issue the user a token
+                const token = generateToken(user);
+                return Object.assign(Object.assign({}, user._doc), { id: user._id, token });
+            });
+        },
         addChamberToMember(_, { id, memberId }, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
                     let mem = yield Member.findOne({ Chamber: id });
                     if (mem) {
-                        console.log(mem);
                         return new UserInputError('Chamber Already Assign to member');
                     }
-                    yield Member.findOneAndUpdate({ _id: memberId }, { $set: { "Chamber": id } }, { new: true }, (err, doc) => __awaiter(this, void 0, void 0, function* () {
-                        if (err) {
-                            console.log(err);
-                        }
-                        yield Servcies.findOneAndUpdate({ "servicesName": "Chambers", "servcieList.chamberId": id }, { $set: { "servcieList.$.member": memberId } }, { new: true, upsert: true }, function (err, result) {
+                    Member.findOneAndUpdate({ _id: memberId }, { $set: { "Chamber": id } }, { new: true, upsert: true }, function (err, doc) {
+                        return __awaiter(this, void 0, void 0, function* () {
                             if (err) {
                                 console.log(err);
                             }
-                            console.log(result);
+                            yield Servcies.findOneAndUpdate({ "servicesName": "Chambers", "servcieList.chamberId": id }, { $set: { "servcieList.$.member": memberId } }, { new: true, upsert: true }, function (err, result) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                return Member.findOne({ id });
+                            });
                         });
-                    }));
+                    });
+                    return Member.findOne({ id });
                 }
                 catch (err) {
                     console.log(err);
                 }
             });
         },
+        chamberPayment(_, { data }, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const { id } = checkAuth(context);
+                try {
+                    Member.findOneAndUpdate({ _id: id, "chamberDet._id": data }, { $set: { "chamberDet.$.status": "done" } }, { new: true, upsert: true }, function (err, result) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                    return Member.findOne({ id });
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
+        },
+        // async chamberPayment(_:any ,{}, context:any) {
+        //   const {id} = checkAuth(context);
+        // console.log(id)
+        //   return Member.findOne({id})
+        // }
     }
 };
 exports.MemberResolvers = MemberResolvers;

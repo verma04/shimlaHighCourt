@@ -28,7 +28,7 @@ import { Header } from '../ComanStyle/Header'
   }
   
   interface RocketInventoryData {
-    getMember: members[];
+    getMembers: members[];
   }
   
  
@@ -65,14 +65,14 @@ sdsdsd
    <i className="fas fa-user-friends"></i>
    <h4>Total Member</h4>
 
-<span>{ data &&  data.getMember.length}</span>
+<span>{ data &&  data.getMembers.length}</span>
    </div>
    <div className="flex-item" >
    <i className="fas fa-user-friends"></i>
 
    <h4>Active Member</h4>
 
-<span>{ data &&  data.getMember.length}</span>
+<span>{ data &&  data.getMembers.length}</span>
        </div>
     <div className="flex-item" >
     <i className="fas fa-user-friends"></i>
@@ -89,7 +89,7 @@ sdsdsd
                      <div className='flex-2' >
 
 
-   { data && data.getMember.map((data:any ) =>
+   { data && data.getMembers.map((data:any ) =>
    <div  className="chamber" key={data._id} >
 
 

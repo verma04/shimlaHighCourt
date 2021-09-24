@@ -10,7 +10,8 @@ import {
 
   GET_CHAMBERS,
   GET_MEMBERS,
-  GET_PARKING
+  GET_PARKING,
+  GET_DUEPAYMENTS
  
  
 } from '../../apollo/queries'
@@ -18,6 +19,18 @@ import { useRouter } from "next/router";
  const  Dashboard = () => {
 
   const router = useRouter();
+
+
+  interface getChamber {
+    member: String
+    id: String
+    chamberId : String
+  }
+  
+  interface getChambers {
+    getChamber: getChamber[];
+  }
+  
   
 
  interface getChamber {
@@ -33,7 +46,7 @@ interface members {
 }
 interface dashboard {
 
-  getMember: members[];
+  getMembers: members[];
 }
 
 interface parking {
@@ -46,7 +59,24 @@ interface getparking {
   getParking: parking[];
 }
 
+interface getduepayment {
+  id :String
+  createdAt:String
+  chamberId:String
+  status:String
+  payment:String
+  month:String
+}
+interface getduepayments {
 
+  duePayment: getduepayment[];
+}
+
+
+const { loading:loading3, data:data3 } = useQuery<getChambers>(
+  GET_CHAMBERS,
+  { variables: { year: 2019 } }
+);
 
 
 const { loading, data } = useQuery<dashboard>(
@@ -62,9 +92,14 @@ const { loading:loading1, data:data1 } = useQuery<getparking>(
 
 );
 
+const { loading:loading2, data:data2 } = useQuery<getduepayments>(
+
+  GET_DUEPAYMENTS,
+
+);
 
 
-  if (loading || loading1) {
+  if (loading || loading1 || loading2 || loading3) {
       return (
       
             <ContentLoader viewBox="0 0 380 70">
@@ -91,19 +126,19 @@ const { loading:loading1, data:data1 } = useQuery<getparking>(
 
    <h4>Total Member</h4>
 
-   <span>{ data &&  data.getMember.length}</span>
+   <span>{ data &&  data.getMembers.length}</span>
    </div>
    <div className="flex-item" >
    <i className="fas fa-comments"></i>
    <h4>OurDue Payments</h4>
 
-<span>0</span>
+   <span> { data2 &&  data2.duePayment.length}</span>
        </div>
     <div  onClick={()=>router.push("/admin/chambers")} className="flex-item" >
     <i className="fas fa-comments"></i>
     <h4>Total Chambers</h4>
 
-<span>300</span>
+    <span> { data3 &&  data3.getChamber.length}</span>
        </div>
 
        <div className="flex-item" >

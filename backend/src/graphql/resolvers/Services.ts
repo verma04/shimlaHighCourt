@@ -103,7 +103,7 @@ const ServicesResolvers = {
 },
 
 
-async addChambers(_:any, { id }:any, context:any) {
+async addChambers(_:any, { id, price }:any, context:any) {
       
   
 
@@ -112,7 +112,8 @@ async addChambers(_:any, { id }:any, context:any) {
       
         const data = {
           createdAt: new Date().toISOString(),
-          chamberId:uuidv4()
+          chamberId:id,
+          price
         }
    
    

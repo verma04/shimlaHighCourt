@@ -84,12 +84,13 @@ const ServicesResolvers = {
                 }
             });
         },
-        addChambers(_, { id }, context) {
+        addChambers(_, { id, price }, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
                     const data = {
                         createdAt: new Date().toISOString(),
-                        chamberId: uuidv4()
+                        chamberId: id,
+                        price
                     };
                     Servcies.findOneAndUpdate({ servicesName: "Chambers" }, { $push: { "servcieList": data } }, { new: true }, (err, doc) => {
                         if (err) {
