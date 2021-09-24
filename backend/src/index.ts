@@ -5,19 +5,18 @@ import { Request, Response } from 'express';
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
 
-import NoIntrospection from 'graphql-disable-introspection';
+
 
 const PORT = process.env.port || 5000;
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  validationRules: [NoIntrospection],
   cors: {
     origin: true
   },
   // so we can access the request body in the context, so we can do stuff like checking for authentication in protected routes
-  context: ({ req }) => ({ req}),
+  context: ({ req }:any) => ({ req}),
 });
 
 mongoose
@@ -30,13 +29,13 @@ mongoose
   
     return server.listen({ port: PORT });
   })
-  .then((res) => {
+  .then((res:Response) => {
     console.log(`Server running at 5000`);
   })
 
 
  
-  .catch((err) => {
+  .catch((err:any) => {
     console.error(err);
   });
 

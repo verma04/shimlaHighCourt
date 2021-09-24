@@ -1,19 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable no-console */
 const { ApolloServer, PubSub } = require('apollo-server');
 const mongoose = require('mongoose');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
-const graphql_disable_introspection_1 = __importDefault(require("graphql-disable-introspection"));
 const PORT = process.env.port || 5000;
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    validationRules: [graphql_disable_introspection_1.default],
     cors: {
         origin: true
     },
