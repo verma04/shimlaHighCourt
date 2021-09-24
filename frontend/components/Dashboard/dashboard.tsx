@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import Garph from './Garph'
+
+
 import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { useGetMembers } from '../../apollo/actions'
+
 import  { Section  } from './Style';
 import { Header } from '../ComanStyle/Header'
 import ContentLoader, { Facebook } from 'react-content-loader'
@@ -15,6 +15,7 @@ import {
  
  
 } from '../../apollo/queries'
+import Payment from './Payments/payment';
 import { useRouter } from "next/router";
  const  Dashboard = () => {
 
@@ -150,41 +151,8 @@ const { loading:loading2, data:data2 } = useQuery<getduepayments>(
 
                      </div>
                      </Header>
-                     <div className='flex-2' >
-                     <div className='garph' >
-
-                       <div  className="graphl-top" > 
-
-
-<h3>Month Payments Collections Statistics</h3>
-
-   
-   </div>
-
-   <div  className="graphl-bottom" > 
-
-<Garph/>
-</div>
-   </div>
-   <div className='payments' >
-   <div  className="payments-top" > 
-   <h3>Latest Payments</h3>
-   
-</div>
-
-<div  className="payments-bottom" > 
-
-   
-</div>
-
-
-
-   </div>
-
-                     </div>
-
-            
-                     
+              
+                     <Payment/>
                      </div> 
                      </Section>
             

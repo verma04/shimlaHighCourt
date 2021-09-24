@@ -148,6 +148,44 @@ justify-content:center;
    justify-content:center;
    align-items:center;
    flex-direction: column;
+   .pay {
+     width: 100%;
+     height: 12%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+
+     flex-direction: column;
+     .pay-top {
+       width: 100%;
+       height: 50%;
+       display: flex;
+     justify-content: flex-start;
+     align-items: center;
+    .img-wrapper {
+      width: 10%;
+      height: 90%;
+      position: relative;
+    }
+    span {
+      padding-left: 10%;
+      color: #858796;
+    }
+     }
+
+     .pay-bottom {
+       width: 100%;
+       height: 50%;
+       display: flex;
+     justify-content: center;
+     align-items: center;
+      span {
+        color: #858796;
+        font-size: 0.8rem;
+      }
+   
+     }
+   }
    }
    }
    

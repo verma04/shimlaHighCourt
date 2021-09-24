@@ -45,8 +45,8 @@ export const SIGN_IN = gql`
     $email: String!
     $password: String!
   ) {
-    login( 
-      username: $email
+    memberLogin( 
+      email: $email
       password: $password
     ) {
       id

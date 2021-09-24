@@ -15,7 +15,7 @@ const Login = () => {
   const { message } = router.query;
 console.log(data)
    
-const errorMessage = error => {
+const errorMessage = (error:any) => {
   return (error.graphQLErrors && error.graphQLErrors[0].message) || 'Ooooops something went wrong...'
 }
 
@@ -28,7 +28,7 @@ const errorMessage = error => {
            
             <LoginForm
               loading={loading}
-              onSubmit={(signInData) => Login({variables: signInData})}/>
+              onSubmit={(signInData:any) => Login({variables: signInData})}/>
             { data && data.login &&  <Redirect to="/admin/dashbaord" /> }
             { error && <div className="alert alert-danger">{errorMessage(error)}</div>}
       

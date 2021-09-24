@@ -75,6 +75,16 @@ query  getActivity {
   }
 }
 `
+export const GET_PAYMENTS = gql`
+query  getpayments {
+ 
+  getpayments {
+    memberId
+    price
+    createdAt
+  }
+}
+`
 
 export const SIGN_IN = gql`
   mutation Login(

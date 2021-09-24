@@ -9,6 +9,8 @@ const ParkingSchema = new Schema({
         
       },
      
+
+      
       createdAt: String,
     
       parkingCharge: {

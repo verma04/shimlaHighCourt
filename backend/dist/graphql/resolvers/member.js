@@ -18,6 +18,7 @@ const checkAuth = require('../../util/checkAuth');
 const { Member } = require('../../models/Member');
 const { Servcies } = require('../../models/Services');
 const { Activity } = require('../../models/Activity');
+const { Payments } = require('../../models/payments');
 function generateToken(user) {
     return jwt.sign({
         id: user.id,
@@ -158,11 +159,27 @@ const MemberResolvers = {
         chamberPayment(_, { data }, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 const { id } = checkAuth(context);
+                console.log(id);
                 try {
-                    Member.findOneAndUpdate({ _id: id, "chamberDet._id": data }, { $set: { "chamberDet.$.status": "done" } }, { new: true, upsert: true }, function (err, result) {
-                        if (err) {
-                            console.log(err);
-                        }
+                    Member.findOneAndUpdate({ _id: '614c84a9adb99617794c195b', "chamberDet._id": data }, { $set: { "chamberDet.$.status": "done" } }, { "multi": true, new: true, upsert: true }, function (err, result) {
+                        return __awaiter(this, void 0, void 0, function* () {
+                            if (err) {
+                                console.log(err);
+                            }
+                            const newpayment = new Payments({
+                                memberId: id,
+                                price: "1000",
+                                createdAt: new Date().toISOString(),
+                            });
+                            const data1 = yield newpayment.save();
+                            console.log(data1);
+                            const newActivity = new Activity({
+                                message: `Payment Recivied with id ${data} `,
+                                createdAt: new Date().toISOString(),
+                            });
+                            yield newpayment.save();
+                            console.log(data1);
+                        });
                     });
                     return Member.findOne({ id });
                 }

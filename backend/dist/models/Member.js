@@ -26,6 +26,9 @@ const MemberSchema = new Schema({
             month: {
                 type: String,
             },
+            price: {
+                type: String,
+            },
             payment: {
                 type: String,
             },
@@ -33,6 +36,26 @@ const MemberSchema = new Schema({
                 type: String,
             },
             chamberId: {
+                type: String,
+            },
+            createdAt: String,
+        },
+    ],
+    parkingDet: [
+        {
+            month: {
+                type: String,
+            },
+            price: {
+                type: String,
+            },
+            payment: {
+                type: String,
+            },
+            status: {
+                type: String,
+            },
+            parkingId: {
                 type: String,
             },
             createdAt: String,

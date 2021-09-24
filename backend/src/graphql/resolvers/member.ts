@@ -7,6 +7,8 @@ const checkAuth = require('../../util/checkAuth');
 const { Member } = require('../../models/Member');
 const { Servcies } = require('../../models/Services');
 const { Activity } = require('../../models/Activity');
+
+const { Payments } = require('../../models/payments');
 function generateToken(user:any) {
   return jwt.sign(
     {
@@ -230,21 +232,40 @@ async chamberPayment(   _:any,  { data } :any, context:any) {
   const {id} = checkAuth(context);
 
 
+  console.log(id)
+
 try {
 
  
 
  
- Member.findOneAndUpdate({_id:id, "chamberDet._id":data},{ $set: {"chamberDet.$.status": "done" } },  { new: true, upsert: true },function(err:any, result:any) {
+ Member.findOneAndUpdate({_id:'614c84a9adb99617794c195b', "chamberDet._id":data},{ $set: {"chamberDet.$.status": "done" } },  {   "multi": true , new: true, upsert: true },async  function(err:any, result:any) {
   if (err) {
   console.log(err)
   } 
 
-  
+  const newpayment =  new Payments ({
+    memberId:id,
+    price:"1000",
+    createdAt: new Date().toISOString(),
+
+  })
+
+   const data1 = await newpayment.save()
 
 
+   console.log(data1)
+
+   const newActivity =  new Activity ({
+  message:`Payment Recivied with id ${data} `,
+    createdAt: new Date().toISOString(),
+
+  })
+
+    await newpayment.save()
 
 
+   console.log(data1)
   
 });
 return Member.findOne({id})

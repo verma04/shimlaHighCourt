@@ -1,6 +1,6 @@
 const { model, Schema } = require('mongoose');
 
-const MemberSchema = new Schema({
+const PaymentsSchema = new Schema({
 
 
      memberId: {
@@ -21,6 +21,6 @@ const MemberSchema = new Schema({
   
 });
 
-const Member = model('Member', MemberSchema);
+const Payments = model('Payments', PaymentsSchema);
 
-export { Member}
+export { Payments }
