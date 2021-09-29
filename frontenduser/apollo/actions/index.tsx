@@ -11,10 +11,43 @@ import {
  
  
 } from '../queries/index'
+interface member {
+  id : string
+  email: string
+  gender: string
+  username: string
+  createdAt: string
+  avatar: string
+  role: string
+  Chamber: string
+  token: string
+  chamberDet: [chamberDet]
+  notifcations : [notifcations]
+}
+
+interface chamberDet {
+  id: string
+  month: string
+  payment: string
+  chamberId: string
+  status: string
+  createdAt: string
+}
+
+
+interface notifcations {
+  id: string
+  type: string
+
+  message: string
+}
 
 
 
-export const useGetMembers = () => useQuery(GET_MEMBERS);
+
+
+
+export const useGetMembers = () => useQuery<member>(GET_MEMBERS);
 
 export const useGetChamber = () => useQuery(GET_CHAMBERS);
 
@@ -27,7 +60,7 @@ export const useGetChamber = () => useQuery(GET_CHAMBERS);
 // Auth actions start -----------------------
 
 export const useSignIn = () => useMutation(SIGN_IN, {
-  update(cache, { data: { login: signedInUser }}) {
+  update(cache, { data: { memberLogin: signedInUser }}) {
  
      const { token } = signedInUser;
      localStorage.setItem("jwtToken", token);

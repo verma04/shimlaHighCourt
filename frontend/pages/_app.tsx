@@ -1,3 +1,5 @@
+
+import React, { useState, useEffect } from 'react';
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Provider } from "react-redux";
@@ -11,9 +13,16 @@ import { ThemeProvider } from "styled-components";
 import GlobalFonts from '../theme/theme';
 import{ Reset } from '../theme/reset'
 import ScrollToTop from "react-scroll-to-top";
-
+import AOS from 'aos';
+import 'aos/dist/aos.css'
 function MyApp({ Component, pageProps }: AppProps) {
-
+  useEffect(() => {
+   
+    AOS.init({
+      duration : 2000
+    })
+  
+}, [])
 
 
   // if (typeof window !== "undefined") {
@@ -80,6 +89,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
   
   <div>
+      <ToastContainer theme="dark" />
     <Head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css   "/> 
       <meta
@@ -90,7 +100,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={colors}>
     <Reset/>
     <GlobalFonts/>
-    <ToastContainer theme="dark" />
+  
   <Component {...pageProps} />
 
   <ScrollToTop smooth />

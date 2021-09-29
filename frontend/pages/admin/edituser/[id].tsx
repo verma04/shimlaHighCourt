@@ -7,6 +7,7 @@ import Sidebar from '../../../components/comman/Sidebar/Sidebar'
 import Dashboard from '../../../components/edit/edit'
 import { Section } from '../../../components/comman/comanstyle'
 
+
 const Index = withAuth(() => {
  
 
@@ -26,5 +27,4 @@ const Index = withAuth(() => {
 }, "admin")
 
 export default (Index)
-
 

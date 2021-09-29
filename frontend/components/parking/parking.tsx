@@ -6,34 +6,60 @@ import ContentLoader, { Facebook } from 'react-content-loader'
 import {
 
 
-  GET_CHAMBERS
+  GET_PARKING,
+  GET_MEMBERS,
  
  
 } from '../../apollo/queries'
 
- const  Dashboard = () => {
+import AddParking from './addParking/AddParking'
+import { Header } from '../ComanStyle/Header';
 
-  interface getChamber {
-    member: String
-    id: String
-    chamberId : String
-  }
+ const  Dashboard:React.FC = () => {
+
+
+  const [ state  , setState ] = useState(false)
+  interface parking {
+   
+   
+  id: string
   
-  interface RocketInventoryData {
-    getChamber: getChamber[];
+  }
+  interface getparking {
+  
+    getParking: parking[];
   }
   
  
 
-  const { loading, data } = useQuery<RocketInventoryData>(
-    GET_CHAMBERS,
-    { variables: { year: 2019 } }
+  const { loading, data } = useQuery<getparking>(
+    GET_PARKING
+   
+  );
+
+  interface members {
+   
+    
+    member : String
+    id: String
+  
+  }
+  
+  interface RocketInventoryData {
+    getMembers: members[];
+  }
+  
+ 
+
+  const { loading:loading1, data:data1 } = useQuery<RocketInventoryData>(
+    GET_MEMBERS,
+    
   );
   
 
 
 
- if(loading) {
+ if(loading ||loading1) {
    return (
      <div>
 
@@ -43,12 +69,14 @@ sdsdsd
    )
  }
 
+ 
         return (
             <>
    
           <Section>
                  <div className="flex" >
                      
+                     <Header>
                  <div className='flex-1' >
    
    <div className="flex-item" >
@@ -61,22 +89,20 @@ sdsdsd
        
        </div>
 
-       <div className="flex-item" >
-       
-       </div>
+       <i onClick={()=>setState(!state)} className="fas fa-plus-circle"></i>
 
                      </div>
-
+                     </Header>
                      <div className='flex-2' >
 
 
-   { data && data.getChamber.map((data:any ) =>
+   { data && data.getParking.map((data:any ) =>
    <div  className="chamber" key={data._id} >
 
-{data.member}
-<br/>
-<br/>
-{data.chamberId}
+<i className="fas fa-boxes"></i>
+{data.id}
+
+
      </div>
    
    )
@@ -90,7 +116,16 @@ sdsdsd
                      
                      </div> 
                      </Section>
-            
+                     {state ? 
+(
+<AddParking myfunc={setState}   />
+)
+:
+(
+null
+)
+
+}
             </>
         )
     

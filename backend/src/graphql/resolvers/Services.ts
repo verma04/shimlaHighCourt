@@ -6,6 +6,7 @@ const { validateRegisterInput, validateLoginInput } = require('../../util/valida
 const { Member } = require('../../models/Member');
 const { Servcies } = require('../../models/Services');
 const { v4: uuidv4 } = require('uuid');
+var mongoose = require('mongoose');
 function generateToken(user:any) {
   return jwt.sign(
     {
@@ -39,9 +40,58 @@ const ServicesResolvers = {
 
       try {
         const services = await Servcies.findOne({servicesName: "Chambers"})
+        
+         
+        const data = services.servcieList;
+        const  data2 = await Member.find({})
        
+
+        const final:any = []
+       await  data.forEach( async  (element:any) => {
+         
+                 
+
+  if(data2.find((element2:any) => element2.id === element.member)){
+
+            const found = data2.find((element2:any) => element2.id === element.member );
+          
        
-        return services.servcieList;
+            const   arr = await {  
+               "username" : found.username  ,
+             "email": found.email ,
+               "avatar":  found.avatar ,
+                   "id" : element.id ,
+                      "chamberId":  element.chamberId ,
+          
+            }
+
+          
+
+
+         final.push(arr)
+
+          }
+
+          else if ( data2.find((element2:any) => element2.id !== element.member   )) {
+            const   arr = await {  
+              "username" : "empty"  ,
+            "email": "empty" ,
+              "avatar":  "empty",
+                  "id" : element.id ,
+                     "chamberId":  element.chamberId ,
+         
+           }
+
+         
+
+
+        final.push(arr)
+          }
+           
+        });
+
+   return final
+ 
       } catch (err) {
         throw new Error(err);
       }
@@ -67,9 +117,9 @@ const ServicesResolvers = {
     }
     },
   Mutation: {
-    async createServices(_:any, { servicesName }:any, context:any) {
+    async createServices(_:any, { servicesName , servicesItems ,servicesPrice, servicesInterval,servicesDescription}:any, context:any) {
       
-  
+  console.log(servicesName)
 
         try {
              
@@ -84,7 +134,12 @@ const ServicesResolvers = {
 
         const newUser = new  Servcies({
          servicesName,
-            createdAt: new Date().toISOString(),
+         servicesItems ,
+         servicesPrice, 
+         servicesInterval,
+         servicesDescription,
+         uniq:'id' + (new Date()).getTime(),
+         createdAt: new Date().toISOString()
           });
     
           // save the user to the DB
@@ -108,12 +163,23 @@ async addChambers(_:any, { id, price }:any, context:any) {
   
 
   try {
-       
+
+   const ser = await Servcies.findOne({servicesName: "Chambers"})
+  
+  
+   const found = ser.servcieList.find((element:any )=> element.chamberId === id);
+
+   if (found) {
+    return new UserInputError('Chamber unique_id already found')
+  }
+
+  var _id = mongoose.Types.ObjectId();
       
         const data = {
           createdAt: new Date().toISOString(),
           chamberId:id,
-          price
+          price,
+          _id
         }
    
    
@@ -133,7 +199,14 @@ async addChambers(_:any, { id, price }:any, context:any) {
       
   // });
 
-    return Servcies.findOne({servicesName: "Chambers"})
+  const send = {
+  "username" : "empty"  ,
+  "email": "empty" ,
+    "avatar":  "empty",
+        "id" : _id ,
+           "chamberId":  id ,
+  }
+    return send
     
 
 }

@@ -23,9 +23,11 @@ import { useRouter } from "next/router";
 
 
   interface getChamber {
-    member: String
+    username: String
     id: String
+    email: String
     chamberId : String
+    avatar: String
   }
   
   interface getChambers {
@@ -142,7 +144,7 @@ const { loading:loading2, data:data2 } = useQuery<getduepayments>(
     <span> { data3 &&  data3.getChamber.length}</span>
        </div>
 
-       <div className="flex-item" >
+       <div  onClick={()=>router.push("/admin/parking")}  className="flex-item" >
        <i className="fas fa-comments"></i>
        <h4>Parking Subscriptions</h4>
 
@@ -152,7 +154,7 @@ const { loading:loading2, data:data2 } = useQuery<getduepayments>(
                      </div>
                      </Header>
               
-                     <Payment/>
+                     <Payment />
                      </div> 
                      </Section>
             

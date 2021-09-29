@@ -4,6 +4,7 @@ import { POINT_CONVERSION_COMPRESSED } from "constants";
 import { Member } from "../models/Member";
 const { gql } = require('apollo-server');
 const cron = require('node-cron');
+const { Parking } = require('../models/Parking');
 module.exports = gql`
   type Post {
     id: ID!
@@ -36,7 +37,11 @@ module.exports = gql`
     id: ID!
     createdAt: String!
     servicesName: String!
-    servcieList : [Chamber]!
+    servicesItems: String!,
+      servicesPrice: String!,
+      servicesInterval: String!,
+      servicesDescription: String!
+      uniq: String
   }
   type User {
     id: ID!
@@ -56,10 +61,11 @@ type Due  {
     id: ID
   }
   type Chamber {
- 
-    member: String!
-    id: ID!
-    chamberId: String!
+     id: ID!
+    chamberId: String!,
+    username:String!,
+    avatar:String!
+    email:String!
     
   }
   type Activity {
@@ -84,6 +90,7 @@ createdAt: String!
     username: String!
     createdAt: String!
     avatar: String
+    role: String!
     Chamber: String
     token: String
     chamberDet : [ChamberDet]
@@ -134,7 +141,7 @@ createdAt: String!
     getMembers: [Member]
     deleteMember(id: ID!): Member
     getUser:User!
-    getMember: Member
+    getMember: Member!
     getParking: [Parking]!
     getActivity:[Activity]!
     duePayment: [Due]!
@@ -143,21 +150,26 @@ createdAt: String!
   type Mutation {
     register(   username: String! password: String! confirmPassword: String! email: String!): User!
     registerMember(
-      username: String!
-    password: String!
-    confirmPassword: String!
-    email: String!
-    gender: String!
+      username: String!,
+     email: String!,
+      address: String!, 
+      phone: String!,
+       gender: String!
 
      ): Member!
-
-   
     login(username: String!, password: String!): User!
     memberLogin(email: String!, password: String!): Member!
-    createServices(servicesName: String!): Services!
+    createServices(
+      servicesName: String!,
+      servicesItems: String!,
+      servicesPrice: String!,
+      servicesInterval: String!,
+      servicesDescription: String!
+    
+    ): Services!
     deleteServices(id: ID ): Services
-    addChambers(id:String!, price:Int!): Services!
-    addChamberToMember(id:String! , memberId:ID!):Member!
+    addChambers(id:String!, price:String!): Chamber!
+    addChamberToMember(id:String! , memberId:ID!):Chamber!
 
     chamberPayment(data:ID! ):Member!
     createParking( memberId: String! ,parkingCharge:String! , ):Parking!
@@ -299,6 +311,46 @@ cron.schedule('35 11 * * *', async  () => {
   //   });
 
   //   });
+  } catch (error) {
+
+ 
+   console.log(error) 
+  }
+  
+});
+
+
+
+cron.schedule("59 11 * * *", async  () => {
+
+  try {
+   
+  const data =await Parking.find({})
+
+    data.forEach((element:any) => {
+
+
+
+      const dateObj = new Date()
+      const data1 = {
+        month : dateObj.toLocaleString("default", { month: "long" }),
+        payment: "payment",
+        status: "Due",
+        parkingId: element.id,
+        price: element.price,
+        createdAt: new Date().toISOString(),
+        }
+    
+
+
+     Member.findOneAndUpdate({_id:element.memberId},{ $push:{ "parkingBilling": data1 }} , {new: true}, (err:any, doc:any) => {
+        if (err) {
+           console.log(err)
+        }
+    console.log(doc)
+  });    
+
+})
   } catch (error) {
 
  

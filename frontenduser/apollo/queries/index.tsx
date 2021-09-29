@@ -4,13 +4,35 @@ import { gql } from 'apollo-boost';
 // CITY QUERIES START ----------------------------
 
 
+
+
 export const GET_USER = gql`
 query getuser {
-  getUser {
+  getMember {
     id
-    role
     email
-     }
+    gender
+    username
+    createdAt
+    avatar
+    role
+    Chamber
+    token
+    chamberDet {
+      id
+      month
+      payment
+      chamberId
+      status
+      createdAt
+    }
+    notifcations {
+      id
+      type
+   
+      message
+    }
+  }
 }
 `
 

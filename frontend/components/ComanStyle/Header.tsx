@@ -44,6 +44,14 @@ export const Header = styled.div`
       font-size: 2rem;
      }
    }
+
+   .fa-plus-circle {
+
+    font-size: 3rem;
+    color:#4e73df;
+    cursor: pointer;
+
+   }
   .flex-item:nth-child(1) {
     border-left: .25rem solid #4e73df;
 

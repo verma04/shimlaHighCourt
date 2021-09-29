@@ -53,25 +53,31 @@ justify-content:center;
  .flex-2 {
       width: 100%;
     
-      height: 40rem;
+    
       margin-top: 4rem;
       overflow: visible;
       display:flex;
       overflow: auto;
    justify-content:space-between;
-   align-items:center;
+   align-items:center; flex-wrap: wrap;
 
   
    .chamber {
+     margin-bottom:3rem;
      width: 15%;
      height: 10rem;
-  
+    flex-wrap: wrap;
      background-color:white;
      border-radius: 0.5rem;
      display: flex;
-     justify-content: center;
+     justify-content: space-evenly;
      align-items: center;
      flex-direction: column;
+ i {
+   font-size: 2rem;
+   color: #858796;
+ }
+     
    }
   
      

@@ -69,9 +69,14 @@ justify-content:center;
      background-color:white;
      border-radius: 0.5rem;
      display: flex;
-     justify-content: center;
+     justify-content: space-evenly;
      align-items: center;
      flex-direction: column;
+ i {
+   font-size: 2rem;
+   color: #858796;
+ }
+     
    }
   
      

@@ -34,13 +34,13 @@ import Image from 'next/image'
            passHref
           
     >
- <i  id={router.pathname == "/admin/dashbaord" ? "active" : ""} className="fas fa-list"> <h3>  dashboard</h3> </i>  
+ <i  id={router.pathname == "/admin/dashbaord" ? "active" : ""} className="fas fa-list"> <h3>Finance</h3> </i>  
     </Link>
     <Link
     href="/admin/chambers"
     passHref
     >
-  <i  id={router.pathname == "/admin/chambers" ? "active" : ""} className="far fa-list-alt">  <h3>Chambers</h3> </i> 
+  <i  id={router.pathname == "/admin/chambers" ? "active" : ""} className="far fa-list-alt">  <h3>Finance</h3> </i> 
       </Link>
     <Link
     
@@ -51,6 +51,15 @@ import Image from 'next/image'
     >
    <i id={router.pathname == "/admin/members" ? "active" : ""} className="fas fa-list"> <h3>Members</h3> </i>  
     </Link>
+
+    <Link
+  
+   
+  href="/admin/parking"
+  passHref
+>
+<i  id={router.pathname == "/admin/parking" ? "active" : ""} className="fas fa-school"> <h3>Parking</h3> </i>  
+</Link>
     <Link
   
    
@@ -59,14 +68,7 @@ import Image from 'next/image'
     >
     <i id={router.pathname == "/admin/activities" ? "active" : ""} className="fas fa-city"><h3>Activities</h3></i>  
     </Link>
-    <Link
-  
-   
-       href="/"
-       passHref
-    >
-     <i className="fas fa-school"> <h3>Subscriptions</h3> </i>  
-    </Link>
+ 
     <Link
   
    

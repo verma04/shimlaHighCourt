@@ -13,7 +13,7 @@ import {
    
   } from '../../../apollo/queries'
 
-function Payment() {
+  const Payment:React.FC = () => {
 
     interface getpayments {
 
@@ -28,7 +28,7 @@ function Payment() {
      
       
       
-      const { loading, data } = useQuery<getpayments>(
+      const { loading, data } = useQuery<getpayments   >(
         GET_PAYMENTS,
         { variables: { year: 2019 } }
       );
@@ -60,7 +60,7 @@ function Payment() {
 
 <div  className="graphl-bottom" > 
 
-<Garph/>
+<Garph  graph={data && data.getpayments}/>
 </div>
 </div>
 <div className='payments' >

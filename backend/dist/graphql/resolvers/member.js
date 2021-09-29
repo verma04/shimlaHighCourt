@@ -22,8 +22,6 @@ const { Payments } = require('../../models/payments');
 function generateToken(user) {
     return jwt.sign({
         id: user.id,
-        email: user.email,
-        username: user.username,
     }, `"sddsdds"`, { expiresIn: '1h' });
 }
 const MemberResolvers = {
@@ -51,7 +49,7 @@ const MemberResolvers = {
                 // Validate user data
                 // const user = checkAuth(context);
                 try {
-                    const member = yield Member.find({});
+                    const member = yield Member.find({}).sort({ createdAt: -1 });
                     return member;
                 }
                 catch (err) {
@@ -62,40 +60,40 @@ const MemberResolvers = {
         getMember(_, {}, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 const { id } = checkAuth(context);
-                return Member.findOne({ id });
+                const data = yield Member.findOne({ _id: id });
+                return data;
             });
         },
     },
     Mutation: {
-        registerMember(_, { username, email, password, confirmPassword, gender }, context) {
+        registerMember(_, { username, email, address, gender, phone }, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 // Validate user data
                 // const user = checkAuth(context);
                 try {
-                    const { errors, valid } = validateRegisterInput(username, email, password, confirmPassword, gender);
-                    if (!valid) {
-                        throw new UserInputError('Errors', { errors });
-                    }
-                    // TODO: Make sure user doesn't already exist
+                    console.log(username, email, address);
+                    // const { errors, valid } = validateRegisterInput(username, email, password, confirmPassword, gender);
+                    // if (!valid) {
+                    //   throw new UserInputError('Errors', { errors });
+                    // }
+                    // // TODO: Make sure user doesn't already exist
                     const user = yield Member.findOne({ email });
                     if (user) {
-                        throw new UserInputError('Username is taken', {
-                            errors: {
-                                username: 'This email is taken... sorry yo.',
-                            },
-                        });
+                        return new UserInputError('Email is taken');
                     }
-                    // Hash the password
-                    // eslint-disable-next-line no-param-reassign
-                    password = yield bcrypt.hash(password, 12);
-                    // create the new user with the model and passed in data
+                    const password = `${username}123`;
+                    // // Hash the password
+                    // // eslint-disable-next-line no-param-reassign
+                    const newpassword = yield bcrypt.hash(password, 12);
+                    // // create the new user with the model and passed in data
                     const newUser = new Member({
                         email,
                         username,
-                        password,
+                        newpassword,
+                        address,
                         gender,
                         createdAt: new Date().toISOString(),
-                        avatar: `https://avatars.dicebear.com/api/${gender}/${username}.svg?background=%230000ff`
+                        avatar: `https://avatars.dicebear.com/api/initials/${username}.svg`
                     });
                     // save the user to the DB
                     const res = yield newUser.save();
@@ -105,7 +103,8 @@ const MemberResolvers = {
                         createdAt: new Date().toISOString(),
                     });
                     yield newActivity.save();
-                    return Object.assign(Object.assign({}, res._doc), { id: res._id });
+                    console.log(res);
+                    return res;
                 }
                 catch (err) {
                     console.log(err);
@@ -141,15 +140,16 @@ const MemberResolvers = {
                             if (err) {
                                 console.log(err);
                             }
-                            yield Servcies.findOneAndUpdate({ "servicesName": "Chambers", "servcieList.chamberId": id }, { $set: { "servcieList.$.member": memberId } }, { new: true, upsert: true }, function (err, result) {
-                                if (err) {
-                                    console.log(err);
-                                }
-                                return Member.findOne({ id });
+                            Servcies.findOneAndUpdate({ "servicesName": "Chambers", "servcieList._id": id }, { $set: { "servcieList.$.member": memberId } }, { new: true, upsert: true }, function (err, result) {
+                                return __awaiter(this, void 0, void 0, function* () {
+                                    if (err) {
+                                        console.log("22323", err);
+                                    }
+                                });
                             });
+                            return Member.findOne({});
                         });
                     });
-                    return Member.findOne({ id });
                 }
                 catch (err) {
                     console.log(err);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Garph from './Garph'
+
 import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { useGetMembers } from '../../apollo/actions'
 import  { Section  } from './Style';
@@ -13,51 +13,14 @@ import {
  
  
 } from '../../apollo/queries'
+import { useGetUser } from '../../apollo/actions';
 import { useRouter } from "next/router";
  const  Dashboard = () => {
 
   const router = useRouter();
   
+  const { data, loading, error } = useGetUser();
 
- interface getChamber {
-  member: String
-  id: String
-  chamberId : String
-}
-
-interface members {
-   
-  id: String
-
-}
-interface dashboard {
-
-  getMember: members[];
-}
-
-
-
-const { loading, data } = useQuery<dashboard>(
-
-  GET_MEMBERS,
-
-);
-
-
-
-
-  if (loading) {
-      return (
-      
-            <ContentLoader viewBox="0 0 380 70">
-              {/* Only SVG shapes */}    
-              <rect x="0" y="0" rx="5" ry="5" width="70" height="70" />
-              <rect x="100" y="17" rx="4" ry="4" width="70" height="70" />
-              <rect x="200" y="40" rx="3" ry="3" width="70" height="70" />
-            </ContentLoader>
-          )
-      
-  }
 
         return (
             <>
@@ -71,19 +34,19 @@ const { loading, data } = useQuery<dashboard>(
    <div onClick={()=>router.push("/admin/members")} className="flex-item" >
    <i className="fas fa-comments"></i>
 
-   <h4>Total Member</h4>
+   <h4>Notifications </h4>
 
-   <span>{ data &&  data.getMember.length}</span>
+   <span> {data && data.getMember.notifcations.length}</span>
    </div>
    <div className="flex-item" >
    <i className="fas fa-comments"></i>
    <h4>OurDue Payments</h4>
 
-<span>0</span>
+<span>{data && data.getMember.chamberDet.length}</span>
        </div>
     <div  onClick={()=>router.push("/admin/chambers")} className="flex-item" >
     <i className="fas fa-comments"></i>
-    <h4>Total Chambers</h4>
+    <h4> Chambers</h4>
 
 <span>300</span>
        </div>
@@ -97,40 +60,9 @@ const { loading, data } = useQuery<dashboard>(
 
                      </div>
                      </Header>
-                     <div className='flex-2' >
-                     <div className='garph' >
+          
 
-                       <div  className="graphl-top" > 
-
-
-<h3>Month Payments Collections Statistics</h3>
-
-   
-   </div>
-
-   <div  className="graphl-bottom" > 
-
-<Garph/>
-</div>
-   </div>
-   <div className='payments' >
-   <div  className="payments-top" > 
-   <h3>Latest Payments</h3>
-   
-</div>
-
-<div  className="payments-bottom" > 
-
-   
-</div>
-
-
-
-   </div>
-
-                     </div>
-
-            
+          <h1>Welcome To dashbaord</h1>
                      
                      </div> 
                      </Section>

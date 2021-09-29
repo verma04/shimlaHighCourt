@@ -6,12 +6,14 @@ import { useRouter } from "next/router";
 import { useLazyGetUser } from '../../../apollo/actions';
 import Image from 'next/image'
 
+import { useGetUser } from '../../../apollo/actions';
+
 
  const Sidebar =() => {
    const router = useRouter();
    const [user, setUser] = useState(null);
 
-   
+   const { data, loading, error } = useGetUser();
 
   
 
@@ -28,50 +30,22 @@ import Image from 'next/image'
     />
                   </div>
                   <Link
-           href="/admin/dashbaord"
+           href="/dashbaord"
            passHref
           
     >
- <i  id={router.pathname == "/admin/dashbaord" ? "active" : ""} className="fas fa-list"> <h3>  dashboard</h3> </i>  
+ <i  id={router.pathname == "/dashbaord" ? "active" : ""} className="fas fa-list"> <h3>  dashboard</h3> </i>  
     </Link>
-    <Link
-    href="/admin/chambers"
-    passHref
-    >
-  <i  id={router.pathname == "/admin/chambers" ? "active" : ""} className="far fa-list-alt">  <h3>Chambers</h3> </i> 
-      </Link>
-    <Link
-    
-  
    
-       href="/admin/members"
-       passHref
-    >
-   <i id={router.pathname == "/admin/members" ? "active" : ""} className="fas fa-list"> <h3>Members</h3> </i>  
-    </Link>
+ 
+ 
     <Link
   
    
-       href="/"
+       href="/profile"
        passHref
     >
-    <i className="fas fa-city"><h3>Services</h3></i>  
-    </Link>
-    <Link
-  
-   
-       href="/"
-       passHref
-    >
-     <i className="fas fa-school"> <h3>Subscriptions</h3> </i>  
-    </Link>
-    <Link
-  
-   
-       href="/"
-       passHref
-    >
-    <i className="fas fa-bell"> <h3>Reports</h3> </i>
+    <i id={router.pathname == "/profile" ? "active" : ""} className="fas fa-bell"> <h3>My Profile</h3> </i>
     </Link>
     <Link
   
@@ -95,7 +69,7 @@ import Image from 'next/image'
        href="/"
        passHref
     >
-   <i className="fas fa-money-check-alt"> <h3> Events</h3></i>  
+   <i className="fas fa-money-check-alt"> <h3>Change Password</h3></i>  
     </Link>
     <Link
   
@@ -103,15 +77,15 @@ import Image from 'next/image'
        href="/"
        passHref
     >
-    <i className="fas fa-star"> <h3>Users </h3></i>  
+    <i className="fas fa-star"> <h3>Support Ticket </h3></i>  
     </Link>
     <Link
   
    
-       href="/"
+       href="/notifications"
        passHref
     >
-    <i className="fas fa-credit-card"> <h3>Add City</h3>  </i>  
+    <i className="fas fa-credit-card"> <h3>My Notification ({ data && data.getMember.notifcations.length}) </h3>  </i>  
     </Link>
 
     <Link
@@ -120,7 +94,7 @@ import Image from 'next/image'
        href="/"
        passHref
     >
- <i className="fas fa-cog"> <h3>Payment</h3> </i>  
+ <i className="fas fa-cog"> <h3>My Activity Log</h3> </i>  
       </Link>
   
       <Link

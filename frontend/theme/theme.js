@@ -5,21 +5,26 @@ import {  createGlobalStyle } from "styled-components";
 
 
 div {
-  font-family: 'Merienda', cursive;
+  font-family:Nunito;
 }
 a { 
   text-decoration: none; 
   color: ${props => props.theme.colors.darkBrown};
-   font-family: 'Merienda', cursive;
+   font-family:Nunito;
+   font-size: 1.5rem;
 } 
 
 h1 {
-  font-family: 'Merienda', cursive;
+  font-family:Nunito;
+}
+.fa-folder-plus {
+  color: ${props => props.theme.colors.blue} !important;
 }
 
   body {
-  
-       font-family: 'Merienda', cursive;
+    color: #858796;
+       font-family:Nunito;
+       font-weight: 600;
       overflow-x: hidden;
        background-color: 	#E8E8E8;
       ::-webkit-scrollbar {
@@ -62,15 +67,28 @@ h1 {
 
   }
   }
+  label {
+ font-weight: 800;
+ font-size: 1rem;
+  }
   img {
   cursor: pointer;
 }
 
 button {
   cursor: pointer;
-  font-family: 'Merienda', cursive;
+  font-family:Nunito;
 }
 
+select {
+  font-family:Nunito;
+  font-size: 1.3rem;
+}
+option {
+  font-family:Nunito;
+  background-color: #d4daed;
+    border-color: #cbd3e9;
+}
 button {
     background-color: ${props => props.theme.colors.blue};
     width: 20rem;
@@ -79,7 +97,7 @@ button {
     font-size: 1.5rem;
   color:white;
   
-    font-family: 'Merienda', cursive;
+    font-family:Nunito;
 
 
            }
@@ -88,28 +106,28 @@ button {
   h1 {
     font-size: 1.65rem;
     line-height: var(--line-height-lg);
-    font-family: 'Merienda', cursive;
+    font-family:Nunito;
   }
 
   h2 {
     font-size: 1.4rem;
     line-height: var(--line-height-lg);
     color: ${props => props.theme.colors.grey1};
-    font-family: 'Merienda', cursive;
+    font-family:Nunito;
   }
 
   h3 {
     font-size: 1.2rem;
     line-height: var(--line-height-lg);
     color: ${props => props.theme.colors.grey1};
-    font-family: 'Merienda', cursive;
+    font-family:Nunito;
     /* family=FiesoleTextW00-Italic */
   }
   p {
-    font-family: 'Merienda', cursive;
+    font-family:Nunito;
   }
   button {
-    font-family: 'Merienda', cursive;
+    font-family:Nunito;
   }
 
 
@@ -131,14 +149,14 @@ button {
     font-size: 0.9rem;
     line-height: var(--line-height-md);
     color: rgb(88, 82,84);
-    font-family: 'Merienda', cursive;
+    font-family:Nunito;
   }
   select {
-     font-family: 'Merienda', cursive;
+     font-family:Nunito;
   }
   
   .date {
-     font-family: 'Merienda', cursive;
+     font-family:Nunito;
   }
   .card {
     border-radius:10px;
@@ -146,15 +164,41 @@ button {
 
   button {
 border-radius:5px;
-font-family: 'Courgette', cursive;
   }
   input {
-     font-family: 'Merienda', cursive;
+     font-family:Nunito;
     border:1px solid #EFEAE4;
     background-color:#FFFFFF;
+    border-radius: 0.2rem;
+  }
+  textarea {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-family:Nunito;
+    border:1px solid #EFEAE4;
+    background-color:#FFFFFF;
+    border-radius: 0.2rem;
+  }
+  h1 {
+    font-weight: 800;
+  }
+  h2 {
+    font-weight: 800;
+  }
+  #goback {
+  background-color: #858796;
+  }
+  button {
+    font-weight: 800;
   }
   span {
-     font-family: 'Merienda', cursive;
+     font-family:Nunito;
+  }
+  tr {
+    font-family:Nunito;
+  }
+  th {
+    font-family:Nunito;
   }
   i {
     color: ${props => props.theme.colors.darkBrown};
@@ -184,10 +228,10 @@ font-family: 'Courgette', cursive;
   a { 
     text-decoration: none; 
     color: ${props => props.theme.colors.darkBrown};
-     font-family: 'Merienda', cursive;
+     font-family:Nunito;
 } 
 button {
-  font-family: 'Merienda', cursive;
+  font-family:Nunito;
 }
 
 li {

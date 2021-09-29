@@ -62,9 +62,10 @@ const parkingResolvers = {
             });
 
 
-            console.log(newParking)
+           
 
             const res = await newParking.save();
+            console.log(res)
             return res
 
     }

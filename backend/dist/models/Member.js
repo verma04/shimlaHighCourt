@@ -9,7 +9,12 @@ const MemberSchema = new Schema({
     createdAt: String,
     avatar: String,
     gender: String,
+    address: String,
     Chamber: String,
+    role: {
+        type: String,
+        default: "user"
+    },
     notifcations: [
         {
             type: {
@@ -41,7 +46,7 @@ const MemberSchema = new Schema({
             createdAt: String,
         },
     ],
-    parkingDet: [
+    parkingBilling: [
         {
             month: {
                 type: String,

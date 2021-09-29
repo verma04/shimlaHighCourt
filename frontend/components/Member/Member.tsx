@@ -10,10 +10,23 @@ import {
  
  
 } from '../../apollo/queries'
+import { Table  } from '../ComanStyle/Table' 
+import Member from './AddMember/AddMember'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import Image from 'next/image'
 import { Header } from '../ComanStyle/Header'
+import AddMember from './AddMember/AddMember';
 
  const  Dashboard = () => {
+
+  useEffect(() => {
+   
+      AOS.init({
+        duration : 2000
+      })
+    
+  }, [])
 
   interface members {
    
@@ -39,7 +52,7 @@ import { Header } from '../ComanStyle/Header'
   );
   
 
-
+const [ state  , setState ] = useState(false)
 
  if(loading) {
    return (
@@ -50,6 +63,8 @@ sdsdsd
 
    )
  }
+
+
 
         return (
             <>
@@ -82,43 +97,86 @@ sdsdsd
 <span>0</span>
        </div>
 
-    
+       <i onClick={()=>setState(!state)} className="fas fa-plus-circle"></i>
+
+   
 
                      </div>
                      </Header>
-                     <div className='flex-2' >
+                     <Table>
+                  
 
 
-   { data && data.getMembers.map((data:any ) =>
-   <div  className="chamber" key={data._id} >
 
 
-<div   className="img-wrapper" >
-                  <Image
-          layout="fill"
-          objectFit="contain"
-      src="https://avatars.dicebear.com/api/identicon/seasasassae.svg"
-      alt="Picture of the author"
+
+<div className='flex-2' >
+        <div className='garph' >
+
+          <div  className="graphl-top" > 
+
+
+<h3>Payment Subcription Item</h3>
+
+
+
+
+
+</div>
+
+<div className="graphl-bottom" >
+
+<table id="customers">
+  <tr id="top" >
+    <th>Status</th>
+    <th>Member Since</th>
+    <th>UserName</th>
+    <th>Email Address</th>
+    <th>Full Name</th>    
+    <th>Actions</th>
+  </tr>
+ {data && data.getMembers.map((data:any ) =>
+    
+          <tr key={data.id} >
+    <th><span>enabled</span></th>
+    <th>{data.createdAt}</th>
+    <th>{data.username}</th>
+    <th>{data.email}</th>
+    <th>{data.username}</th>
+    <th>...</th>
+    </tr>
+
      
-    />
-                  </div>
+ )
+
+ }
+</table>
+</div>
 
 
-{data.username}
 
+</div>
+      </div>
+       
+       
 
-     </div>
-   
-   )
-
-   }
-
-
-                     </div>
+                    
 
             
-                     
+                     </Table>
                      </div> 
+                     
+{state ? 
+(
+<AddMember myfunc={setState} />
+)
+:
+(
+null
+)
+
+}
+                     
                      </Section>
             
             </>
