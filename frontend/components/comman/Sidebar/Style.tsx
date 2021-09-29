@@ -79,7 +79,7 @@ color: rgba(255,255,255,.3);
   border-bottom: 3px solid transparent;
   h3 {
     padding-left:1rem;
-    font-size:1.2rem;
+    font-size:1rem;
     color: rgba(255,255,255,.3);
   }
 }

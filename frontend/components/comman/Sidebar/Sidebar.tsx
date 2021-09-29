@@ -34,13 +34,13 @@ import Image from 'next/image'
            passHref
           
     >
- <i  id={router.pathname == "/admin/dashbaord" ? "active" : ""} className="fas fa-list"> <h3>Finance</h3> </i>  
+ <i  id={router.pathname == "/admin/dashbaord" ? "active" : ""} className="fas fa-fw fa-tachometer-alt"> <h3>Dashboard</h3> </i>  
     </Link>
     <Link
     href="/admin/chambers"
     passHref
     >
-  <i  id={router.pathname == "/admin/chambers" ? "active" : ""} className="far fa-list-alt">  <h3>Finance</h3> </i> 
+  <i  id={router.pathname == "/admin/chambers" ? "active" : ""} className="fas fa-piggy-bank">  <h3>Finance</h3> </i> 
       </Link>
     <Link
     
@@ -49,7 +49,7 @@ import Image from 'next/image'
        href="/admin/members"
        passHref
     >
-   <i id={router.pathname == "/admin/members" ? "active" : ""} className="fas fa-list"> <h3>Members</h3> </i>  
+   <i id={router.pathname == "/admin/members" ? "active" : ""} className="fa fa-users"> <h3>Members</h3> </i>  
     </Link>
 
     <Link
@@ -58,7 +58,7 @@ import Image from 'next/image'
   href="/admin/parking"
   passHref
 >
-<i  id={router.pathname == "/admin/parking" ? "active" : ""} className="fas fa-school"> <h3>Parking</h3> </i>  
+<i  id={router.pathname == "/admin/parking" ? "active" : ""} className="fas fa-school"> <h3>My Profile</h3> </i>  
 </Link>
     <Link
   
@@ -66,7 +66,7 @@ import Image from 'next/image'
        href="/admin/activities"
        passHref
     >
-    <i id={router.pathname == "/admin/activities" ? "active" : ""} className="fas fa-city"><h3>Activities</h3></i>  
+    <i id={router.pathname == "/admin/activities" ? "active" : ""} className="fas fa-city"><h3>Change Password</h3></i>  
     </Link>
  
     <Link
@@ -75,7 +75,7 @@ import Image from 'next/image'
        href="/"
        passHref
     >
-    <i className="fas fa-bell"> <h3>Reports</h3> </i>
+    <i className="fas fa-bell"> <h3>Support Tickets</h3> </i>
     </Link>
     <Link
   
@@ -91,42 +91,10 @@ import Image from 'next/image'
        href="/"
        passHref
     >
-  <i className="far fa-list-alt">  <h3>Destinations</h3> </i> 
+  <i className="far fa-list-alt">  <h3>Support</h3> </i> 
       </Link>
-      <Link
-  
-   
-       href="/"
-       passHref
-    >
-   <i className="fas fa-money-check-alt"> <h3> Events</h3></i>  
-    </Link>
-    <Link
-  
-   
-       href="/"
-       passHref
-    >
-    <i className="fas fa-star"> <h3>Users </h3></i>  
-    </Link>
-    <Link
-  
-   
-       href="/"
-       passHref
-    >
-    <i className="fas fa-credit-card"> <h3>Add City</h3>  </i>  
-    </Link>
+      
 
-    <Link
-  
-   
-       href="/"
-       passHref
-    >
- <i className="fas fa-cog"> <h3>Payment</h3> </i>  
-      </Link>
-  
       <Link
   
    
@@ -134,7 +102,19 @@ import Image from 'next/image'
   passHref
 >
    
-   <i className="fas fa-cog"> <h3>Logout</h3></i>  
+   <i className="fa fa-cog"> <h3>Global Setting</h3></i>  
+    
+    
+    </Link>
+
+      <Link
+  
+   
+  href="/logout"
+  passHref
+>
+   
+   <i className="fa fa-sign-out-alt"> <h3>Sign Out</h3></i>  
     
     
     </Link>
