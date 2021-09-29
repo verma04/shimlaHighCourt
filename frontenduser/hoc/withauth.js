@@ -4,13 +4,15 @@ import Redirect from '../components/shared/Redirect'
 
 export default (WrappedComponent, role, options = {ssr: false}) => {
   function WithAuth(props) {
-    const { data: { getUser } = {}, loading, error } = useGetUser({fetchPolicy: 'network-only'});
+    const { data:{getMember} ={}, loading, error } = useGetUser({fetchPolicy: 'network-only'});
+   
+
   
 
 
     if (
       !loading &&
-      (!getUser || error) &&
+      (!getMember || error) &&
       typeof window !== 'undefined'
     ) {
    
@@ -20,8 +22,8 @@ export default (WrappedComponent, role, options = {ssr: false}) => {
     }
 
     // TODO: Send a message to login page
-    if (getUser) {
-      if (role && !role.includes(getUser.role)) {
+    if (getMember) {
+      if (role && !role.includes(getMember.role)) {
         return <Redirect to="/login" query={{message: 'NOT_AUTHORIZED'}}/>
       }
       return <WrappedComponent {...props} />

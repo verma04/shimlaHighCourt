@@ -4,7 +4,7 @@ import { useGetMembers } from '../apollo/actions'
 import withAuth from '../hoc/withauth';
 import Navbar from '../components/comman/Navbar/Navbar'
 import Sidebar from '../components/comman/Sidebar/Sidebar'
-import Dashboard from '../components/Dashboard/dashboard'
+import Dashboard from '../components/Notifications/Notifications'
 import { Section } from '../components/comman/comanstyle'
 
 const Index = withAuth(() => {
