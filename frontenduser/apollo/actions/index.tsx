@@ -7,7 +7,10 @@ import {
   GET_USER,
  
   GET_MEMBERS,
-  GET_CHAMBERS
+  GET_CHAMBERS,
+  GET_NOTIFICATIONS,
+  GET_USER_SERVICES,
+  GET__PAYMENT
  
  
 } from '../queries/index'
@@ -19,10 +22,8 @@ interface member {
   createdAt: string
   avatar: string
   role: string
-  Chamber: string
-  token: string
-  chamberDet: [chamberDet]
-  notifcations : [notifcations]
+
+ 
 }
 
 interface chamberDet {
@@ -51,9 +52,9 @@ export const useGetMembers = () => useQuery<member>(GET_MEMBERS);
 
 export const useGetChamber = () => useQuery(GET_CHAMBERS);
 
-
-
-
+export const useNotifications = () => useQuery(GET_NOTIFICATIONS);
+export const useUserServices = () => useQuery(GET_USER_SERVICES);
+export const useUserPayments = () => useQuery(GET__PAYMENT);
 
 
 

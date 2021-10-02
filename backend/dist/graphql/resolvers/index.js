@@ -11,8 +11,7 @@ module.exports = {
     //   likeCount: (parent) => parent.likes.length,
     //   commentCount: (parent) => parent.comments.length,
     // },
-    Query: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, usersResolvers.Query), ServicesResolvers.Query), MemberResolvers.Query), parkingResolvers.Query), activityResolvers.Query), paymentsResolvers.Query),
-    Mutation: Object.assign(Object.assign(Object.assign(Object.assign({}, usersResolvers.Mutation), ServicesResolvers.Mutation), MemberResolvers.Mutation), parkingResolvers.Mutation),
-    Subscription: Object.assign({}, postsResolvers.Subscription),
+    Query: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, usersResolvers.Query), ServicesResolvers.Query), MemberResolvers.Query), activityResolvers.Query), paymentsResolvers.Query),
+    Mutation: Object.assign(Object.assign(Object.assign({}, usersResolvers.Mutation), ServicesResolvers.Mutation), MemberResolvers.Mutation),
 };
 //# sourceMappingURL=index.js.map

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Section} from './style'
-import Redirect from '../../../components/shared/Redirect'
+import Redirect from '../../shared/Redirect'
 import {
 
     useCreateServices
@@ -171,7 +171,7 @@ const  Add:React.FC = () => {
 
 <div className="button" >
  
- <button onClick={()=> router.push('/finnace')} id="goback" >Go back</button>
+ <button type="button" onClick={()=> router.push('/finnace')} id="goback" >Go back</button>
  <button>Submit</button>
  
 </div>

@@ -25,6 +25,7 @@ import { Header } from '../ComanStyle/Header'
       createdAt: String
       avatar: String
       Chamber: String
+        status: String
   }
   
   interface RocketInventoryData {

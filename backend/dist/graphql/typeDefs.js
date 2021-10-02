@@ -14,7 +14,8 @@ const { Servcies } = require('../models/Services');
 const Member_1 = require("../models/Member");
 const { gql } = require('apollo-server');
 const cron = require('node-cron');
-const { Parking } = require('../models/Parking');
+const { ObjectId } = require('mongodb');
+// const { Parking } = require('../models/Parking');
 module.exports = gql `
   type Post {
     id: ID!
@@ -32,12 +33,7 @@ module.exports = gql `
     username: String!
     body: String!
   }
-  type Parking {
-    id: ID!
-    createdAt: String!
-    memberId: String!
-    parkingCharge: String!
-  }
+ 
   type Like {
     id: ID!
     createdAt: String!
@@ -52,6 +48,7 @@ module.exports = gql `
       servicesInterval: String!,
       servicesDescription: String!
       uniq: String
+      
   }
   type User {
     id: ID!
@@ -87,8 +84,12 @@ type Due  {
   
 
 type Payments {
-  memberId: ID!
-price: String!
+  id: ID!
+payment: String!
+status: String!
+serviceName: String!
+serviceId:  String,
+month:String
 createdAt: String!
 }
  
@@ -103,9 +104,13 @@ createdAt: String!
     role: String!
     Chamber: String
     token: String
-    chamberDet : [ChamberDet]
-    notifcations: [Notifications]!
-
+    fullname:String,
+      memberDescription: String
+      slug: String
+      phone: String
+      address: String
+      status:String
+      services: [servicesList]
   }
 
 
@@ -129,6 +134,28 @@ createdAt: String!
 
   }
 
+type servicesList {
+  id:ID!,
+  createdAt:String,
+  servicesName: String,
+  servicesPrice: String,
+  uniq: String
+  userId: String
+}
+
+type assign {
+  id:ID!,
+  arr: [servicesList]
+}
+
+type notifications {
+
+    type: String
+      message: String
+  createdAt: String
+  
+}
+
   
   input RegisterInput {
     username: String!
@@ -144,28 +171,47 @@ createdAt: String!
     email: String!
   }
   type Query {
+    userServices(id:ID): [servicesList]
+    getUserServices: [servicesList]
     getServices: [Services]
+    getMemberByid(id:ID!): Member
     getChamber: [Chamber]
     getPost(postId: ID!): Post
     deleteServices(id: ID!):Services!
     getMembers: [Member]
     deleteMember(id: ID!): Member
     getUser:User!
-    getMember: Member!
-    getParking: [Parking]!
+  getMember: Member!
+
     getActivity:[Activity]!
     duePayment: [Due]!
     getpayments: [Payments]!
+    notifications: [notifications]
+    getUserPayments:[Payments]
+
   }
   type Mutation {
-    register(   username: String! password: String! confirmPassword: String! email: String!): User!
+    register(   username: String! password: String! confirmPassword: String! email: String!, phone: String!): User!
     registerMember(
       username: String!,
      email: String!,
       address: String!, 
       phone: String!,
        gender: String!
+       fullname:String,
+       memberDescription: String
 
+     ): Member!
+     editMember(
+      id: ID
+      username: String!,
+     email: String!,
+      address: String!, 
+      phone: String!,
+       gender: String!
+       fullname:String,
+       memberDescription: String
+       status: String
      ): Member!
     login(username: String!, password: String!): User!
     memberLogin(email: String!, password: String!): Member!
@@ -182,12 +228,10 @@ createdAt: String!
     addChamberToMember(id:String! , memberId:ID!):Chamber!
 
     chamberPayment(data:ID! ):Member!
-    createParking( memberId: String! ,parkingCharge:String! , ):Parking!
- 
+    assignServices(_id:ID!, userId: String): assign 
+    deleteUserServices(_id:ID!, userId: String): servicesList
   }
-  type Subscription {
-    newPost: Post!
-  }
+
 `;
 cron.schedule("59 11 * * *", () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -212,31 +256,40 @@ cron.schedule("59 11 * * *", () => __awaiter(void 0, void 0, void 0, function* (
         console.log(error);
     }
 }));
-cron.schedule('35 11 * * *', () => __awaiter(void 0, void 0, void 0, function* () {
+cron.schedule("51 10 * * *", () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const member = yield Member_1.Member.find({});
-        const final = member.map((t) => ({ id: t.Chamber }));
-        final.forEach((element) => __awaiter(void 0, void 0, void 0, function* () {
-            const ser = yield Servcies.findOne({ servicesName: "Chambers" });
-            const data = ser.servcieList.filter((element1) => element1.chamberId === element.id);
-            const dateObj = new Date();
-            const data1 = {
-                month: dateObj.toLocaleString("default", { month: "long" }),
-                payment: "dssd",
-                status: "Due",
-                chamberId: data[0].chamberId,
-                price: data[0].price,
-                createdAt: new Date().toISOString(),
-            };
-            Member_1.Member.findOneAndUpdate({ Chamber: data[0].chamberId }, { $push: { "chamberDet": data1 } }, { new: true }, (err, doc) => {
-                if (err) {
-                    console.log(err);
-                }
-                console.log(doc);
+        // console.log(member)
+        const arr = [];
+        const ser = yield Servcies.find({});
+        yield member.forEach((element) => __awaiter(void 0, void 0, void 0, function* () {
+            const data = element.services;
+            yield data.forEach((set) => {
+                const data1 = ser.find((element2) => element2.id === set.id);
+                const dateObj = new Date();
+                const data = {
+                    month: dateObj.toLocaleString("default", { month: "long" }),
+                    payment: data1.servicesPrice,
+                    status: "Due",
+                    serviceName: data1.servicesName,
+                    createdAt: new Date().toISOString(),
+                    serviceId: data1.id
+                };
+                console.log(data);
+                Member_1.Member.findOneAndUpdate({ _id: element.id }, { $push: { "paymentBilling": data } }, { new: true }, (err, doc) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log(doc);
+                });
             });
+            //     await  ser.forEach(async  (element1:any) => {
+            // // console.log(element1._id)
+            // console.log(element)
+            //         // const data1  = data.filter((element2:any) => element2._id === element1._id ) 
+            //         // console.log(data1)
+            //       });
         }));
-        //   member.forEach(async  (element:any) => {
-        //     const ser =  await     Servcies.findOne({servicesName: "Chambers"})
         //  const data  =  ser.servcieList.filter((element1:any) => element1.chamberId === element.Chamber )   
         //   data.forEach( async ( element2:any) => {
         //     let mem =  await   Member.findOne({Chamber: element2.chamberId})
@@ -255,35 +308,33 @@ cron.schedule('35 11 * * *', () => __awaiter(void 0, void 0, void 0, function* (
         //       console.log(doc)
         //   });
         //   });
-        //   });
     }
     catch (error) {
         console.log(error);
     }
 }));
-cron.schedule("59 11 * * *", () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const data = yield Parking.find({});
-        data.forEach((element) => {
-            const dateObj = new Date();
-            const data1 = {
-                month: dateObj.toLocaleString("default", { month: "long" }),
-                payment: "payment",
-                status: "Due",
-                parkingId: element.id,
-                price: element.price,
-                createdAt: new Date().toISOString(),
-            };
-            Member_1.Member.findOneAndUpdate({ _id: element.memberId }, { $push: { "parkingBilling": data1 } }, { new: true }, (err, doc) => {
-                if (err) {
-                    console.log(err);
-                }
-                console.log(doc);
-            });
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
-}));
+// cron.schedule("59 11 * * *", async  () => {
+//   try {
+//   const data =await Parking.find({})
+//     data.forEach((element:any) => {
+//       const dateObj = new Date()
+//       const data1 = {
+//         month : dateObj.toLocaleString("default", { month: "long" }),
+//         payment: "payment",
+//         status: "Due",
+//         parkingId: element.id,
+//         price: element.price,
+//         createdAt: new Date().toISOString(),
+//         }
+//      Member.findOneAndUpdate({_id:element.memberId},{ $push:{ "parkingBilling": data1 }} , {new: true}, (err:any, doc:any) => {
+//         if (err) {
+//            console.log(err)
+//         }
+//     console.log(doc)
+//   });    
+// })
+//   } catch (error) {
+//    console.log(error) 
+//   }
+// });
 //# sourceMappingURL=typeDefs.js.map

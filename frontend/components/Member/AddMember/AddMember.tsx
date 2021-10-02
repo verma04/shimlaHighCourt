@@ -13,8 +13,11 @@ import {
    
   } from '../../../apollo/actions'
 
-import Select from 'react-select'
+  import { Form} from '../../ComanStyle/Form'
 
+import Select from 'react-select'
+import { useRouter } from "next/router";
+import Redirect from '../../shared/Redirect';
 interface props {
     myfunc(arg: boolean): void;
 }
@@ -23,14 +26,17 @@ type Inputs = {
     email:string,
     gender:string,
     address: string   
-    phone: string   
+    phone: string   ,
+    fullname:string,
+    memberDescription: String
   };
   interface gender {
     label: string;
     name:string
   }
   
-const AddMember:React.FC<props>  = ({myfunc}) => {
+const AddMember:React.FC  = ({}) => {
+  const router = useRouter();
     const [RegisterMemberMutation, { data, loading, error }] = useMemberegister();
     const [ gender , setgender] = useState('')
 
@@ -50,66 +56,123 @@ const AddMember:React.FC<props>  = ({myfunc}) => {
     }
 
        
+    console.log(error)
 const errorMessage = (error:any) => {
     return (error.graphQLErrors && error.graphQLErrors[0].message) || 'Ooooops something went wrong...'
   }
   
   
     return (
-        <Section>
-            <div id="myModal" className="modal">
-            { data && data.registerMember && myfunc(false) }
+        <Form>
+            <div  className="flex" >
+            { data && data.registerMember && <Redirect to="/members" /> }
 
-<div data-aos="fade-down" className="modal-content">
-  <span  onClick={()=> myfunc(false)} className="close">&times;</span>
+   
+            <h1>Add User</h1>
+
+<div data-aos="fade-left" className='flex-2'>
+
 
 
 
   
-        <div className="form" >
+        <div className='garph' >
+
+
+        <div  className="graphl-top" > 
+
+
+<h3>Add User</h3>
+
+
+</div>
                  
-                 <form onSubmit={handleSubmit(onSubmit)}>
-     
+                 <form className="graphl-bottom" onSubmit={handleSubmit(onSubmit)}>
+                 <div className="list" >
      <div className="group">      
-       <input {...register("username")} type="text" required/>
-       <span className="highlight"></span>
-       <span className="bar"></span>
-       <label>Your Name</label>
-     </div>
+
+     <label className="required-field" >User Name</label>
+       <input   {...register("username", { required: true })} type="text"   />
+       {errors.username && <span>This field is required</span>}
+    </div>
+    <div className="group">      
+     <label className="required-field" >Full Name </label>
+       <input {...register("fullname", { required: true })} type="text" />
+       {errors.fullname && <span>This field is required</span>}
        
+     </div>
+ 
+     </div>
+     
+     <div className="list" >
+  
      <div className="group">      
-       <input {...register("phone")} type="text" required/>
-       <span className="highlight"></span>
-       <span className="bar"></span>
-       <label>Your Number </label>
+     <label className="required-field" >User Number </label>
+       <input {...register("phone", { required: true })} type="number" />
+       {errors.phone && <span>This field is required</span>}
+       
      </div>
      <div className="group">      
-       <input type="email" {...register("email")}  required/>
-       <span className="highlight"></span>
-       <span className="bar"></span>
-       <label>Your Email
+     <label className="required-field" >User Email
  </label>
+       <input type="email" {...register("email", { required: true })}  />
+   
+       {errors.email && <span>This field is required</span>}
+
+ </div>
+     
+
+   
+     
      </div>
-     <div className="group">      
-     <select {...register("gender")}>
+     <div className="list" >
+     <div className="group"> 
+ <label className="required-field" >Gender
+ </label>     
+     <select {...register("gender", { required: true })}>
         <option value="">Gender</option>
         <option value="male">male</option>
         <option value="other">other</option>
       </select>
-       <span className="highlight"></span>
-       <span className="bar"></span>
-      
-     </div>
    
-     <div className="group">      
-       <input {...register("address")} type="text" required/>
-       <span className="highlight"></span>
-       <span className="bar"></span>
-       <label>Address</label>
+      {errors.gender && <span>This field is required</span>}
      </div>
- 
-     <button> Add Member </button>
+     <div className="group">  
+
+
+      <label  >Address</label>    
+       <input {...register("address")} type="text" />
+  
      
+     </div>
+     
+ 
+ </div>
+ <div className="list" >
+
+<div  className="group-1" >
+    <label   >Member Description</label>
+
+    <textarea {...register("memberDescription", { required: true })} />
+    </div>
+</div>
+
+ <div className="button" >
+ <button type="button" onClick={()=> router.push('/members')} id="goback" >Go back</button>
+     
+     {!loading  &&
+    <button> Add Member </button>
+     
+      }
+        {loading  &&
+        <button
+        type="submit"
+     >   Adding...
+      </button>
+     
+      }
+    
+     </div>
    </form>
  
                  </div>
@@ -123,7 +186,7 @@ const errorMessage = (error:any) => {
             {toast.error( errorMessage(error))}
           
             </>} 
-        </Section>
+        </Form>
     )
 }
 

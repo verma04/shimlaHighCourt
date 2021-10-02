@@ -29,7 +29,7 @@ export default class MyDocument extends Document {
         <Head />
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
-<link href="https://fonts.googleapis.com/css2?family=Merienda&display=swap" rel="stylesheet"></link>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap" rel="stylesheet"></link>
         <body>
           <Main />
           <NextScript />

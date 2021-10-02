@@ -200,6 +200,13 @@ border-radius:5px;
   th {
     font-family:Nunito;
   }
+  /* .css-1s2u09g-control {
+  width: 29rem !important;
+}
+
+.css-1s2u09g-control{
+    width: 29rem;
+} */
   i {
     color: ${props => props.theme.colors.darkBrown};
   }

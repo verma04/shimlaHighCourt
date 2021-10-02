@@ -1,6 +1,7 @@
 
 import { gql } from 'apollo-boost';
 
+
 // CITY QUERIES START ----------------------------
 
 
@@ -30,13 +31,18 @@ query getemembers {
   getMembers {
     id
     email
-    
-  gender
+    gender
     username
-    createdAt
-    avatar
+  avatar
+    role
+    token
     Chamber
-    
+    fullname
+    memberDescription
+    slug
+    phone
+    address
+    status
   }
 }
 `
@@ -131,7 +137,9 @@ export const ADD_MEMBERS = gql`
      $email: String!,
       $address: String!, 
       $phone: String!,
-       $gender: String!
+       $gender: String!,
+       $fullname:String,
+       $memberDescription: String
   ) {
     registerMember( 
       username: $username,
@@ -139,6 +147,8 @@ export const ADD_MEMBERS = gql`
     gender:$gender
     address: $address 
     phone: $phone
+    fullname:$fullname,
+       memberDescription: $memberDescription
     ) {
       id
     email
@@ -148,11 +158,76 @@ export const ADD_MEMBERS = gql`
     createdAt
     avatar
     Chamber
+    fullname
+    memberDescription
+    slug
+    phone
+    status
+    }
+  }
+`
+
+export const EDIT_MEMBERS = gql`
+  mutation EditMemberMutation(
+    $id: ID!,
+    $username: String!,
+     $email: String!,
+      $address: String!, 
+      $phone: String!,
+       $gender: String!,
+       $fullname:String,
+       $memberDescription: String
+       $status: String
+  ) {
+    editMember( 
+      id: $id
+      username: $username,
+    email:$email
+    gender:$gender
+    address: $address 
+    phone: $phone
+    fullname:$fullname,
+       memberDescription: $memberDescription
+       status: $status
+    ) {
+      id
+    email
+    gender
+    username
+    createdAt
+    avatar
+    Chamber
+    fullname
+    memberDescription
+    slug
+    phone
+    status
             
     }
   }
 `
 
+
+
+
+export const GET_MEMBER_ID = gql`
+query getMemberByid($getMemberByidId: ID!) {
+  getMemberByid(id: $getMemberByidId) {
+    id
+    email
+     phone
+  gender
+    username
+    createdAt
+    avatar
+    Chamber
+    address
+    fullname
+    memberDescription
+    slug
+    status
+  }
+}`
 
 
 // export const ADD_CHAMBER = gql`
@@ -210,11 +285,70 @@ mutation createParking(
   }
 }
 `
+ 
 
-export const ASSIGN_PARKING = gql`
-mutation assignParking($addChamberToMemberId: String!, $addChamberToMemberMemberId: ID!) {
-  addChamberToMember(id: $addChamberToMemberId, memberId: $addChamberToMemberMemberId) {
-    id
+
+
+export const ASSIGN_SERVICES = gql`
+mutation assignServices(
+  
+  
+   $id: ID!
+   $userId: String
+  
+  
+  ) {
+    assignServices(_id: $id , userId: $userId) {
+      id
+    arr {
+      id
+      createdAt
+      servicesName
+      servicesPrice
+      uniq
+    }
+
+
+  
+  }
+}`
+
+
+export const DELETE_SERVICES = gql`
+mutation deleteUserServices(
+  
+  
+   $id: ID!
+   $userId: String
+  
+  
+  ) {
+    deleteUserServices(_id: $id , userId: $userId) {
+      id
+      userId
+   
+
+
+  
+  }
+}`
+
+
+export const USER_SERVICES = gql`
+query userServices(
+  
+  
+   $id: ID!
+
+  
+  
+  ) {
+    userServices(id: $id ) {
+      id
+    createdAt
+    servicesName
+    servicesPrice
+    uniq
 
 
   

@@ -1,5 +1,5 @@
 
-import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useQuery,gql, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import {
 
   SIGN_IN,
@@ -11,11 +11,12 @@ import {
   ADD_MEMBERS,
   ADD_CHAMBER,
   ADD_PARKING,
-  GET_PARKING,
+  USER_SERVICES,
   CREATE_SERVICES,
-  ASSIGN_PARKING,
-  GET_SERVICES
-  
+  GET_SERVICES,
+  EDIT_MEMBERS,
+  ASSIGN_SERVICES,
+  DELETE_SERVICES
  
 } from '../queries/index'
 
@@ -36,6 +37,25 @@ export const useMemberegister = () => useMutation(ADD_MEMBERS, {
     cache.writeQuery({
       query: GET_MEMBERS,
       data: { getMembers: [ registerMember , ...getMembers]}
+    });
+ 
+  }
+});
+
+
+export const useEditMember = () => useMutation(EDIT_MEMBERS, {
+  update(cache, { data: {editMember}}) {
+ 
+  
+    const {getMembers}:any = cache.readQuery({query:GET_MEMBERS})
+  
+    const data1  =  getMembers.filter((element1:any) => element1.id !== editMember.id )   
+
+    toast.success(`Member Edited ${editMember.fullname}`)
+    
+    cache.writeQuery({
+      query: GET_MEMBERS,
+      data: { getMembers: [ editMember , ...data1]}
     });
  
   }
@@ -72,40 +92,46 @@ export const useAddChamber = () => useMutation(ADD_CHAMBER, {
 });
 
 
-export const useCreateParking = () => useMutation(ADD_PARKING, {
-  update(cache, { data: {createParking}}) {
- 
- 
-    const {getParking}:any = cache.readQuery({query:GET_PARKING})
+
+
+export const useAssignServices = () => useMutation(ASSIGN_SERVICES, {
+    
   
-  
+  update(cache, { data: {assignServices}}) {
+
+
+try {
+
+
+     toast.success("Service Added")
+      cache.writeQuery({
+        query:  USER_SERVICES,
+        data: { userServices: assignServices.arr},
+        variables: {
+          id: assignServices.id
+      }
+      });
    
-    cache.writeQuery({
-      query: GET_PARKING,
-      data: {getParking: [createParking, ...getParking]}
-    });
- 
-  }
-});
-
-
-
-export const useAssignParking = () => useMutation(ASSIGN_PARKING, {
-  update(cache, { data: {addChamberToMember}}) {
- 
-    console.log(addChamberToMember)
+    }
   
-    const {getChamber}:any = cache.readQuery({query:GET_CHAMBERS})
-
-   
-    cache.writeQuery({
-      query: GET_CHAMBERS,
-      data: { getChamber: [...getChamber]}
-    });
- 
- 
+  catch (err) {
+    console.log(err)
   }
-});
+}
+  });
+  
+
+
+  export const  useDeleteUserServices = () => useMutation(DELETE_SERVICES, {
+    update(cache, { data: {deleteUserServices}}) {
+       
+      window.location.reload()
+    }
+    });
+    
+
+
+
 
 
 // Auth actions start -----------------------

@@ -29,7 +29,7 @@ const errorMessage = error => {
             <LoginForm
               loading={loading}
               onSubmit={(signInData) => Login({variables: signInData})}/>
-            { data && data.memberLogin &&  <Redirect to="/dashbaord" /> }
+            { data && data.memberLogin &&  <Redirect to="/" /> }
             { error && <div className="alert alert-danger">{errorMessage(error)}</div>}
       
             {  error && <>

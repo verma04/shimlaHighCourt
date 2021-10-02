@@ -4320,6 +4320,11 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
+"react-slugify@^2.0.4":
+  "integrity" "sha512-Sr/v83F89KY0vHvALV+Y+YhjGXAJ1A6b3Yec+DlInosAZs5/qTgDspUQq+ZNjN5v2diVIrFXOg59jhcft6kY/w=="
+  "resolved" "https://registry.npmjs.org/react-slugify/-/react-slugify-2.0.4.tgz"
+  "version" "2.0.4"
+
 "read-cmd-shim@^2.0.0":
   "version" "2.0.0"
 
@@ -4662,6 +4667,11 @@
   "integrity" "sha1-CzpmK10Ewxd7GSa+qCsD+Dei70E="
   "resolved" "https://registry.npmjs.org/sliced/-/sliced-1.0.1.tgz"
   "version" "1.0.1"
+
+"slugify@^1.6.0":
+  "integrity" "sha512-FkMq+MQc5hzYgM86nLuHI98Acwi3p4wX+a5BO9Hhw4JdK4L7WueIiZ4tXEobImPqBz2sVcV0+Mu3GRB30IGang=="
+  "resolved" "https://registry.npmjs.org/slugify/-/slugify-1.6.0.tgz"
+  "version" "1.6.0"
 
 "smart-buffer@^4.1.0":
   "integrity" "sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg=="

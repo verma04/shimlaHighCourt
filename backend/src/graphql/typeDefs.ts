@@ -4,7 +4,8 @@ import { POINT_CONVERSION_COMPRESSED } from "constants";
 import { Member } from "../models/Member";
 const { gql } = require('apollo-server');
 const cron = require('node-cron');
-const { Parking } = require('../models/Parking');
+const {ObjectId} = require('mongodb'); 
+// const { Parking } = require('../models/Parking');
 module.exports = gql`
   type Post {
     id: ID!
@@ -22,12 +23,7 @@ module.exports = gql`
     username: String!
     body: String!
   }
-  type Parking {
-    id: ID!
-    createdAt: String!
-    memberId: String!
-    parkingCharge: String!
-  }
+ 
   type Like {
     id: ID!
     createdAt: String!
@@ -42,6 +38,7 @@ module.exports = gql`
       servicesInterval: String!,
       servicesDescription: String!
       uniq: String
+      
   }
   type User {
     id: ID!
@@ -77,8 +74,12 @@ type Due  {
   
 
 type Payments {
-  memberId: ID!
-price: String!
+  id: ID!
+payment: String!
+status: String!
+serviceName: String!
+serviceId:  String,
+month:String
 createdAt: String!
 }
  
@@ -93,9 +94,13 @@ createdAt: String!
     role: String!
     Chamber: String
     token: String
-    chamberDet : [ChamberDet]
-    notifcations: [Notifications]!
-
+    fullname:String,
+      memberDescription: String
+      slug: String
+      phone: String
+      address: String
+      status:String
+      services: [servicesList]
   }
 
 
@@ -119,6 +124,28 @@ createdAt: String!
 
   }
 
+type servicesList {
+  id:ID!,
+  createdAt:String,
+  servicesName: String,
+  servicesPrice: String,
+  uniq: String
+  userId: String
+}
+
+type assign {
+  id:ID!,
+  arr: [servicesList]
+}
+
+type notifications {
+
+    type: String
+      message: String
+  createdAt: String
+  
+}
+
   
   input RegisterInput {
     username: String!
@@ -134,28 +161,47 @@ createdAt: String!
     email: String!
   }
   type Query {
+    userServices(id:ID): [servicesList]
+    getUserServices: [servicesList]
     getServices: [Services]
+    getMemberByid(id:ID!): Member
     getChamber: [Chamber]
     getPost(postId: ID!): Post
     deleteServices(id: ID!):Services!
     getMembers: [Member]
     deleteMember(id: ID!): Member
     getUser:User!
-    getMember: Member!
-    getParking: [Parking]!
+  getMember: Member!
+
     getActivity:[Activity]!
     duePayment: [Due]!
     getpayments: [Payments]!
+    notifications: [notifications]
+    getUserPayments:[Payments]
+
   }
   type Mutation {
-    register(   username: String! password: String! confirmPassword: String! email: String!): User!
+    register(   username: String! password: String! confirmPassword: String! email: String!, phone: String!): User!
     registerMember(
       username: String!,
      email: String!,
       address: String!, 
       phone: String!,
        gender: String!
+       fullname:String,
+       memberDescription: String
 
+     ): Member!
+     editMember(
+      id: ID
+      username: String!,
+     email: String!,
+      address: String!, 
+      phone: String!,
+       gender: String!
+       fullname:String,
+       memberDescription: String
+       status: String
      ): Member!
     login(username: String!, password: String!): User!
     memberLogin(email: String!, password: String!): Member!
@@ -172,12 +218,10 @@ createdAt: String!
     addChamberToMember(id:String! , memberId:ID!):Chamber!
 
     chamberPayment(data:ID! ):Member!
-    createParking( memberId: String! ,parkingCharge:String! , ):Parking!
- 
+    assignServices(_id:ID!, userId: String): assign 
+    deleteUserServices(_id:ID!, userId: String): servicesList
   }
-  type Subscription {
-    newPost: Post!
-  }
+
 `;
 
 
@@ -234,32 +278,49 @@ cron.schedule("59 11 * * *", async  () => {
 
 
 
-cron.schedule('35 11 * * *', async  () => {
+cron.schedule("51 10 * * *", async  () => {
 
   try {
    
     const member = await Member.find({})
 
 
-    const final = member.map((t:any) => ({ id: t.Chamber}))
+    // console.log(member)
   
 
 
-    final.forEach(  async (element:any) => {
-      const ser =  await     Servcies.findOne({servicesName: "Chambers"})
-      const data  =  ser.servcieList.filter((element1:any) => element1.chamberId === element.id )   
+  const arr:string[] = []
+    const ser =  await   Servcies.find({})
+     
+   await  member.forEach(async  (element:any) => {
+
+  
+    const data = element.services
+     
    
-       const dateObj = new Date()
-             const data1 = {
+ 
+
+ await  data.forEach((set:any) => {
+   
+
+ 
+       
+ const data1  = ser.find((element2:any) => element2.id === set.id )
+ const dateObj = new Date()
+       const data = {
       month : dateObj.toLocaleString("default", { month: "long" }),
-      payment: "dssd",
+      payment: data1.servicesPrice,
       status: "Due",
-      chamberId:data[0].chamberId,
-      price: data[0].price,
+      serviceName: data1.servicesName,
       createdAt: new Date().toISOString(),
+      serviceId: data1.id
       }
 
-      Member.findOneAndUpdate({Chamber: data[0].chamberId},{ $push:{ "chamberDet": data1 }} , {new: true}, (err:any, doc:any) => {
+      console.log(data)
+
+
+          
+      Member.findOneAndUpdate({_id: element.id},{ $push:{ "paymentBilling": data }} , {new: true}, (err:any, doc:any) => {
         if (err) {
            console.log(err)
         }
@@ -270,14 +331,31 @@ cron.schedule('35 11 * * *', async  () => {
         
     });
 
-    });
+   });
+     
+//     await  ser.forEach(async  (element1:any) => {
+        
+     
+// // console.log(element1._id)
+ 
+// console.log(element)
+
+
+
+//         // const data1  = data.filter((element2:any) => element2._id === element1._id ) 
+
+//         // console.log(data1)
+     
+
+//       });
+
 
      
-  //   member.forEach(async  (element:any) => {
-
-  //     const ser =  await     Servcies.findOne({servicesName: "Chambers"})
+        
+      });
        
-  
+     
+    
 
   //  const data  =  ser.servcieList.filter((element1:any) => element1.chamberId === element.Chamber )   
   
@@ -310,7 +388,7 @@ cron.schedule('35 11 * * *', async  () => {
   
   //   });
 
-  //   });
+    
   } catch (error) {
 
  
@@ -321,40 +399,40 @@ cron.schedule('35 11 * * *', async  () => {
 
 
 
-cron.schedule("59 11 * * *", async  () => {
+// cron.schedule("59 11 * * *", async  () => {
 
-  try {
+//   try {
    
-  const data =await Parking.find({})
+//   const data =await Parking.find({})
 
-    data.forEach((element:any) => {
+//     data.forEach((element:any) => {
 
 
 
-      const dateObj = new Date()
-      const data1 = {
-        month : dateObj.toLocaleString("default", { month: "long" }),
-        payment: "payment",
-        status: "Due",
-        parkingId: element.id,
-        price: element.price,
-        createdAt: new Date().toISOString(),
-        }
+//       const dateObj = new Date()
+//       const data1 = {
+//         month : dateObj.toLocaleString("default", { month: "long" }),
+//         payment: "payment",
+//         status: "Due",
+//         parkingId: element.id,
+//         price: element.price,
+//         createdAt: new Date().toISOString(),
+//         }
     
 
 
-     Member.findOneAndUpdate({_id:element.memberId},{ $push:{ "parkingBilling": data1 }} , {new: true}, (err:any, doc:any) => {
-        if (err) {
-           console.log(err)
-        }
-    console.log(doc)
-  });    
+//      Member.findOneAndUpdate({_id:element.memberId},{ $push:{ "parkingBilling": data1 }} , {new: true}, (err:any, doc:any) => {
+//         if (err) {
+//            console.log(err)
+//         }
+//     console.log(doc)
+//   });    
 
-})
-  } catch (error) {
+// })
+//   } catch (error) {
 
  
-   console.log(error) 
-  }
+//    console.log(error) 
+//   }
   
-});
+// });

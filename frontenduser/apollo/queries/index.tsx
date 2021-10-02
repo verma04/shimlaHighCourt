@@ -16,25 +16,66 @@ query getuser {
     createdAt
     avatar
     role
-    Chamber
-    token
-    chamberDet {
-      id
-      month
-      payment
-      chamberId
-      status
-      createdAt
-    }
-    notifcations {
-      id
-      type
    
-      message
-    }
+
+    
+   
   }
 }
 `
+
+export const GET_NOTIFICATIONS = gql`
+query notifications {
+  notifications {
+    type
+      message
+  createdAt
+  }
+}
+`
+
+
+export const GET_USER_SERVICES = gql`
+query getUserServices {
+  getUserServices {
+    id
+    createdAt
+    servicesName
+    servicesPrice
+    uniq
+  }
+}
+`
+
+export const GET__PAYMENT = gql`
+query getUserPayments {
+  getUserPayments {
+    month
+  
+      payment
+      status
+      serviceName
+      serviceId
+      createdAt
+    
+  
+  }
+}
+`
+
+export const USER_SERVICES = gql`
+query getUserServices {
+      id
+    createdAt
+    servicesName
+    servicesPrice
+    uniq
+
+
+  
+  
+}`
+
 
 export const GET_MEMBERS = gql`
 query getemembers {

@@ -35,7 +35,7 @@ const Finnace = () => {
   
   );
   
-  console.log(data , error)
+
 
     return (
         <Section>

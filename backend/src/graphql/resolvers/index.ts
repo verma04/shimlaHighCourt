@@ -15,7 +15,7 @@ module.exports = {
     ...usersResolvers.Query,
     ...ServicesResolvers.Query,
     ...MemberResolvers.Query,
-    ...parkingResolvers.Query,
+    // ...parkingResolvers.Query,
     ...activityResolvers.Query,
     ...paymentsResolvers.Query,
 
@@ -24,10 +24,7 @@ module.exports = {
     ...usersResolvers.Mutation,
     ...ServicesResolvers.Mutation,
     ...MemberResolvers.Mutation,
-    ...parkingResolvers.Mutation
+    // ...parkingResolvers.Mutation
   },
-  Subscription: {
-    ...postsResolvers.Subscription,
-    
-  },
+
 };

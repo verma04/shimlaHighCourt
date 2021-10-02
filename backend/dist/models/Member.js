@@ -6,15 +6,32 @@ const MemberSchema = new Schema({
     username: String,
     password: String,
     email: String,
+    phone: String,
     createdAt: String,
+    EditedAt: String,
     avatar: String,
     gender: String,
     address: String,
     Chamber: String,
+    fullname: String,
+    slug: String,
+    memberDescription: String,
     role: {
         type: String,
         default: "user"
     },
+    status: {
+        type: String,
+        default: "enabled"
+    },
+    services: [
+        {
+            _id: {
+                type: String,
+            },
+            createdAt: String,
+        },
+    ],
     notifcations: [
         {
             type: {
@@ -26,7 +43,7 @@ const MemberSchema = new Schema({
             createdAt: String,
         },
     ],
-    chamberDet: [
+    paymentBilling: [
         {
             month: {
                 type: String,
@@ -40,27 +57,10 @@ const MemberSchema = new Schema({
             status: {
                 type: String,
             },
-            chamberId: {
+            serviceName: {
                 type: String,
             },
-            createdAt: String,
-        },
-    ],
-    parkingBilling: [
-        {
-            month: {
-                type: String,
-            },
-            price: {
-                type: String,
-            },
-            payment: {
-                type: String,
-            },
-            status: {
-                type: String,
-            },
-            parkingId: {
+            serviceId: {
                 type: String,
             },
             createdAt: String,

@@ -11,7 +11,7 @@ const Index = withAuth(() =>  {
 
   return (
     <div>
-          <Redirect to="/admin/dashbaord" />
+          <Redirect to="/dashbaord" />
     </div>
   )
 }, "admin")

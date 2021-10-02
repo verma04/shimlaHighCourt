@@ -9,7 +9,9 @@ justify-content:center;
  height: 100%;
 @media (min-width: 1025px) {
 
- 
+ #disabled {
+    background-color: red;
+ }
   
    display:flex;
    justify-content:center;

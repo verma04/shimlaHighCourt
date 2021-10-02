@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { Side  } from './Style'
 import { useRouter } from "next/router";
 
-import { useLazyGetUser } from '../../../apollo/actions';
 import Image from 'next/image'
 
 
@@ -30,26 +29,26 @@ import Image from 'next/image'
     />
                   </div>
                   <Link
-           href="/admin/dashbaord"
+           href="/dashbaord"
            passHref
           
     >
- <i  id={router.pathname == "/admin/dashbaord" ? "active" : ""} className="fas fa-fw fa-tachometer-alt"> <h3>Dashboard</h3> </i>  
+ <i  id={router.pathname == "/dashbaord" ? "active" : ""} className="fas fa-fw fa-tachometer-alt"> <h3>Dashboard</h3> </i>  
     </Link>
     <Link
-    href="/admin/chambers"
+    href="/finnace"
     passHref
     >
-  <i  id={router.pathname == "/admin/chambers" ? "active" : ""} className="fas fa-piggy-bank">  <h3>Finance</h3> </i> 
+  <i  id={router.pathname == "/finnace" ? "active" : ""} className="fas fa-piggy-bank">  <h3>Finance</h3> </i> 
       </Link>
     <Link
     
   
    
-       href="/admin/members"
+       href="/members"
        passHref
     >
-   <i id={router.pathname == "/admin/members" ? "active" : ""} className="fa fa-users"> <h3>Members</h3> </i>  
+   <i id={router.pathname == "/members" ? "active" : ""} className="fa fa-users"> <h3>Members</h3> </i>  
     </Link>
 
     <Link

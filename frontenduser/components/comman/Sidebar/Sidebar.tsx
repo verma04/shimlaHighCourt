@@ -3,17 +3,16 @@ import Link from 'next/link'
 import { Side  } from './Style'
 import { useRouter } from "next/router";
 
-import { useLazyGetUser } from '../../../apollo/actions';
-import Image from 'next/image'
 
-import { useGetUser } from '../../../apollo/actions';
+import Image from 'next/image'
+import { useNotifications } from '../../../apollo/actions';
 
 
  const Sidebar =() => {
    const router = useRouter();
    const [user, setUser] = useState(null);
 
-   const { data, loading, error } = useGetUser();
+   const { data, loading, error } = useNotifications();
 
   
 
@@ -85,7 +84,16 @@ import { useGetUser } from '../../../apollo/actions';
        href="/notifications"
        passHref
     >
-    <i className="fas fa-credit-card"> <h3>My Notification ({ data && data.getMember.notifcations.length}) </h3>  </i>  
+    <i className="fas fa-credit-card"> <h3>My Notification 
+       
+    {data && data.notifcations === null ? (
+
+<span> ({data && data.notifcations.length})</span>
+  ):
+  (
+   <span>(0)</span>
+  )
+} </h3>  </i>  
     </Link>
 
     <Link

@@ -1,23 +1,28 @@
 import { useState, useEffect } from 'react';
 
 import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { useNotifications  , useUserServices  ,useUserPayments } from '../../apollo/actions'
+import { useNotifications } from '../../apollo/actions'
 import  { Section  } from './Style';
 import { Header } from '../ComanStyle/Header'
 import ContentLoader, { Facebook } from 'react-content-loader'
-
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useGetUser } from '../../apollo/actions';
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+const Editor = dynamic(
+    () => {
+      return import("react-draft-wysiwyg").then(mod => mod.Editor);
+    },
+    { ssr: false }
+  );
  const  Dashboard = () => {
 
   const router = useRouter();
   
-  // const { data, loading, error } = useNotifications();
+  const { data, loading, error } = useNotifications();
 
-  const { data:data1 , error:error1 } =useUserServices();
 
-  const { data:data12 , error:error12 } =useUserPayments();
-  console.log(error12)
+  console.log(data)
         return (
             <>
    
@@ -31,14 +36,14 @@ import { useRouter } from "next/router";
    <i className="fas fa-comments"></i>
 
    <h4>Notifications </h4>
-   {/* {data && data.notifcations === null ? (
+   {data && data.notifcations === null ? (
 
  <span> {data && data.notifcations.length}</span>
    ):
    (
     <span>0</span>
    )
- } */}
+ }
   
    </div>
    <div className="flex-item" >
@@ -68,6 +73,23 @@ import { useRouter } from "next/router";
           <h1>Welcome To dashbaord</h1>
                      
                      </div> 
+
+
+                     <Editor
+          wrapperclassName="demo-wrapper"
+          editorclassName="editor-class"
+          toolbarClassName="toolbar-class"
+          wrapperStyle={{ border: "2px solid ",  borderShadow:"rgb(0 0 0 / 10%) 0px 3px 30px, rgb(0 0 0 / 10%) 0px 3px 20px;" , borderRadius: "0.5rem" ,backgroundColor:'rgb(255,255,255)'  ,  marginBottom: "20px" }}
+          editorStyle={{ height: "400px", padding: "10px"}}
+          toolbar={{
+          inline: { inDropdown: true },
+          list: { inDropdown: true },
+          textAlign: { inDropdown: true },
+          link: { inDropdown: true },
+          history: { inDropdown: true },
+          image: {  alt: { present: true, mandatory: true } },
+        }}
+        />
                      </Section>
             
             </>

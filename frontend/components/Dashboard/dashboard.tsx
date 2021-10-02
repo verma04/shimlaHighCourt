@@ -76,10 +76,6 @@ interface getduepayments {
 }
 
 
-const { loading:loading3, data:data3 } = useQuery<getChambers>(
-  GET_CHAMBERS,
-  { variables: { year: 2019 } }
-);
 
 
 const { loading, data } = useQuery<dashboard>(
@@ -102,7 +98,7 @@ const { loading:loading2, data:data2 } = useQuery<getduepayments>(
 );
 
 
-  if (loading || loading1 || loading2 || loading3) {
+  if (loading || loading1 || loading2 ) {
       return (
       
             <ContentLoader viewBox="0 0 380 70">
@@ -141,7 +137,7 @@ const { loading:loading2, data:data2 } = useQuery<getduepayments>(
     <i className="fas fa-comments"></i>
     <h4>Total Chambers</h4>
 
-    <span> { data3 &&  data3.getChamber.length}</span>
+    <span> </span>
        </div>
 
        <div  onClick={()=>router.push("/admin/parking")}  className="flex-item" >

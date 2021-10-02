@@ -10,6 +10,8 @@ import {
  
  
 } from '../../apollo/queries'
+import moment  from 'moment';
+import { useRouter } from "next/router";
 import { Table  } from '../ComanStyle/Table' 
 import Member from './AddMember/AddMember'
 import AOS from 'aos';
@@ -19,7 +21,7 @@ import { Header } from '../ComanStyle/Header'
 import AddMember from './AddMember/AddMember';
 
  const  Dashboard = () => {
-
+  const router = useRouter();
   useEffect(() => {
    
       AOS.init({
@@ -35,9 +37,12 @@ import AddMember from './AddMember/AddMember';
     id: String
      gender: String
       username: String
-      createdAt: String
+      createdAt: string
       avatar: String
       Chamber: String
+      fullname: String
+      slug:string
+      status:string
   }
   
   interface RocketInventoryData {
@@ -87,17 +92,17 @@ sdsdsd
 
    <h4>Active Member</h4>
 
-<span>{ data &&  data.getMembers.length}</span>
+<span>{data &&  data.getMembers.filter((element1:any) => element1.status === "enabled" ).length}</span>
        </div>
     <div className="flex-item" >
     <i className="fas fa-user-friends"></i>
 
     <h4> Member Disable</h4>
 
-<span>0</span>
+<span>{data &&  data.getMembers.filter((element1:any) => element1.status === "disabled" ).length}</span>
        </div>
 
-       <i onClick={()=>setState(!state)} className="fas fa-plus-circle"></i>
+       <i onClick={()=>router.push('/members/addmembers')} className="fas fa-plus-circle"></i>
 
    
 
@@ -138,12 +143,16 @@ sdsdsd
  {data && data.getMembers.map((data:any ) =>
     
           <tr key={data.id} >
-    <th><span>enabled</span></th>
-    <th>{data.createdAt}</th>
-    <th>{data.username}</th>
+    <th   ><span id={data.status}  >{data.status}</span></th>
+    <th>{  moment(data.createdAt).format('LLLL')}</th>
+
+  
+    <th onClick={()=> router.push(`/members/assign-services/${data.id}`)}  >{data.username}</th>
     <th>{data.email}</th>
-    <th>{data.username}</th>
-    <th>...</th>
+    <th>{data.fullname}</th>
+    <th onClick={()=> router.push(`/members/editmember/${data.slug}`)} >...
+     
+    </th>
     </tr>
 
      
@@ -165,17 +174,7 @@ sdsdsd
             
                      </Table>
                      </div> 
-                     
-{state ? 
-(
-<AddMember myfunc={setState} />
-)
-:
-(
-null
-)
 
-}
                      
                      </Section>
             

@@ -13,6 +13,7 @@ exports.MemberResolvers = void 0;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { UserInputError } = require('apollo-server');
+var slugify = require('slugify');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
 const checkAuth = require('../../util/checkAuth');
 const { Member } = require('../../models/Member');
@@ -64,9 +65,63 @@ const MemberResolvers = {
                 return data;
             });
         },
+        getMemberByid(_, { id }, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const data = yield Member.findOne({ slug: id });
+                return data;
+            });
+        },
+        userServices(_, { id }, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const data = yield Member.findOne({ _id: id });
+                // console.log(data.services)
+                const ser = yield Servcies.find({});
+                // console.log(ser)
+                const arr = [];
+                yield data.services.forEach((element) => {
+                    //   console.log(ser)
+                    // console.log(element)
+                    const data = ser.find((element1) => element1.id === element._id);
+                    arr.push(data);
+                });
+                return arr;
+            });
+        },
+        getUserServices(_, {}, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const { id } = checkAuth(context);
+                console.log(id);
+                const data = yield Member.findOne({ _id: id });
+                // console.log(data.services)
+                const ser = yield Servcies.find({});
+                // console.log(ser)
+                const arr = [];
+                yield data.services.forEach((element) => {
+                    //   console.log(ser)
+                    // console.log(element)
+                    const data = ser.find((element1) => element1.id === element._id);
+                    arr.push(data);
+                });
+                return arr;
+            });
+        },
+        notifications(_, {}, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const { id } = checkAuth(context);
+                const data = yield Member.findOne({ _id: id });
+                return data.notifications;
+            });
+        },
+        getUserPayments(_, {}, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const { id } = checkAuth(context);
+                const data = yield Member.findOne({ _id: id });
+                return data.paymentBilling;
+            });
+        },
     },
     Mutation: {
-        registerMember(_, { username, email, address, gender, phone }, context) {
+        registerMember(_, { fullname, memberDescription, username, email, address, gender, phone }, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 // Validate user data
                 // const user = checkAuth(context);
@@ -85,14 +140,25 @@ const MemberResolvers = {
                     // // Hash the password
                     // // eslint-disable-next-line no-param-reassign
                     const newpassword = yield bcrypt.hash(password, 12);
+                    const slug = slugify(fullname, {
+                        replacement: '-',
+                        remove: undefined,
+                        lower: true,
+                        strict: false,
+                        locale: 'vi', trim: true
+                    });
                     // // create the new user with the model and passed in data
                     const newUser = new Member({
                         email,
                         username,
-                        newpassword,
+                        password: newpassword,
                         address,
                         gender,
+                        fullname,
+                        memberDescription,
                         createdAt: new Date().toISOString(),
+                        slug,
+                        phone,
                         avatar: `https://avatars.dicebear.com/api/initials/${username}.svg`
                     });
                     // save the user to the DB
@@ -111,21 +177,66 @@ const MemberResolvers = {
                 }
             });
         },
+        editMember(_, { id, fullname, memberDescription, username, email, address, gender, phone, status }, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const user = checkAuth(context);
+                try {
+                    // const { errors, valid } = validateRegisterInput(username, email, password, confirmPassword, gender);
+                    // if (!valid) {
+                    //   throw new UserInputError('Errors', { errors });
+                    // }
+                    // // TODO: Make sure user doesn't already exist
+                    const slug = slugify(fullname, {
+                        replacement: '-',
+                        remove: undefined,
+                        lower: true,
+                        strict: false,
+                        locale: 'vi', trim: true
+                    });
+                    // // create the new user with the model and passed in data
+                    const editUser = {
+                        email,
+                        username,
+                        address,
+                        gender,
+                        fullname,
+                        memberDescription,
+                        EditedAt: new Date().toISOString(),
+                        slug,
+                        phone,
+                    };
+                    const something = yield Member.findOneAndUpdate({ _id: id }, { $set: { fullname: fullname, address: address, gender: gender, username: username, memberDescription: memberDescription, email: email, slug: slug, phone: phone, status: status } }, { new: true, upsert: true }).exec();
+                    return something;
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
+        },
         memberLogin(_, { email, password }) {
             return __awaiter(this, void 0, void 0, function* () {
                 console.log(email, password);
-                const user = yield Member.findOne({ email });
-                if (!user) {
-                    throw new UserInputError('User not found');
+                try {
+                    const user = yield Member.findOne({ email });
+                    if (!user) {
+                        return new UserInputError('User not found');
+                    }
+                    if (user.status === "disabled") {
+                        return new UserInputError('Account Disabled Contact Administrator');
+                    }
+                    // wrong password
+                    const match = yield bcrypt.compare(password, user.password);
+                    console.log(user.password);
+                    if (!match) {
+                        return new UserInputError('Wrong credentials');
+                    }
+                    // // login is good, issue the user a token
+                    const token = generateToken(user);
+                    return Object.assign(Object.assign({}, user._doc), { id: user._id, token });
                 }
-                // wrong password
-                const match = yield bcrypt.compare(password, user.password);
-                if (!match) {
-                    throw new UserInputError('Wrong credentials');
+                catch (err) {
+                    console.log(err);
                 }
-                // login is good, issue the user a token
-                const token = generateToken(user);
-                return Object.assign(Object.assign({}, user._doc), { id: user._id, token });
             });
         },
         addChamberToMember(_, { id, memberId }, context) {
@@ -147,7 +258,8 @@ const MemberResolvers = {
                                     }
                                 });
                             });
-                            return Member.findOne({});
+                            const member = yield Member.find({}).sort({ createdAt: -1 });
+                            return member;
                         });
                     });
                 }
@@ -182,6 +294,52 @@ const MemberResolvers = {
                         });
                     });
                     return Member.findOne({ id });
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
+        },
+        assignServices(_, { _id, userId }, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const { id } = checkAuth(context);
+                console.log(id);
+                console.log(_id, userId);
+                try {
+                    const set = {
+                        _id: _id,
+                        createdAt: new Date().toISOString(),
+                    };
+                    yield Member.findOneAndUpdate({ _id: userId }, { $push: { "services": set } }, { new: true }).exec();
+                    const data = yield Member.findOne({ _id: userId });
+                    const arr = [];
+                    const ser = yield Servcies.find({});
+                    yield data.services.forEach((element) => {
+                        //   console.log(ser)
+                        // console.log(element)
+                        const data = ser.find((element1) => element1.id === element._id);
+                        arr.push(data);
+                    });
+                    const final = {
+                        id: userId,
+                        arr: arr
+                    };
+                    return final;
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
+        },
+        deleteUserServices(_, { _id, userId }, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                try {
+                    const data = yield Member.findOneAndUpdate({ _id: userId, }, { $pull: { "services": { _id: _id } } }, { new: true }).exec();
+                    const data1 = {
+                        id: _id,
+                        userId
+                    };
+                    return data1;
                 }
                 catch (err) {
                     console.log(err);
