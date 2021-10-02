@@ -12,12 +12,12 @@ import { useRouter } from "next/router";
 
   const router = useRouter();
   
-  // const { data, loading, error } = useNotifications();
+  const { data, loading, error } = useNotifications();
 
   const { data:data1 , error:error1 } =useUserServices();
 
   const { data:data12 , error:error12 } =useUserPayments();
-  console.log(error12)
+  console.log(data12)
         return (
             <>
    
@@ -31,21 +31,21 @@ import { useRouter } from "next/router";
    <i className="fas fa-comments"></i>
 
    <h4>Notifications </h4>
-   {/* {data && data.notifcations === null ? (
+   {data && data.notifcations === null ? (
 
  <span> {data && data.notifcations.length}</span>
    ):
    (
     <span>0</span>
    )
- } */}
+ }
   
    </div>
    <div className="flex-item" >
    <i className="fas fa-comments"></i>
    <h4>OurDue Payments</h4>
 
-<span></span>
+<span>{data12 && data12.getUserPayments.filter((element:any) => element.status === "Due" ).length}</span>
        </div>
     <div  onClick={()=>router.push("/admin/chambers")} className="flex-item" >
     <i className="fas fa-comments"></i>

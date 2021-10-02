@@ -41,10 +41,10 @@ import { useNotifications } from '../../../apollo/actions';
     <Link
   
    
-       href="/profile"
+       href="/myprofile"
        passHref
     >
-    <i id={router.pathname == "/profile" ? "active" : ""} className="fas fa-bell"> <h3>My Profile</h3> </i>
+    <i id={router.pathname == "/myprofile" ? "active" : ""} className="fas fa-bell"> <h3>My Profile</h3> </i>
     </Link>
     <Link
   
@@ -65,18 +65,18 @@ import { useNotifications } from '../../../apollo/actions';
       <Link
   
    
-       href="/"
+       href="/change-password"
        passHref
     >
-   <i className="fas fa-money-check-alt"> <h3>Change Password</h3></i>  
+   <i id={router.pathname == "/change-password" ? "active" : ""} className="fas fa-money-check-alt"> <h3>Change Password</h3></i>  
     </Link>
     <Link
   
    
-       href="/"
+       href="/ticket"
        passHref
     >
-    <i className="fas fa-star"> <h3>Support Ticket </h3></i>  
+    <i id={router.pathname == "/ticket" ? "active" : ""} className="fas fa-star"> <h3>Support Ticket </h3></i>  
     </Link>
     <Link
   

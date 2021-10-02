@@ -16,7 +16,10 @@ query getuser {
     createdAt
     avatar
     role
-   
+    fullname
+      memberDescription
+      phone
+      address
 
     
    
@@ -101,6 +104,135 @@ query  getChamber {
 }
 }
 `
+
+
+export const ADD_TICKET = gql`
+  mutation addticket(
+    $ticketTitle: String!
+    $answer: String!
+  ) {
+    addticket( 
+      ticketTitle: $ticketTitle
+      answer: $answer
+    ) {
+      id
+      ticketTitle
+    status
+    createdAt
+    editedAt
+    member
+    comment {
+      name
+      time
+      answer
+      status
+    }
+ 
+            
+    }
+  }
+`
+
+
+export const USER_TICKET = gql`
+ query getUserticket {
+  getUserticket {
+    id
+    ticketTitle
+    status
+    createdAt
+    editedAt
+    member
+    comment {
+      name
+      time
+      answer
+      status
+    }
+  }
+}
+`
+
+export const USER_ID_TICKET = gql`
+ query getUserticketById (
+  $id: String!
+ 
+){
+  getUserticketById(
+    id: $id
+  ) {
+    id
+    ticketTitle
+    status
+    createdAt
+    editedAt
+    member
+    comment {
+      name
+      time
+      answer
+      status
+    }
+  }
+}
+`
+
+
+
+export const USER_ID_TICKET_COMMENT = gql`
+ mutation getUserticketByIdComment (
+  $id: String!
+  $answer: String!
+ 
+){
+  getUserticketByIdComment(
+    id: $id
+    answer: $answer
+  ) {
+    id
+    ticketTitle
+    status
+    createdAt
+    editedAt
+    member
+    comment {
+      name
+      time
+      answer
+      status
+    }
+  }
+}
+`
+
+
+export const USER_ID_TICKET_CLOSE = gql`
+ mutation getUserticketByIdClose (
+  $id: String!
+  $status: String!
+ 
+){
+  getUserticketByIdClose(
+    id: $id
+    status: $status
+  ) {
+    id
+    ticketTitle
+    status
+    createdAt
+    editedAt
+    member
+    comment {
+      name
+      time
+      answer
+      status
+    }
+  }
+}
+`
+
+
 
 
 export const SIGN_IN = gql`

@@ -10,7 +10,14 @@ import {
   GET_CHAMBERS,
   GET_NOTIFICATIONS,
   GET_USER_SERVICES,
-  GET__PAYMENT
+  GET__PAYMENT,
+  ADD_TICKET,
+  USER_ID_TICKET,
+  USER_TICKET,
+  USER_ID_TICKET_COMMENT,
+  USER_ID_TICKET_CLOSE
+  
+
  
  
 } from '../queries/index'
@@ -55,7 +62,7 @@ export const useGetChamber = () => useQuery(GET_CHAMBERS);
 export const useNotifications = () => useQuery(GET_NOTIFICATIONS);
 export const useUserServices = () => useQuery(GET_USER_SERVICES);
 export const useUserPayments = () => useQuery(GET__PAYMENT);
-
+export const useUserticket = () => useQuery(USER_TICKET);
 
 
 // Auth actions start -----------------------
@@ -67,6 +74,94 @@ export const useSignIn = () => useMutation(SIGN_IN, {
      localStorage.setItem("jwtToken", token);
   }
 })
+
+export const useAddTicket = () => useMutation(ADD_TICKET, {
+  update(cache, { data: { addticket }}) {
+
+    const {getUserticket}:any = cache.readQuery({query:USER_TICKET})
+
+   
+    cache.writeQuery({
+      query: USER_TICKET,
+      data: { getUserticket: [ addticket,...getUserticket]}
+    });
+ 
+    //  const { token } = signedInUser;
+    //  localStorage.setItem("jwtToken", token);
+  }
+})
+
+export const useUserticketById = () => useMutation(USER_ID_TICKET, {
+
+})
+
+
+export const UserticketByIdComment = () => useMutation(USER_ID_TICKET_COMMENT, {
+
+  update(cache, { data: { getUserticketByIdComment }}) {
+
+    
+  
+    console.log(getUserticketByIdComment )
+   
+
+
+    // cache.writeQuery({
+    //   query:  USER_SERVICES,
+    //   data: { userServices: assignServices.arr},
+    //   variables: {
+    //     id: assignServices.id
+    // }
+    // });
+    cache.writeQuery({
+      query: USER_ID_TICKET,
+      data: { getUserticketById: getUserticketByIdComment },
+      variables: {
+        id: getUserticketByIdComment.id
+    }
+    });
+ 
+    //  const { token } = signedInUser;
+    //  localStorage.setItem("jwtToken", token);
+  }
+
+
+})
+
+
+
+export const UserticketByIdClose = () => useMutation(USER_ID_TICKET_CLOSE, {
+
+  update(cache, { data: { getUserticketByIdClose }}) {
+
+    
+  
+  
+   
+
+
+    // cache.writeQuery({
+    //   query:  USER_SERVICES,
+    //   data: { userServices: assignServices.arr},
+    //   variables: {
+    //     id: assignServices.id
+    // }
+    // });
+    cache.writeQuery({
+      query: USER_ID_TICKET,
+      data: { getUserticketById: getUserticketByIdClose },
+      variables: {
+        id: getUserticketByIdClose.id
+    }
+    });
+ 
+    //  const { token } = signedInUser;
+    //  localStorage.setItem("jwtToken", token);
+  }
+
+
+})
+
 
 export const useSignOut = () => {
   localStorage.removeItem("jwtToken");

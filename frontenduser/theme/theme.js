@@ -74,7 +74,17 @@ h1 {
   img {
   cursor: pointer;
 }
-
+.octicon {
+    display: inline-block;
+    overflow: visible !important;
+    vertical-align: text-bottom;
+    fill: currentColor;
+    color: white;
+    margin-right: 0.5rem;
+}
+.color-text-white {
+    color: var(--color-scale-white) !important;
+}
 button {
   cursor: pointer;
   font-family:Nunito;

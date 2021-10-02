@@ -9,7 +9,7 @@ justify-content:center;
 @media (min-width: 1025px) {
    
     position:fixed;
-   z-index: 1;
+   z-index: 1000;
     height:100vh;
     left:0;
     width:13%;

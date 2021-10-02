@@ -15,8 +15,8 @@
  
        
 //   type Inputs = {
-//     email: string,
-//     username:string,
+//     newpassword: string,
+//     oldpassword:string,
 //   };
 
 //     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
@@ -43,16 +43,16 @@
 //                  <form onSubmit={handleSubmit(onSubmit)}>
      
 //      <div className="group">      
-//        <input {...register("email")}   defaultValue={data.getMember.email} type="text" required/>
+//        <input {...register("newpassword")}   defaultValue={data.getMember.newpassword} type="text" required/>
 //        <span className="highlight"></span>
 //        <span className="bar"></span>
-//        <label>Email</label>
+//        <label>newpassword</label>
 //      </div>
 //      <div className="group">      
-//        <input {...register("username")}  defaultValue={data.getMember.username} type="text" required/>
+//        <input {...register("oldpassword")}  defaultValue={data.getMember.oldpassword} type="text" required/>
 //        <span className="highlight"></span>
 //        <span className="bar"></span>
-//        <label>Username</label>
+//        <label>oldpassword</label>
 //      </div>
 
 
@@ -85,7 +85,7 @@
 
 
 import React , {useState} from 'react'
-import { Section } from './Style'
+
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast ,ToastContainer} from 'react-toastify';
 import { gql, useMutation } from '@apollo/client';
@@ -105,13 +105,11 @@ const AddMember:React.FC  = ({}) => {
  
        
   type Inputs = {
-    username: string,
-    email:string,
-    gender:string,
-    address: string   
-    phone: string   ,
-    fullname:string,
-    memberDescription: String
+    oldpassword: string,
+    newpassword:string,
+    confirmpassword: string   
+   
+  
   };
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
@@ -121,7 +119,21 @@ const AddMember:React.FC  = ({}) => {
  
      }
 
+     const [passwordShownOld, setPasswordShownOld] = useState<boolean>(false);
+     const togglePasswordVisiblity = () => {
+       setPasswordShownOld(passwordShownOld ? false : true);
+     };
 
+     const [passwordShownNew, setPasswordShownNew] = useState<boolean>(false);
+     const togglePasswordVisiblityNew = () => {
+       setPasswordShownNew(passwordShownNew ? false : true);
+     };
+     const [passwordShownCon, setPasswordShownCon] = useState<boolean>(false);
+     const togglePasswordVisiblityCon = () => {
+       setPasswordShownCon(passwordShownCon ? false : true);
+     };
+
+  
   
   
     return (
@@ -130,7 +142,7 @@ const AddMember:React.FC  = ({}) => {
 
 
    
-            <h1>My Profile</h1>
+            <h1>Change Password</h1>
 
 <div data-aos="fade-left" className='flex-2'>
 
@@ -144,7 +156,7 @@ const AddMember:React.FC  = ({}) => {
         <div  className="graphl-top" > 
 
 
-<h3>My Profile</h3>
+<h3>Change Password</h3>
 
 
 </div>
@@ -153,34 +165,28 @@ const AddMember:React.FC  = ({}) => {
                  <div className="list" >
      <div className="group">      
 
-     <label className="required-field" >User Name</label>
-       <input  defaultValue={data.getMember.username } {...register("username", { required: true })} type="text"   />
-       {errors.username && <span>This field is required</span>}
-    </div>
-    <div className="group">      
-     <label className="required-field" >Full Name </label>
-       <input defaultValue={data.getMember.fullname }  {...register("fullname", { required: true })} type="text" />
-       {errors.fullname && <span>This field is required</span>}
+     <label className="required-field" >Old Password</label>
+       <input  defaultValue={data.getMember.oldpassword } {...register("oldpassword", { required: true })} 
        
-     </div>
+       autoComplete="off" type={passwordShownOld ? "text" : "password"}
+       />
+        {passwordShownOld ? <i  id='ab' className="fas fa-eye-slash" onClick={togglePasswordVisiblity}></i> : <i  id="ab" className="far fa-eye" onClick={togglePasswordVisiblity}></i>}
+       {errors.oldpassword && <span>This field is required</span>}
+    </div>
+  
  
      </div>
      
      <div className="list" >
   
-     <div className="group">      
-     <label className="required-field" >User Number </label>
-       <input defaultValue={data.getMember.phone }  {...register("phone", { required: true })} type="number" />
-       {errors.phone && <span>This field is required</span>}
-       
-     </div>
-     <div className="group">      
-     <label className="required-field" >User Email
- </label>
-       <input defaultValue={data.getMember.email}  type="email" {...register("email", { required: true })}  />
    
-       {errors.email && <span>This field is required</span>}
-
+     <div className="group">      
+     <label className="required-field" >New Password
+ </label>
+       <input defaultValue={data.getMember.newpassword}   autoComplete="off" type={passwordShownNew ? "text" : "password"} {...register("newpassword", { required: true })}  />
+   
+       {errors.newpassword && <span>This field is required</span>}
+       {passwordShownNew ? <i  id='ab' className="fas fa-eye-slash" onClick={togglePasswordVisiblityNew}></i> : <i  id="ab" className="far fa-eye" onClick={togglePasswordVisiblityNew}></i>}
  </div>
      
 
@@ -192,22 +198,15 @@ const AddMember:React.FC  = ({}) => {
      <div className="group">  
 
 
-      <label  >Address</label>    
-       <input defaultValue={data.getMember.address}  {...register("address")} type="text" />
+      <label  > Confrim New Password</label>    
+       <input  defaultValue={data.getMember.confirmpassword}  {...register("confirmpassword")}  autoComplete="off" type={passwordShownCon ? "text" : "password"} />
   
-     
+       {passwordShownCon ? <i  id='ab' className="fas fa-eye-slash" onClick={togglePasswordVisiblityCon}></i> : <i  id="ab" className="far fa-eye" onClick={togglePasswordVisiblityCon}></i>}
      </div>
      
  
  </div>
- <div className="list" >
 
-<div  className="group-1" >
-    <label   >Member Description</label>
-
-    <textarea defaultValue={data.getMember.memberDescription} {...register("memberDescription", { required: true })} />
-    </div>
-</div>
 
  <div className="button" >
 

@@ -156,6 +156,25 @@ type notifications {
   
 }
 
+type comment {
+  name: String
+    time: String
+    answer: String
+    status: String
+    
+
+}
+type ticket {
+id:ID
+  ticketTitle: String
+  status: String
+  createdAt: String
+  editedAt: String
+   member:ID
+  comment : [comment ]
+
+}
+
   
   input RegisterInput {
     username: String!
@@ -170,6 +189,7 @@ type notifications {
     confirmPassword: String!
     email: String!
   }
+  
   type Query {
     userServices(id:ID): [servicesList]
     getUserServices: [servicesList]
@@ -188,7 +208,8 @@ type notifications {
     getpayments: [Payments]!
     notifications: [notifications]
     getUserPayments:[Payments]
-
+    getUserticket:[ticket]
+    getUserticketById(id: String):ticket
   }
   type Mutation {
     register(   username: String! password: String! confirmPassword: String! email: String!, phone: String!): User!
@@ -221,6 +242,7 @@ type notifications {
       servicesPrice: String!,
       servicesInterval: String!,
       servicesDescription: String!
+   
     
     ): Services!
     deleteServices(id: ID ): Services
@@ -230,6 +252,9 @@ type notifications {
     chamberPayment(data:ID! ):Member!
     assignServices(_id:ID!, userId: String): assign 
     deleteUserServices(_id:ID!, userId: String): servicesList
+    addticket(ticketTitle: String! ,  answer: String!):ticket
+    getUserticketByIdComment(id: String!, answer: String!):ticket
+    getUserticketByIdClose(id: String!, status: String!):ticket
   }
 
 `;

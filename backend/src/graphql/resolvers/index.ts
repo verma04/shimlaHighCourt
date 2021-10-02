@@ -5,6 +5,8 @@ const { MemberResolvers } = require('./member');
 const { parkingResolvers } = require('./parking');
 const { activityResolvers } = require('./activites')
 const { paymentsResolvers } = require('./Payments')
+
+const { ticketResolvers} = require("./Ticket")
 module.exports = {
   // modifier - the name of the type, and each time ANY mutation or subscription that returns a post, it will go through this modifier and apply these modifications
   // Post: {
@@ -18,6 +20,7 @@ module.exports = {
     // ...parkingResolvers.Query,
     ...activityResolvers.Query,
     ...paymentsResolvers.Query,
+    ...ticketResolvers.Query
 
   },
   Mutation: {
@@ -25,6 +28,7 @@ module.exports = {
     ...ServicesResolvers.Mutation,
     ...MemberResolvers.Mutation,
     // ...parkingResolvers.Mutation
+    ...ticketResolvers.Mutation
   },
 
 };
