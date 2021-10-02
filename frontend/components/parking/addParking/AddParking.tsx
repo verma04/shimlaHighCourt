@@ -11,7 +11,7 @@ import {
   useCreateParking
    
    
-  } from '../../../apollo/actions'
+  } from '../../../../actions'
   
   import {
 
@@ -20,7 +20,7 @@ import {
     GET_MEMBERS,
    
    
-  } from '../../../apollo/queries'
+  } from '../../..'
 
 import Select from 'react-select'
 

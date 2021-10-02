@@ -1,6 +1,6 @@
 
 import { useGetUser } from '../apollo/actions';
-import Redirect from '../components/shared/Redirect'
+import Redirect from '../apollo/queries/components/shared/Redirect'
 
 export default (WrappedComponent, role, options = {ssr: false}) => {
   function WithAuth(props) {
