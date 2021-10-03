@@ -486,22 +486,44 @@ console.log(err)
 
 async deleteUserServices(   _:any,  { _id  ,  userId} :any, context:any) {
   
-
+  const {id} = checkAuth(context);
+ 
+  console.log(id)
 
 try {
 
-  
-  const  data =  await  Member.findOneAndUpdate({_id:userId , },{ $pull: {"services":   {_id:_id} } }, {new: true}).exec();
+  await  Member.findOneAndUpdate({_id:userId , },{ $pull: {"services":   {_id:_id} } }, {new: true}).exec();
  
 
   
  
-  const data1 = {
-id:_id,
-userId
-  }
-  return data1
 
+
+
+
+     const data = await Member.findOne({_id:userId})
+     // console.log(data.services)
+ 
+
+     const ser = await Servcies.find({})
+     // console.log(ser)
+ const arr:string[]= []
+   await  data.services.forEach((element:any) => {
+    
+     //   console.log(ser)
+     // console.log(element)
+ 
+     const data  =  ser.find((element1:any) => element1.id === element._id )  
+    arr.push(data)
+     });
+ 
+ 
+     const fin = {
+       id:userId,
+       arr
+     }
+
+   return fin
 
   
   

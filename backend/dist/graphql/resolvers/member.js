@@ -333,13 +333,26 @@ const MemberResolvers = {
         },
         deleteUserServices(_, { _id, userId }, context) {
             return __awaiter(this, void 0, void 0, function* () {
+                const { id } = checkAuth(context);
+                console.log(id);
                 try {
-                    const data = yield Member.findOneAndUpdate({ _id: userId, }, { $pull: { "services": { _id: _id } } }, { new: true }).exec();
-                    const data1 = {
-                        id: _id,
-                        userId
+                    yield Member.findOneAndUpdate({ _id: userId, }, { $pull: { "services": { _id: _id } } }, { new: true }).exec();
+                    const data = yield Member.findOne({ _id: userId });
+                    // console.log(data.services)
+                    const ser = yield Servcies.find({});
+                    // console.log(ser)
+                    const arr = [];
+                    yield data.services.forEach((element) => {
+                        //   console.log(ser)
+                        // console.log(element)
+                        const data = ser.find((element1) => element1.id === element._id);
+                        arr.push(data);
+                    });
+                    const fin = {
+                        id: userId,
+                        arr
                     };
-                    return data1;
+                    return fin;
                 }
                 catch (err) {
                     console.log(err);

@@ -20,6 +20,21 @@ function generateToken(user:any) {
 const ticketResolvers = {
 
     Query: {
+
+      async getticket(_:any ,{ }:any, context:any) {
+
+        const {id} = checkAuth(context);
+
+        console.log(id)
+
+        const ticket = await Ticket.find({}).sort({createdAt:-1})
+
+        console.log(ticket)
+        return ticket
+    
+      
+    
+      },
         async getUserticket(_:any ,{ }:any, context:any) {
 
             const {id} = checkAuth(context);
@@ -38,7 +53,7 @@ const ticketResolvers = {
           async getUserticketById(_:any , { id }:any, context:any) {
 
 
-            const data = await Ticket.findOne({id})
+            const data = await Ticket.findOne({_id:id})
 
           
          return data
@@ -108,20 +123,63 @@ const ticket = await data.save()
         
           },
 
+          async getUserticketByIdCommentAdmin(_:any ,{id:_id , answer }:any, context:any) {
+
+            const {id} = checkAuth(context);
+
+  
+              
+      const data =      {
+              name:"Super Admin",
+              time:new Date().toISOString(),
+              answer
+          }
+             
+    const something =  await  Ticket.findOneAndUpdate({_id},{ $set:{editedAt:new Date().toISOString() }} , {new: true , upsert: true }).exec();
+  
+    const something2 =  await  Ticket.findOneAndUpdate({_id},{ $push:{ "comment": data}} , {new: true , upsert: true }).exec();
+  
+
+    return something2
+        
+          },
+
           async getUserticketByIdClose(_:any ,{id:_id , status }:any, context:any) {
 
-            const {id} = checkAuth(context);     const member = await Member.findOne({_id:id})
+            const {id} = checkAuth(context);  
+               const member = await Member.findOne({_id:id})
   
             await  Ticket.findOneAndUpdate({_id},{ $set:{editedAt:new Date().toISOString() }} , {new: true , upsert: true }).exec();
         
                      
             const something =  await  Ticket.findOneAndUpdate({_id},{ $set:{status:status }} , {new: true , upsert: true }).exec();
+             
+            if(member) {
+              const data =      {
+                name:member.username,
+                time:new Date().toISOString(),
+                answer:status
+            }
+            
+  
+            const something2 =  await  Ticket.findOneAndUpdate({_id},{ $push:{ "comment": data}} , {new: true , upsert: true }).exec();
           
-           
+               return something2
+  
           
-        
-             return something
 
+            }
+
+            const data =      {
+              name:"Super-Admin",
+              time:new Date().toISOString(),
+              answer:status
+          }
+          
+
+          const something2 =  await  Ticket.findOneAndUpdate({_id},{ $push:{ "comment": data}} , {new: true , upsert: true }).exec();
+        
+             return something2
            
    
         

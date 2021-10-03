@@ -199,6 +199,7 @@ id:ID
     notifications: [notifications]
     getUserPayments:[Payments]
     getUserticket:[ticket]
+    getticket:[ticket]
     getUserticketById(id: String):ticket
   }
   type Mutation {
@@ -235,16 +236,17 @@ id:ID
    
     
     ): Services!
-    deleteServices(id: ID ): Services
+    deleteFinnaceServices(id: ID ): Services
     addChambers(id:String!, price:String!): Chamber!
     addChamberToMember(id:String! , memberId:ID!):Chamber!
 
     chamberPayment(data:ID! ):Member!
     assignServices(_id:ID!, userId: String): assign 
-    deleteUserServices(_id:ID!, userId: String): servicesList
+    deleteUserServices(_id:ID!, userId: String): assign
     addticket(ticketTitle: String! ,  answer: String!):ticket
     getUserticketByIdComment(id: String!, answer: String!):ticket
     getUserticketByIdClose(id: String!, status: String!):ticket
+    getUserticketByIdCommentAdmin(id: String!, answer: String!):ticket
   }
 
 `;

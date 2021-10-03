@@ -76,18 +76,6 @@ const ServicesResolvers = {
                 }
             });
         },
-        deleteServices(_, { id }, context) {
-            return __awaiter(this, void 0, void 0, function* () {
-                // const user = checkAuth(context);
-                try {
-                    const data = Servcies.findOneAndDelete({ _id: id });
-                    return data;
-                }
-                catch (err) {
-                    console.log(err);
-                }
-            });
-        }
     },
     Mutation: {
         createServices(_, { servicesName, servicesItems, servicesPrice, servicesInterval, servicesDescription }, context) {
@@ -156,6 +144,19 @@ const ServicesResolvers = {
                 }
             });
         },
+        deleteFinnaceServices(_, { id }, context) {
+            return __awaiter(this, void 0, void 0, function* () {
+                // const user = checkAuth(context);
+                try {
+                    console.log(id);
+                    const data = Servcies.findOneAndDelete({ _id: id });
+                    return data;
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
+        }
     },
 };
 exports.ServicesResolvers = ServicesResolvers;

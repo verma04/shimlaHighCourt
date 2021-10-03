@@ -97,24 +97,7 @@ const ServicesResolvers = {
       }
     },
 
-    async deleteServices(_:any, { id }:any, context:any) {
-      
-
-      // const user = checkAuth(context);
-      try {
-           
-      const data  = Servcies.findOneAndDelete({_id:id})
-     
-      return data
-    
-     
-    
-    }
-    catch (err) {
-      console.log(err)
-    }
-    
-    }
+  
     },
   Mutation: {
     async createServices(_:any, { servicesName , servicesItems ,servicesPrice, servicesInterval,servicesDescription}:any, context:any) {
@@ -216,6 +199,27 @@ catch (err) {
 
 },
 
+
+async deleteFinnaceServices(_:any, { id }:any, context:any) {
+      
+
+  // const user = checkAuth(context);
+  try {
+
+    console.log(id)
+       
+  const data  = Servcies.findOneAndDelete({_id:id})
+ 
+  return data
+
+ 
+
+}
+catch (err) {
+  console.log(err)
+}
+
+}
    
   },
 }
