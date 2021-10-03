@@ -98,7 +98,7 @@ const  Add:React.FC = () => {
 <div  className="group" >
     <label>Item Price</label>
 
-    <input  {...register("ServicesPrice")} ></input>
+    <input  type="number" {...register("ServicesPrice")} ></input>
 </div>
 </div>
 

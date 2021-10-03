@@ -7,12 +7,25 @@ display:flex;
 justify-content:center;
  width: 100%;
  height: 100%;
+ align-items: flex-start;
+ flex-direction: column;
 @media (min-width: 1025px) {
 
  
   
    display:flex;
    justify-content:center;
+
+   .head {
+    display:flex;
+   justify-content:space-between;
+   width: 100%;
+   button {
+       font-size: 1rem;
+       height: 2ren;
+       width: 7rem;
+   }
+   }
  
  .flex-2 {
       width: 100%;
@@ -97,22 +110,37 @@ justify-content:center;
 }
 tr {
     height: 5rem;
+    span {
+      color:green;
+      display: flex;
+      justify-content: space-around;
+      width: 80%;
+    }
     th {
-     
+      i {
+        cursor: pointer;
+      }
+      .octicon {
+    display: inline-block;
+    overflow: visible !important;
+    vertical-align: text-bottom;
+    fill: currentColor;
+    color: white;
+}
+.color-text-white {
+    color: var(--color-scale-white) !important;
+}
         span {
             font-size: 0.9rem;
-            
+             width: 5rem;
             color:white;
             padding: 0.5rem;
             border-radius: 1.5rem;
         }
-        .close {
-          background-color: red;
-
-        }
         .open {
           background-color: #1cc88a;;
         }
+
     }
 }
    }

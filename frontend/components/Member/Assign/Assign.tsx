@@ -5,7 +5,7 @@ import 'aos/dist/aos.css';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast ,ToastContainer} from 'react-toastify';
 import { gql, useMutation , useQuery, } from '@apollo/client';
-
+import moment from 'moment'
 import Selectbox from './Selectbox'
 import {
 
@@ -73,7 +73,7 @@ const { loading:loading1, data:data1 , error:error1 } = useQuery<userServices>(
 );
 
 
-
+console.log(data1)
 
 
 
@@ -126,7 +126,8 @@ if(loading || loading1) {
     
     <tr key={number.id} >
        <td>{number.uniq}</td>
-    <td>{number.createdAt}</td>
+    
+    <td>    {moment(number.createdAt).fromNow() } </td>
     <td>{number.servicesName}</td>
     <td>{number.servicesPrice}</td>
     <td><i onClick={()=>setdel(number.id) } className="fas fa-trash-alt"></i></td>

@@ -14,6 +14,22 @@ a {
    font-size: 1.5rem;
 } 
 
+.btn-group-sm>.btn, .btn-sm {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+.btn-light {
+   width: 3rem;
+    color: #3a3b45;
+    background-color: #f8f9fc;
+    border-color: #f8f9fc;
+}
+.rel {
+   position: relative;
+ 
+}
 h1 {
   font-family:Nunito;
 }
@@ -74,7 +90,17 @@ h1 {
   img {
   cursor: pointer;
 }
-
+.octicon {
+    display: inline-block;
+    overflow: visible !important;
+    vertical-align: text-bottom;
+    fill: currentColor;
+    color: white;
+    margin-right: 0.5rem;
+}
+.color-text-white {
+    color: var(--color-scale-white) !important;
+}
 button {
   cursor: pointer;
   font-family:Nunito;

@@ -16,7 +16,14 @@ import {
   GET_SERVICES,
   EDIT_MEMBERS,
   ASSIGN_SERVICES,
-  DELETE_SERVICES
+  DELETE_SERVICES,
+  TICKET,
+
+  USER_ID_TICKET,
+  DELETE_SER,
+
+  USER_ID_TICKET_COMMENT_ADMIN,
+  USER_ID_TICKET_CLOSE
  
 } from '../queries/index'
 
@@ -26,7 +33,7 @@ export const useGetMembers = () => useQuery(GET_MEMBERS);
 
 export const useGetChamber = () => useQuery(GET_CHAMBERS);
 
-
+export const useUserticket = () => useQuery(TICKET);
 
 export const useMemberegister = () => useMutation(ADD_MEMBERS, {
   update(cache, { data: { registerMember}}) {
@@ -69,6 +76,25 @@ export const useCreateServices = () => useMutation(CREATE_SERVICES, {
     cache.writeQuery({
       query: GET_SERVICES,
       data: {getServices: [ createServices , ...getServices]}
+    });
+ 
+  }
+});
+
+
+export const useDeleteServices = () => useMutation(DELETE_SER, {
+  update(cache, { data: { deleteFinnaceServices}}) {
+
+    console.log(deleteFinnaceServices.id)
+ 
+     const {getServices}:any = cache.readQuery({query:GET_SERVICES})
+
+     const data = getServices.filter((elemnet:any) => elemnet.id !== deleteFinnaceServices.id)
+
+   toast.success("Service Deleted")
+    cache.writeQuery({
+      query: GET_SERVICES,
+      data: {getServices: data}
     });
  
   }
@@ -124,8 +150,17 @@ try {
 
   export const  useDeleteUserServices = () => useMutation(DELETE_SERVICES, {
     update(cache, { data: {deleteUserServices}}) {
+
+      toast.success("Service Deelted")
+      cache.writeQuery({
+        query:  USER_SERVICES,
+        data: { userServices: deleteUserServices.arr},
+        variables: {
+          id: deleteUserServices.id
+      }
+      });
        
-      window.location.reload()
+      // window.location.reload()
     }
     });
     
@@ -156,3 +191,78 @@ export const useGetUser = () => useQuery(GET_USER)
 
 
 // Auth actions end -----------------------
+
+
+
+export const useUserticketById = () => useMutation(USER_ID_TICKET, {
+
+})
+
+
+export const UserticketByIdCommentAdmin = () => useMutation(USER_ID_TICKET_COMMENT_ADMIN, {
+
+  update(cache, { data: { getUserticketByIdCommentAdmin }}) {
+
+    
+  
+    console.log(getUserticketByIdCommentAdmin )
+   
+
+
+    // cache.writeQuery({
+    //   query:  USER_SERVICES,
+    //   data: { userServices: assignServices.arr},
+    //   variables: {
+    //     id: assignServices.id
+    // }
+    // });
+    cache.writeQuery({
+      query: USER_ID_TICKET,
+      data: { getUserticketById: getUserticketByIdCommentAdmin },
+      variables: {
+        id: getUserticketByIdCommentAdmin.id
+    }
+    });
+ 
+    //  const { token } = signedInUser;
+    //  localStorage.setItem("jwtToken", token);
+  }
+
+
+})
+
+
+
+
+
+export const UserticketByIdClose = () => useMutation(USER_ID_TICKET_CLOSE, {
+
+  update(cache, { data: { getUserticketByIdClose }}) {
+
+    
+  
+  
+   
+
+
+    // cache.writeQuery({
+    //   query:  USER_SERVICES,
+    //   data: { userServices: assignServices.arr},
+    //   variables: {
+    //     id: assignServices.id
+    // }
+    // });
+    cache.writeQuery({
+      query: USER_ID_TICKET,
+      data: { getUserticketById: getUserticketByIdClose },
+      variables: {
+        id: getUserticketByIdClose.id
+    }
+    });
+ 
+    //  const { token } = signedInUser;
+    //  localStorage.setItem("jwtToken", token);
+  }
+
+
+})

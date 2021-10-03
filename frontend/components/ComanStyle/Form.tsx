@@ -54,7 +54,7 @@ span {
    flex-direction: column;
    .graphl-top{
      width: 100%;
-    height: 5rem;
+    height: 7rem;
     border-radius: calc(.35rem - 1px) calc(.35rem - 1px) 0 0;
 
     margin-bottom: 0;
@@ -70,6 +70,21 @@ span {
     h3 {
       padding-left: 5%;
       color: #4e73df;
+
+      span {
+            font-size: 0.9rem;
+            margin-right: 1rem;
+            text-transform: capitalize;
+            color:white;
+            padding: 0.5rem;
+            border-radius: 1.5rem;
+        }
+        .open {
+          background-color: #1cc88a;;
+        }
+        .close {
+          background-color:red;
+        }
     }
     .status {
         display: flex;
@@ -82,6 +97,98 @@ span {
             margin-right: 1rem;
         }
     }
+   }
+
+   .comment-box {
+margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+     align-items: flex-start;
+     flex-direction: column;
+     width: 90%;
+     .box {
+       margin-top: 3rem;
+       width: 100%;
+      
+    display: flex;
+    justify-content: flex-start;
+     align-items: center;
+     li {
+       list-style: none;
+     }
+
+     li:nth-child(1) {
+       background-color: #1cc88a;
+       padding: 1em;
+text-transform: uppercase;
+ 
+       border-radius: 50%;
+       list-style: none;
+       color:white;
+       .octicon {
+   
+    margin-right: 0rem;
+}
+
+
+     }
+     #close {
+background-color:red;
+}
+
+     li:nth-child(2) {
+     margin-left: 2em;
+     background-color: #d4daed;
+    border-color: #cbd3e9;
+      width: 70%;
+  min-height: 7rem;
+    display: flex;
+    justify-content: flex-start;
+     align-items: flex-start;
+     flex-direction: column;
+     border-radius:0.5rem;
+     span {
+       margin-left: 1em;
+      display: flex;
+    justify-content: center;
+     align-items: center;
+     padding-top: 1em;
+     margin-bottom: 1rem;
+     color: #858796;
+     h4 {
+       margin-right: 0.5rem;
+     }
+    
+     }
+      .data {
+        padding-left: 1em;
+        width: 100%;
+        p {
+          line-height: 1.3rem;
+        }
+      }
+
+
+     } 
+     .close {
+       width: 70%;
+       margin-left: 10%;
+       margin-left: 3rem;
+      display: flex;
+    justify-content: flex-start;
+     align-items: flex-start;
+     padding-top: 1em;
+     margin-bottom: 1rem;
+     color: #858796;
+     h4 {
+       margin-right: 0.5rem;
+     }
+    
+     }
+
+
+    
+     }
    }
    .graphl-bottom{
      width: 100%;
@@ -104,10 +211,15 @@ width: 100%;
         align-items:center;
     justify-content:space-evenly;
      display: flex;
-    
+    position: relative;
     flex-direction: column;
     align-items: center;
     height: 100%;
+    i {
+        position: absolute;
+        right: 8%;
+        top: 60%;
+    }
     label {
         width: 90%;
         font-size: 1.2rem;
@@ -175,9 +287,81 @@ justify-content: flex-start;
 
     }
 
+
+    .list-2 {
+        display:flex;
+    
+width: 100%;
+    align-items:center;
+    justify-content:center;
+     
+   
+    
+    .group-2 {
+        width: 90%;
+        align-items:center;
+    justify-content:center;
+     display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    i {
+        position: absolute;
+        right: 8%;
+        top: 60%;
+    }
+    label {
+        width: 100%;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+  
+        }
+ 
+        span {
+        color: black;
+}
+.demo-wrapper {
+width: 100% !important;
+}
+    }
+
+
+    }
+    .group-1 {
+        width: 100%;
+        align-items:center;
+    justify-content:space-evenly;
+     display: flex;
+    
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    label {
+        width: 95%;
+        font-size: 1.2rem;
+    }
+    textarea {
+  width: 95%;
+  height: 80%;
+
+    }
+
+    }
+
+   
+
+    }
+
+
+
     .button {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
+        margin-top: 3rem;
+        border-radius: calc(.35rem - 1px) calc(.35rem - 1px) 0 0;
+        border-top: 1px solid #e3e6f0;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -273,6 +457,6 @@ justify-content: flex-start;
    
  }
    }
-}
+
 `
   

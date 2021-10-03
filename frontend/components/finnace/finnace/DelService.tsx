@@ -1,18 +1,18 @@
 import React from 'react'
 import { Pop } from '../../ComanStyle/Pop'
-import { useDeleteUserServices } from '../../../apollo/actions'
+import { useDeleteServices } from '../../../apollo/actions'
 interface props {
     myfunc(arg: string): void;
     id:string
-    value:string
+ 
 }
 
 
 
 
-const DeletePop:React.FC<props>  = ({myfunc, id, value}) => {
+const DeletePop:React.FC<props>  = ({myfunc, id}) => {
 
-    const [deleteUserService , { data:data1, loading, error }] =   useDeleteUserServices();
+    const [deleteFinnaceServices , { data:data1, loading, error }] =   useDeleteServices();
     
       
     
@@ -20,7 +20,7 @@ const DeletePop:React.FC<props>  = ({myfunc, id, value}) => {
     return (
         <Pop>
 
-            {data1 && data1.deledeleteUserService && myfunc("")}
+            {data1 && data1.deleteFinnaceServices && myfunc("")}
               <div data-aos="fade-top" className="modal-content">
     
     <div className="container">
@@ -31,8 +31,8 @@ const DeletePop:React.FC<props>  = ({myfunc, id, value}) => {
     </div>
     <div className="clearfix">
       
-        <button type="button"  onClick={()=> deleteUserService({variables: {
-            id:id ,userId :value 
+        <button type="button"  onClick={()=> deleteFinnaceServices({variables: {
+            id:id 
         }})} className="deletebtn">Delete</button>
         <button onClick={()=> myfunc("")} >Cancel</button>
       </div>

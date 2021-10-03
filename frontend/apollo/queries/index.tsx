@@ -76,6 +76,35 @@ query  getservices {
 `
 
 
+export const DELETE_SER = gql`
+mutation deleteFinnaceServices(
+  
+  
+   $id: ID!
+   
+  
+  
+  ) {
+    deleteFinnaceServices(id: $id ) {
+      id
+    createdAt
+    servicesName
+    servicesItems
+    servicesPrice
+    servicesInterval
+    servicesDescription
+    uniq
+   
+
+
+  
+  }
+}`
+
+
+
+
+
 
 export const GET_DUEPAYMENTS = gql`
 query  getduepayments {
@@ -325,7 +354,13 @@ mutation deleteUserServices(
   ) {
     deleteUserServices(_id: $id , userId: $userId) {
       id
-      userId
+    arr {
+      id
+      createdAt
+      servicesName
+      servicesPrice
+      uniq
+    }
    
 
 
@@ -368,3 +403,104 @@ mutation Mutation($ServicesName: String!, $ServicesItems: String!, $ServicesPric
     uniq
   }
 }`
+
+
+
+export const TICKET = gql`
+ query getticket {
+  getticket {
+    id
+    ticketTitle
+    status
+    createdAt
+    editedAt
+    member
+    comment {
+      name
+      time
+      answer
+      status
+    }
+  }
+}
+`
+
+export const USER_ID_TICKET = gql`
+ query getUserticketById (
+  $id: String!
+ 
+){
+  getUserticketById(
+    id: $id
+  ) {
+    id
+    ticketTitle
+    status
+    createdAt
+    editedAt
+    member
+    comment {
+      name
+      time
+      answer
+      status
+    }
+  }
+}
+`
+
+
+
+
+export const USER_ID_TICKET_COMMENT_ADMIN = gql`
+ mutation getUserticketByIdCommentAdmin (
+  $id: String!
+  $answer: String!
+ 
+){
+  getUserticketByIdCommentAdmin(
+    id: $id
+    answer: $answer
+  ) {
+    id
+    ticketTitle
+    status
+    createdAt
+    editedAt
+    member
+    comment {
+      name
+      time
+      answer
+      status
+    }
+  }
+}
+`
+
+
+export const USER_ID_TICKET_CLOSE = gql`
+ mutation getUserticketByIdClose (
+  $id: String!
+  $status: String!
+ 
+){
+  getUserticketByIdClose(
+    id: $id
+    status: $status
+  ) {
+    id
+    ticketTitle
+    status
+    createdAt
+    editedAt
+    member
+    comment {
+      name
+      time
+      answer
+      status
+    }
+  }
+}
+`

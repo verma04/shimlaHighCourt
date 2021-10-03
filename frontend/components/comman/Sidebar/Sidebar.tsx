@@ -71,18 +71,18 @@ import Image from 'next/image'
     <Link
   
    
-       href="/"
+       href="/ticket"
        passHref
     >
-    <i className="fas fa-bell"> <h3>Support Tickets</h3> </i>
+    <i     className="fas fa-bell"> <h3>Support Tickets</h3> </i>
     </Link>
     <Link
   
    
-       href="/"
+       href="/ticket"
        passHref
     >
- <i className="fas fa-users">  <h3>Ticket/Queries </h3>  </i> 
+ <i  id={router.pathname == "/ticket" ? "active" : ""}  className="fas fa-users">  <h3>Ticket/Queries </h3>  </i> 
       </Link>
       <Link
   

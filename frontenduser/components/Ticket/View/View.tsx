@@ -12,6 +12,7 @@ import {stateToHTML} from 'draft-js-export-html';
 import Redirect from '../../shared/Redirect';
 import { convertFromRaw, convertToRaw } from 'draft-js';
 
+import moment from 'moment'
 import { USER_ID_TICKET } from '../../../apollo/queries';
 
 import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
@@ -217,20 +218,84 @@ console.log(error1)
 
 
 
+<div className="comment-box" >
+
+
 {data?.getUserticketById.comment.map(number=> 
-  <div key={number.time} >
-{number.time}
-<div className="data"  dangerouslySetInnerHTML={convertFromJSONToHTML(number.answer)} ></div>
-    </div>
+ 
+    
+
+
+<>
+
+  {(() => {
+        if (number.answer === "open") {
+          return (
+
+            <div key={number.time} className="box" >
+               <li>
+        
+               <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" className="octicon octicon-issue-opened">
+    <path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path><path fillRule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path>
+</svg>
+      </li>
+            
+  <span className="close" ><h4>{number.name}</h4>  reopened this  {moment(number.time).fromNow() }  </span>
+       
+          
+          
+          </div>
+          )
+        } else if (number.answer === "close") {
+          return (
+            <div key={number.time} className="box" >
+            <li  id={number.answer} >
+     
+            <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" className="octicon octicon-issue-closed">
+    <path d="M11.28 6.78a.75.75 0 00-1.06-1.06L7.25 8.69 5.78 7.22a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l3.5-3.5z"></path><path fillRule="evenodd" d="M16 8A8 8 0 110 8a8 8 0 0116 0zm-1.5 0a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"></path>
+</svg>
+   </li>
+            
+
+            
+  <span className="close"  ><h4>{number.name}</h4>  closed this {number.name} {moment(number.time).fromNow() }  </span>
+            
+          
+          
+          </div>
+          )
+        } else {
+          return (
+            <div key={number.time} className="box" >
+
+            <li>
+        
+              {number.name.substring(0, 2)}
+            </li>
+            <li>
+  <span><h4>{number.name}</h4> {moment(number.time).fromNow() }  </span>
+            <div className="data"  dangerouslySetInnerHTML={convertFromJSONToHTML(number.answer)} ></div>
+          </li>
+          </div>
+          )
+        }
+      })()}
+
+
+
+
+
+
+    </>
 
 
 )
 
 }
 
+</div>
 
-
-                 
+                
                  <form className="graphl-bottom" onSubmit={handleSubmit(onSubmit)}>
         
      
