@@ -10,6 +10,7 @@ import {
  
  
 } from '../../apollo/queries'
+import { DropDown } from '../ComanStyle/Drop';
 import moment  from 'moment';
 import { useRouter } from "next/router";
 import { Table  } from '../ComanStyle/Table' 
@@ -57,7 +58,7 @@ import AddMember from './AddMember/AddMember';
   );
   
 
-const [ state  , setState ] = useState(false)
+const [ state  , setState ] = useState('')
 
  if(loading) {
    return (
@@ -147,12 +148,45 @@ sdsdsd
     <th>{  moment(data.createdAt).format('LLLL')}</th>
 
   
-    <th onClick={()=> router.push(`/members/assign-services/${data.id}`)}  >{data.username}</th>
+    <th   >{data.username}</th>
     <th>{data.email}</th>
     <th>{data.fullname}</th>
-    <th onClick={()=> router.push(`/members/editmember/${data.slug}`)} >...
+    <th className="rel"  >
+    {state === '' ? 
+  ( 
+     <button    onClick={()=> setState(data.id)} id="btnGroupDrop" type="button" className="btn btn-light btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="fa fa-ellipsis-h text-gray-500"></i></button>
+  )
+  :
+  (
+    <button    onClick={()=> setState('')} id="btnGroupDrop" type="button" className="btn btn-light btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="fa fa-ellipsis-h text-gray-500"></i></button>
+  )
+   
+    }
+   
+    {state === data.id ? 
+   (
+    <DropDown>
+    <div className="dropdown-menu show" aria-labelledby="btnGroupDrop" >
+      <a className="dropdown-item" onClick={()=> router.push(`/members/editmember/${data.slug}`)}  >
      
+        <i className="fa fa-edit text-gray-500 mr-2"></i> Edit</a>
+        <a className="dropdown-item" onClick={()=> router.push(`/members/assign-services/${data.id}`)}  ><i className="fa fa-sign-in-alt text-gray-500 mr-2"></i> Assign Services</a>
+        <a className="dropdown-item" href="javascript:void(0)" ><i className="fa fa-trash text-gray-500 mr-2"></i> Delete</a>
+</div>
+        </DropDown>
+   )
+   :
+   (
+null
+   )
+
+   }
+   
+    
+
     </th>
+   
+   
     </tr>
 
      
