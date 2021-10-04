@@ -80,6 +80,9 @@ type Due  {
  id: ID!
  message: String!
  createdAt: String!
+ topic: String!
+
+
 }
   
 
@@ -149,10 +152,10 @@ type assign {
 }
 
 type notifications {
-
-    type: String
-      message: String
-  createdAt: String
+id: ID!
+  message: String!
+    topic: String!
+    createdAt: String!
   
 }
 
@@ -183,6 +186,8 @@ id:ID
     email: String!
   }
 
+ 
+
   input RegisterMember {
     username: String!
     password: String!
@@ -199,7 +204,7 @@ id:ID
     getPost(postId: ID!): Post
     deleteServices(id: ID!):Services!
     getMembers: [Member]
-    deleteMember(id: ID!): Member
+   
     getUser:User!
   getMember: Member!
 
@@ -211,6 +216,7 @@ id:ID
     getUserticket:[ticket]
     getticket:[ticket]
     getUserticketById(id: String):ticket
+    getUserActivities: [Activity]
   }
   type Mutation {
     register(   username: String! password: String! confirmPassword: String! email: String!, phone: String!): User!
@@ -248,68 +254,83 @@ id:ID
     ): Services!
     deleteFinnaceServices(id: ID ): Services
     addChambers(id:String!, price:String!): Chamber!
-    addChamberToMember(id:String! , memberId:ID!):Chamber!
+    # addChamberToMember(id:String! , memberId:ID!):Chamber!
 
-    chamberPayment(data:ID! ):Member!
+    # chamberPayment(data:ID! ):Member!
     assignServices(_id:ID!, userId: String): assign 
     deleteUserServices(_id:ID!, userId: String): assign
     addticket(ticketTitle: String! ,  answer: String!):ticket
     getUserticketByIdComment(id: String!, answer: String!):ticket
     getUserticketByIdClose(id: String!, status: String!):ticket
     getUserticketByIdCommentAdmin(id: String!, answer: String!):ticket
+    deleteMember(id: ID!): Member
   }
 
 `;
-cron.schedule("59 11 * * *", () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const member = yield Member_1.Member.find({});
-        member.forEach((element) => {
-            const data = element.chamberDet.filter((element1) => element1.status === "Due");
-            data.forEach((element) => {
-                const data1 = {
-                    type: "Red",
-                    message: `Payment due ${element.month}`
-                };
-                console.log(element);
-                Member_1.Member.findOneAndUpdate({ Chamber: element.chamberId }, { $push: { "notifcations": data1 } }, { new: true }, (err, doc) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                });
-            });
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
-}));
-cron.schedule("51 10 * * *", () => __awaiter(void 0, void 0, void 0, function* () {
+// cron.schedule("16 10 * * *", async  () => {
+//    try {
+//     const member = await Member.find({})
+//        member.forEach((element:any) => {
+//         const data  =  element.chamberDet.filter((element1:any) => element1.status === "Due" )   
+//         data.forEach((element:any) => {
+//           const data1 = {
+//             type:"Red",
+//              message:`Payment due ${element.month}`
+//              }
+//                console.log(element)
+//       Member.findOneAndUpdate({Chamber: element.chamberId},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
+//         if (err) {
+//            console.log(err)
+//         }
+//      });
+//         });
+//        });
+//    } catch (error) {
+//     console.log(error)
+//    }
+// });
+cron.schedule("* * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const member = yield Member_1.Member.find({});
         // console.log(member)
         const arr = [];
         const ser = yield Servcies.find({});
         yield member.forEach((element) => __awaiter(void 0, void 0, void 0, function* () {
-            const data = element.services;
-            yield data.forEach((set) => {
-                const data1 = ser.find((element2) => element2.id === set.id);
-                const dateObj = new Date();
-                const data = {
-                    month: dateObj.toLocaleString("default", { month: "long" }),
-                    payment: data1.servicesPrice,
-                    status: "Due",
-                    serviceName: data1.servicesName,
-                    createdAt: new Date().toISOString(),
-                    serviceId: data1.id
-                };
-                console.log(data);
-                Member_1.Member.findOneAndUpdate({ _id: element.id }, { $push: { "paymentBilling": data } }, { new: true }, (err, doc) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                    console.log(doc);
-                });
+            const fin = {
+                status: "Due",
+                createdAt: new Date().toISOString(),
+                month: new Date().toLocaleString("default", { month: "long" }) + " " + new Date().getUTCFullYear(),
+            };
+            Member_1.Member.findOneAndUpdate({ _id: element.id }, { $push: { "paymentBilling": fin } }, { new: true }, (err, doc) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log(doc);
             });
+            const data = element.services;
+            //  await  data.forEach((set:any) => {
+            //  const data1  = ser.find((element2:any) => element2.id === set.id )
+            //  const dateObj = new Date()
+            //        const data = {
+            //       payment: data1.servicesPrice,
+            //       serviceName: data1.servicesName,
+            //       serviceId: data1.id
+            //       }
+            //       arr.push(data)
+            //       const fin = {
+            //         status: "Due",
+            //         createdAt: new Date().toISOString(),
+            //         month : dateObj.toLocaleString("default", { month: "long" }) + " " + new Date().getUTCFullYear(),
+            //         paymentBilling: arr
+            //       }
+            //  console.log(fin)
+            //   Member.findOneAndUpdate({_id: element.id},{ $push:{ "paymentBilling": fin }} , {new: true}, (err:any, doc:any) => {
+            //     if (err) {
+            //        console.log(err)
+            //     }
+            //     console.log(doc)
+            //     // });
+            //    });
             //     await  ser.forEach(async  (element1:any) => {
             // // console.log(element1._id)
             // console.log(element)

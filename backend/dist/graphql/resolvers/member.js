@@ -27,23 +27,6 @@ function generateToken(user) {
 }
 const MemberResolvers = {
     Query: {
-        deleteMember(_, { id }, context) {
-            return __awaiter(this, void 0, void 0, function* () {
-                // const user = checkAuth(context);
-                try {
-                    const member = yield Member.findByIdAndRemove({ _id: id });
-                    const data = {
-                        message: `Member deleted with id ${id}`,
-                        createdAt: new Date().toISOString(),
-                    };
-                    yield Activity.create({ data });
-                    return member;
-                }
-                catch (err) {
-                    throw new Error(err);
-                }
-            });
-        },
         getMembers(_, { body }, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 // const user = checkAuth(context);
@@ -239,67 +222,80 @@ const MemberResolvers = {
                 }
             });
         },
-        addChamberToMember(_, { id, memberId }, context) {
+        deleteMember(_, { id }, context) {
             return __awaiter(this, void 0, void 0, function* () {
+                // const user = checkAuth(context);
                 try {
-                    let mem = yield Member.findOne({ Chamber: id });
-                    if (mem) {
-                        return new UserInputError('Chamber Already Assign to member');
-                    }
-                    Member.findOneAndUpdate({ _id: memberId }, { $set: { "Chamber": id } }, { new: true, upsert: true }, function (err, doc) {
-                        return __awaiter(this, void 0, void 0, function* () {
-                            if (err) {
-                                console.log(err);
-                            }
-                            Servcies.findOneAndUpdate({ "servicesName": "Chambers", "servcieList._id": id }, { $set: { "servcieList.$.member": memberId } }, { new: true, upsert: true }, function (err, result) {
-                                return __awaiter(this, void 0, void 0, function* () {
-                                    if (err) {
-                                        console.log("22323", err);
-                                    }
-                                });
-                            });
-                            const member = yield Member.find({}).sort({ createdAt: -1 });
-                            return member;
-                        });
-                    });
+                    const member = yield Member.findByIdAndRemove({ _id: id });
+                    const data = {
+                        message: `Member deleted with id ${id}`,
+                        createdAt: new Date().toISOString(),
+                    };
+                    yield Activity.create({ data });
+                    return member;
                 }
                 catch (err) {
-                    console.log(err);
+                    throw new Error(err);
                 }
             });
         },
-        chamberPayment(_, { data }, context) {
-            return __awaiter(this, void 0, void 0, function* () {
-                const { id } = checkAuth(context);
-                console.log(id);
-                try {
-                    Member.findOneAndUpdate({ _id: '614c84a9adb99617794c195b', "chamberDet._id": data }, { $set: { "chamberDet.$.status": "done" } }, { "multi": true, new: true, upsert: true }, function (err, result) {
-                        return __awaiter(this, void 0, void 0, function* () {
-                            if (err) {
-                                console.log(err);
-                            }
-                            const newpayment = new Payments({
-                                memberId: id,
-                                price: "1000",
-                                createdAt: new Date().toISOString(),
-                            });
-                            const data1 = yield newpayment.save();
-                            console.log(data1);
-                            const newActivity = new Activity({
-                                message: `Payment Recivied with id ${data} `,
-                                createdAt: new Date().toISOString(),
-                            });
-                            yield newpayment.save();
-                            console.log(data1);
-                        });
-                    });
-                    return Member.findOne({ id });
-                }
-                catch (err) {
-                    console.log(err);
-                }
-            });
-        },
+        //   async addChamberToMember(   _:any,  { id , memberId} :any, context:any) {
+        //     // Validate user data
+        //     // const user = checkAuth(context);
+        //    interface member  {
+        //       id:Number,
+        //       chamber: String
+        //     }
+        //   try {
+        //     let mem =  await   Member.findOne({Chamber: id})
+        //   if (mem) {
+        //     return   new UserInputError('Chamber Already Assign to member')
+        // }
+        //     Member.findOneAndUpdate({_id: memberId},{ $set:{ "Chamber": id }} , {new: true , upsert: true }, async function(err:any, doc:any)  {
+        //       if (err) {
+        //          console.log( err)
+        //       }
+        //      Servcies.findOneAndUpdate({"servicesName": "Chambers", "servcieList._id":id},{ $set: {"servcieList.$.member": memberId } },  { new: true, upsert: true }, async  function(err:any, result:any) {
+        //           if (err) {
+        //           console.log( "22323" ,err)
+        //           } 
+        //         });
+        //         const member = await Member.find({}).sort({createdAt:-1})
+        //          return member
+        //       })
+        //     }
+        //   catch (err) {
+        //       console.log(err)
+        //   }
+        // },
+        // async chamberPayment(   _:any,  { data } :any, context:any) {
+        //   const {id} = checkAuth(context);
+        //   console.log(id)
+        // try {
+        //  Member.findOneAndUpdate({_id:'614c84a9adb99617794c195b', "chamberDet._id":data},{ $set: {"chamberDet.$.status": "done" } },  {   "multi": true , new: true, upsert: true },async  function(err:any, result:any) {
+        //   if (err) {
+        //   console.log(err)
+        //   } 
+        //   const newpayment =  new Payments ({
+        //     memberId:id,
+        //     price:"1000",
+        //     createdAt: new Date().toISOString(),
+        //   })
+        //    const data1 = await newpayment.save()
+        //    console.log(data1)
+        //    const newActivity =  new Activity ({
+        //   message:`Payment Recivied with id ${data} `,
+        //     createdAt: new Date().toISOString(),
+        //   })
+        //     await newpayment.save()
+        //    console.log(data1)
+        // });
+        // return Member.findOne({id})
+        //   }
+        // catch (err) {
+        //     console.log(err)
+        // }
+        // },
         assignServices(_, { _id, userId }, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 const { id } = checkAuth(context);

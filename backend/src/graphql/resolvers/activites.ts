@@ -36,7 +36,29 @@ const activityResolvers = {
             console.log(err)
         }
     
+        
     },
+
+    async getUserActivities(_:any, body:any, context:any) {
+          
+      const {id} = checkAuth(context);
+    
+      try {
+           
+
+      
+          const act = await Activity.find({activityId:id});
+        
+return act
+         
+
+  }
+  catch (err) {
+      console.log(err)
+  }
+
+       
+      },
        
       },
 

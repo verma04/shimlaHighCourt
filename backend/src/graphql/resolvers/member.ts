@@ -24,29 +24,7 @@ const MemberResolvers  = {
 
 
   Query: {
-    async deleteMember(_:any, { id }:any, context:any) {
-     
-      // const user = checkAuth(context);
- 
-
-      try {
-         
   
-        const member = await Member.findByIdAndRemove({ _id:id });
-        const data = {
-          message:`Member deleted with id ${id}`,
-          createdAt: new Date().toISOString(),
-        } 
-      
-        await Activity.create({data})
-        return member;
-
-
-
-      } catch (err) {
-        throw new Error(err);
-      }
-    },
 
 
     async getMembers(_:any,   { body }:any, context:any) {
@@ -320,118 +298,141 @@ try {
   }
   },
 
-
-  async addChamberToMember(   _:any,  { id , memberId} :any, context:any) {
-    // Validate user data
+  async deleteMember(_:any, { id }:any, context:any) {
+     
     // const user = checkAuth(context);
-   interface member  {
-      id:Number,
-      chamber: String
 
 
+    try {
+       
+
+      const member = await Member.findByIdAndRemove({ _id:id });
+      const data = {
+        message:`Member deleted with id ${id}`,
+        createdAt: new Date().toISOString(),
+      } 
+    
+      await Activity.create({data})
+      return member;
+
+
+
+    } catch (err) {
+      throw new Error(err);
     }
+  },
 
-  try {
+//   async addChamberToMember(   _:any,  { id , memberId} :any, context:any) {
+//     // Validate user data
+//     // const user = checkAuth(context);
+//    interface member  {
+//       id:Number,
+//       chamber: String
+
+
+//     }
+
+//   try {
   
    
 
-    let mem =  await   Member.findOne({Chamber: id})
+//     let mem =  await   Member.findOne({Chamber: id})
 
-  if (mem) {
+//   if (mem) {
   
-    return   new UserInputError('Chamber Already Assign to member')
+//     return   new UserInputError('Chamber Already Assign to member')
     
-}
+// }
 
 
-    Member.findOneAndUpdate({_id: memberId},{ $set:{ "Chamber": id }} , {new: true , upsert: true }, async function(err:any, doc:any)  {
-      if (err) {
-         console.log( err)
-      }
-     Servcies.findOneAndUpdate({"servicesName": "Chambers", "servcieList._id":id},{ $set: {"servcieList.$.member": memberId } },  { new: true, upsert: true }, async  function(err:any, result:any) {
-          if (err) {
-          console.log( "22323" ,err)
-          } 
+//     Member.findOneAndUpdate({_id: memberId},{ $set:{ "Chamber": id }} , {new: true , upsert: true }, async function(err:any, doc:any)  {
+//       if (err) {
+//          console.log( err)
+//       }
+//      Servcies.findOneAndUpdate({"servicesName": "Chambers", "servcieList._id":id},{ $set: {"servcieList.$.member": memberId } },  { new: true, upsert: true }, async  function(err:any, result:any) {
+//           if (err) {
+//           console.log( "22323" ,err)
+//           } 
         
           
         
         
-        });
+//         });
     
-        const member = await Member.find({}).sort({createdAt:-1})
-         return member
+//         const member = await Member.find({}).sort({createdAt:-1})
+//          return member
       
-      })
+//       })
 
 
    
       
-    }
+//     }
     
   
 
     
   
-  catch (err) {
-      console.log(err)
-  }
-},
+//   catch (err) {
+//       console.log(err)
+//   }
+// },
 
 
 
-async chamberPayment(   _:any,  { data } :any, context:any) {
+// async chamberPayment(   _:any,  { data } :any, context:any) {
   
 
-  const {id} = checkAuth(context);
+//   const {id} = checkAuth(context);
 
 
-  console.log(id)
+//   console.log(id)
 
-try {
+// try {
 
  
 
  
- Member.findOneAndUpdate({_id:'614c84a9adb99617794c195b', "chamberDet._id":data},{ $set: {"chamberDet.$.status": "done" } },  {   "multi": true , new: true, upsert: true },async  function(err:any, result:any) {
-  if (err) {
-  console.log(err)
-  } 
+//  Member.findOneAndUpdate({_id:'614c84a9adb99617794c195b', "chamberDet._id":data},{ $set: {"chamberDet.$.status": "done" } },  {   "multi": true , new: true, upsert: true },async  function(err:any, result:any) {
+//   if (err) {
+//   console.log(err)
+//   } 
 
-  const newpayment =  new Payments ({
-    memberId:id,
-    price:"1000",
-    createdAt: new Date().toISOString(),
+//   const newpayment =  new Payments ({
+//     memberId:id,
+//     price:"1000",
+//     createdAt: new Date().toISOString(),
 
-  })
+//   })
 
-   const data1 = await newpayment.save()
-
-
-   console.log(data1)
-
-   const newActivity =  new Activity ({
-  message:`Payment Recivied with id ${data} `,
-    createdAt: new Date().toISOString(),
-
-  })
-
-    await newpayment.save()
+//    const data1 = await newpayment.save()
 
 
-   console.log(data1)
+//    console.log(data1)
+
+//    const newActivity =  new Activity ({
+//   message:`Payment Recivied with id ${data} `,
+//     createdAt: new Date().toISOString(),
+
+//   })
+
+//     await newpayment.save()
+
+
+//    console.log(data1)
   
-});
-return Member.findOne({id})
-  }
-  
-
-
+// });
+// return Member.findOne({id})
+//   }
   
 
-catch (err) {
-    console.log(err)
-}
-},
+
+  
+
+// catch (err) {
+//     console.log(err)
+// }
+// },
 
 
 async assignServices(   _:any,  { _id  ,  userId} :any, context:any) {

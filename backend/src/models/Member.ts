@@ -58,24 +58,32 @@ const MemberSchema = new Schema({
        type: String ,
       
       },
-     
-      price: {
-        type: String ,
-       
-       },
-      payment: {
-        type: String ,
-      },
       status: {
         type: String,
       },
-      serviceName: {
-        type: String,
-      },
-      serviceId: {
-        type: String,
-      },
       createdAt: String,
+      paymentBilling: [
+        {  
+          price: {
+            type: String ,
+           
+           },
+          payment: {
+            type: String ,
+          },
+          
+          serviceName: {
+            type: String,
+          },
+          serviceId: {
+            type: String,
+          },
+
+        }
+      ],
+     
+    
+  
     
     },
   ],

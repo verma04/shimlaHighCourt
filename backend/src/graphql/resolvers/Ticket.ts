@@ -6,6 +6,8 @@ const { validateRegisterInput, validateLoginInput } = require('../../util/valida
 const { Ticket } = require('../../models/Ticket');
 const { Member } = require('../../models/Member');
 const { v4: uuidv4 } = require('uuid');
+
+const { Activity } = require('../../models/Activity');
 function generateToken(user:any) {
   return jwt.sign(
     {
@@ -94,11 +96,19 @@ const data = new Ticket ({
 
 const ticket = await data.save()
 
- return ticket
+ 
           
+ const newActivity = new Activity({
+  message:`New Ticket Created ${ticketTitle}`,
+  createdAt: new Date().toISOString(),
+  activityId: id,
+  topic:"ticket"
+}) 
+
+
+await   newActivity.save();
           
-          
-        
+return ticket
           },
 
 
@@ -118,7 +128,15 @@ const ticket = await data.save()
   
     const something2 =  await  Ticket.findOneAndUpdate({_id},{ $push:{ "comment": data}} , {new: true , upsert: true }).exec();
   
-
+    const newActivity = new Activity({
+      message:`You commented on ticket ${something.ticketTitle}`,
+      createdAt: new Date().toISOString(),
+      activityId: id,
+      topic:"ticket"
+    }) 
+    
+    
+    await   newActivity.save();
     return something2
         
           },
@@ -140,6 +158,18 @@ const ticket = await data.save()
     const something2 =  await  Ticket.findOneAndUpdate({_id},{ $push:{ "comment": data}} , {new: true , upsert: true }).exec();
   
 
+    const newActivity = new Activity({
+      message:`Admin commented on ticket ${something.ticketTitle}`,
+      createdAt: new Date().toISOString(),
+      activityId: something.member,
+      adminId:id,
+      topic:"ticket"
+    }) 
+    
+
+    await   newActivity.save();
+
+
     return something2
         
           },
@@ -158,14 +188,29 @@ const ticket = await data.save()
               const data =      {
                 name:member.username,
                 time:new Date().toISOString(),
-                answer:status
+                answer:status,
+                topic:"ticket"
             }
             
   
             const something2 =  await  Ticket.findOneAndUpdate({_id},{ $push:{ "comment": data}} , {new: true , upsert: true }).exec();
           
+            const newActivity = new Activity({
+              message:`Ticket ${something.ticketTitle} ${something.status}  by you`,
+              createdAt: new Date().toISOString(),
+              activityId: something.member,
+              topic:"ticket"
+           
+            }) 
+            
+        
+            await   newActivity.save();
+        
+
                return something2
   
+
+       
           
 
             }
@@ -179,6 +224,19 @@ const ticket = await data.save()
 
           const something2 =  await  Ticket.findOneAndUpdate({_id},{ $push:{ "comment": data}} , {new: true , upsert: true }).exec();
         
+
+          const newActivity = new Activity({
+            message:`Ticket ${something.ticketTitle} ${something.status}  by Super Admin`,
+            createdAt: new Date().toISOString(),
+            activityId: something.member,
+            adminId:id,
+            topic:"ticket"
+         
+          }) 
+          
+      
+          await   newActivity.save();
+
              return something2
            
    
