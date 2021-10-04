@@ -1,6 +1,9 @@
 
+import { toast } from 'react-toastify';
 import { useGetUser } from '../apollo/actions';
 import Redirect from '../components/shared/Redirect'
+
+
 
 export default (WrappedComponent, role, options = {ssr: false}) => {
   function WithAuth(props) {
@@ -8,7 +11,7 @@ export default (WrappedComponent, role, options = {ssr: false}) => {
    
 
   
-
+console.log(getMember)
 
     if (
       !loading &&
@@ -28,6 +31,8 @@ export default (WrappedComponent, role, options = {ssr: false}) => {
       }
       return <WrappedComponent {...props} />
     }
+
+ 
 
     return (
       <div className="spinner-container">

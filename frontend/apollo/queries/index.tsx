@@ -46,6 +46,22 @@ query getemembers {
   }
 }
 `
+
+export const DELETE_MEMBER = gql`
+mutation deleteMember(
+  
+  
+  $id: ID!
+  
+ 
+ 
+ ) {
+   deleteMember(id: $id ) {
+    id
+
+  }
+}
+`
 export const GET_CHAMBERS = gql`
 query  getChamber {
   getChamber {

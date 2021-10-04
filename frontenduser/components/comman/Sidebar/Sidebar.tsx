@@ -33,7 +33,7 @@ import { useNotifications } from '../../../apollo/actions';
            passHref
           
     >
- <i  id={router.pathname == "/dashbaord" ? "active" : ""} className="fas fa-list"> <h3>  dashboard</h3> </i>  
+ <i  id={router.pathname == "/dashbaord" ? "active" : ""} className="fas fa-list"> <h3>  Dashboard</h3> </i>  
     </Link>
    
  
@@ -44,24 +44,17 @@ import { useNotifications } from '../../../apollo/actions';
        href="/myprofile"
        passHref
     >
-    <i id={router.pathname == "/myprofile" ? "active" : ""} className="fas fa-bell"> <h3>My Profile</h3> </i>
+    <i id={router.pathname == "/myprofile" ? "active" : ""} className="fas fa-user-circle"> <h3>My Profile</h3> </i>
     </Link>
     <Link
   
    
-       href="/"
+       href="/ticket"
        passHref
     >
- <i className="fas fa-users">  <h3>Ticket/Queries </h3>  </i> 
+ <i id={router.pathname == "/ticket" ? "active" : ""} className="fas fa-info-circle">  <h3>Ticket/Queries </h3>  </i> 
       </Link>
-      <Link
   
-   
-       href="/"
-       passHref
-    >
-  <i className="far fa-list-alt">  <h3>Destinations</h3> </i> 
-      </Link>
       <Link
   
    
@@ -70,39 +63,42 @@ import { useNotifications } from '../../../apollo/actions';
     >
    <i id={router.pathname == "/change-password" ? "active" : ""} className="fas fa-money-check-alt"> <h3>Change Password</h3></i>  
     </Link>
-    <Link
   
-   
-       href="/ticket"
-       passHref
-    >
-    <i id={router.pathname == "/ticket" ? "active" : ""} className="fas fa-star"> <h3>Support Ticket </h3></i>  
-    </Link>
     <Link
   
    
        href="/notifications"
        passHref
     >
-    <i className="fas fa-credit-card"> <h3>My Notification 
+    <i className="fas fa-bell"> <h3>My Notification 
        
-    {data && data.notifcations === null ? (
+   
 
-<span> ({data && data.notifcations.length})</span>
-  ):
-  (
-   <span>(0)</span>
-  )
-} </h3>  </i>  
+<span> ({data && data.notifications.length})</span>
+ </h3>  </i>  
     </Link>
 
     <Link
   
    
-       href="/"
+  href="/notifications"
+  passHref
+>
+<i className="fas fa-money-check"> <h3>Payment
+  
+
+
+<span> ({data && data.notifications.length})</span>
+</h3>  </i>  
+</Link>
+
+    <Link
+  
+   
+       href="/activities"
        passHref
     >
- <i className="fas fa-cog"> <h3>My Activity Log</h3> </i>  
+ <i id={router.pathname == "/activities" ? "active" : ""} className="fas fa-cog"> <h3>My Activity Log</h3> </i>  
       </Link>
   
       <Link

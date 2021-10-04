@@ -62,15 +62,13 @@ const MemberSchema = new Schema({
         type: String,
       },
       createdAt: String,
-      paymentBilling: [
+      list: [
         {  
           price: {
             type: String ,
            
            },
-          payment: {
-            type: String ,
-          },
+      
           
           serviceName: {
             type: String,

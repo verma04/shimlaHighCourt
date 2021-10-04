@@ -18,7 +18,7 @@ import {
   ASSIGN_SERVICES,
   DELETE_SERVICES,
   TICKET,
-
+  DELETE_MEMBER,
   USER_ID_TICKET,
   DELETE_SER,
 
@@ -67,6 +67,26 @@ export const useEditMember = () => useMutation(EDIT_MEMBERS, {
  
   }
 });
+
+
+export const useDeleteMember = () => useMutation(DELETE_MEMBER, {
+  update(cache, { data: {deleteMember}}) {
+ 
+  
+    const {getMembers}:any = cache.readQuery({query:GET_MEMBERS})
+  
+    const data1  =  getMembers.filter((element1:any) => element1.id !== deleteMember.id )   
+
+    toast.success(`Member Deleted`)
+    
+    cache.writeQuery({
+      query: GET_MEMBERS,
+      data: { getMembers: [  ...data1]}
+    });
+ 
+  }
+});
+
 
 export const useCreateServices = () => useMutation(CREATE_SERVICES, {
   update(cache, { data: { createServices}}) {

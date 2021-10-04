@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { useGetMembers } from '../../apollo/actions'
 import  { Section  } from './Style';
+
 import ContentLoader, { Facebook } from 'react-content-loader'
 import {
 
@@ -19,6 +20,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Image from 'next/image'
 import { Header } from '../ComanStyle/Header'
+import DelMember from './DelMember/DeleteMember'
 import AddMember from './AddMember/AddMember';
 
  const  Dashboard = () => {
@@ -59,7 +61,7 @@ import AddMember from './AddMember/AddMember';
   
 
 const [ state  , setState ] = useState('')
-
+const [ del , setdel] = useState<string>("") 
  if(loading) {
    return (
      <div>
@@ -68,6 +70,11 @@ sdsdsd
        </div>
 
    )
+ }
+
+ const todelete = async (data:any) => {
+  await setdel(data) 
+  await setState('')
  }
 
 
@@ -171,7 +178,7 @@ sdsdsd
      
         <i className="fa fa-edit text-gray-500 mr-2"></i> Edit</a>
         <a className="dropdown-item" onClick={()=> router.push(`/members/assign-services/${data.id}`)}  ><i className="fa fa-sign-in-alt text-gray-500 mr-2"></i> Assign Services</a>
-        <a className="dropdown-item" href="javascript:void(0)" ><i className="fa fa-trash text-gray-500 mr-2"></i> Delete</a>
+        <a  onClick={()=> todelete(data.id)} className="dropdown-item" href="javascript:void(0)" ><i className="fa fa-trash text-gray-500 mr-2"></i> Delete</a>
 </div>
         </DropDown>
    )
@@ -186,6 +193,17 @@ null
 
     </th>
    
+
+    {del === data.id ?
+(
+<DelMember  myfunc={setdel} id={data.id}  />
+)
+:
+(
+  null
+)
+
+    }
    
     </tr>
 

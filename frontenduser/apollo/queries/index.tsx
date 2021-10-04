@@ -20,6 +20,7 @@ query getuser {
       memberDescription
       phone
       address
+      status
 
     
    
@@ -30,9 +31,9 @@ query getuser {
 export const GET_NOTIFICATIONS = gql`
 query notifications {
   notifications {
-    type
+     type
       message
-  createdAt
+   createdAt
   }
 }
 `
@@ -53,14 +54,16 @@ query getUserServices {
 export const GET__PAYMENT = gql`
 query getUserPayments {
   getUserPayments {
+     id
+    status
+    createdAt
     month
-  
-      payment
-      status
+    list {
       serviceName
       serviceId
-      createdAt
-    
+      price
+    }
+  
   
   }
 }
@@ -77,6 +80,20 @@ query getUserServices {
 
   
   
+}`
+
+
+export const USER_ACT = gql`
+query getUserActivities {
+  getUserActivities{
+  id
+     message
+
+        topic
+    
+     
+      createdAt 
+  }
 }`
 
 

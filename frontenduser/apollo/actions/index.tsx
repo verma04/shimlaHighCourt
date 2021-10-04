@@ -15,7 +15,8 @@ import {
   USER_ID_TICKET,
   USER_TICKET,
   USER_ID_TICKET_COMMENT,
-  USER_ID_TICKET_CLOSE
+  USER_ID_TICKET_CLOSE,
+  USER_ACT 
   
 
  
@@ -171,7 +172,7 @@ export const useSignOut = () => {
 export const useLazyGetUser = () => useLazyQuery(GET_USER)
 export const useGetUser = () => useQuery(GET_USER)
 
-
+export const useGetUserActivities = () => useQuery(USER_ACT)
 
 
 // Auth actions end -----------------------

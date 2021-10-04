@@ -27,6 +27,7 @@ export const DropDown = styled.div`
     border: 1px solid #e3e6f0;
     border-radius: .35rem;
     .dropdown-item {
+      cursor: pointer;
     display: block;
     width: 100%;
     padding: .30rem 2rem;

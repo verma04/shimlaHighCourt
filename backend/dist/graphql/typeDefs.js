@@ -1,17 +1,7 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 // const { default: gql } = require('graphql-tag');
 const { Servcies } = require('../models/Services');
-const Member_1 = require("../models/Member");
 const { gql } = require('apollo-server');
 const cron = require('node-cron');
 const { ObjectId } = require('mongodb');
@@ -88,12 +78,18 @@ type Due  {
 
 type Payments {
   id: ID!
-payment: String!
 status: String!
-serviceName: String!
-serviceId:  String,
-month:String
 createdAt: String!
+month:String
+list: [paymentList]
+}
+
+type paymentList {
+  serviceName: String!
+serviceId:  String,
+
+price: String
+
 }
  
 
@@ -119,9 +115,9 @@ createdAt: String!
 
   type Notifications {
     id: ID!
-    type: String!
-    createdAt: String!
-    message: String!
+    type: String
+    createdAt: String
+    message: String
  
 
   }
@@ -211,7 +207,7 @@ id:ID
     getActivity:[Activity]!
     duePayment: [Due]!
     getpayments: [Payments]!
-    notifications: [notifications]
+    notifications: [Notifications]
     getUserPayments:[Payments]
     getUserticket:[ticket]
     getticket:[ticket]
@@ -267,120 +263,81 @@ id:ID
   }
 
 `;
-// cron.schedule("16 10 * * *", async  () => {
+//Notificatons
+// cron.schedule("* * * * *", async  () => {
 //    try {
 //     const member = await Member.find({})
 //        member.forEach((element:any) => {
-//         const data  =  element.chamberDet.filter((element1:any) => element1.status === "Due" )   
-//         data.forEach((element:any) => {
-//           const data1 = {
-//             type:"Red",
-//              message:`Payment due ${element.month}`
-//              }
-//                console.log(element)
-//       Member.findOneAndUpdate({Chamber: element.chamberId},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
-//         if (err) {
-//            console.log(err)
-//         }
-//      });
-//         });
+//         const data  =  element.paymentBilling.find((element1:any) => element1.status === "Due" )   
+//                const data1 = {
+//              type:"Red",
+//               message:`Payment due ${data.month}`,
+//      createdAt: new Date().toISOString(),
+//            }
+//      console.log(data1 , element.id)
+//      console.log(element)
+//      Member.findOneAndUpdate({_id: element.id},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
+//        if (err) {
+//           console.log(err)
+//        }
+//        console.log(doc)
+//       })
 //        });
 //    } catch (error) {
 //     console.log(error)
 //    }
 // });
-cron.schedule("* * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const member = yield Member_1.Member.find({});
-        // console.log(member)
-        const arr = [];
-        const ser = yield Servcies.find({});
-        yield member.forEach((element) => __awaiter(void 0, void 0, void 0, function* () {
-            const fin = {
-                status: "Due",
-                createdAt: new Date().toISOString(),
-                month: new Date().toLocaleString("default", { month: "long" }) + " " + new Date().getUTCFullYear(),
-            };
-            Member_1.Member.findOneAndUpdate({ _id: element.id }, { $push: { "paymentBilling": fin } }, { new: true }, (err, doc) => {
-                if (err) {
-                    console.log(err);
-                }
-                console.log(doc);
-            });
-            const data = element.services;
-            //  await  data.forEach((set:any) => {
-            //  const data1  = ser.find((element2:any) => element2.id === set.id )
-            //  const dateObj = new Date()
-            //        const data = {
-            //       payment: data1.servicesPrice,
-            //       serviceName: data1.servicesName,
-            //       serviceId: data1.id
-            //       }
-            //       arr.push(data)
-            //       const fin = {
-            //         status: "Due",
-            //         createdAt: new Date().toISOString(),
-            //         month : dateObj.toLocaleString("default", { month: "long" }) + " " + new Date().getUTCFullYear(),
-            //         paymentBilling: arr
-            //       }
-            //  console.log(fin)
-            //   Member.findOneAndUpdate({_id: element.id},{ $push:{ "paymentBilling": fin }} , {new: true}, (err:any, doc:any) => {
-            //     if (err) {
-            //        console.log(err)
-            //     }
-            //     console.log(doc)
-            //     // });
-            //    });
-            //     await  ser.forEach(async  (element1:any) => {
-            // // console.log(element1._id)
-            // console.log(element)
-            //         // const data1  = data.filter((element2:any) => element2._id === element1._id ) 
-            //         // console.log(data1)
-            //       });
-        }));
-        //  const data  =  ser.servcieList.filter((element1:any) => element1.chamberId === element.Chamber )   
-        //   data.forEach( async ( element2:any) => {
-        //     let mem =  await   Member.findOne({Chamber: element2.chamberId})
-        //     const dateObj = new Date()
-        //     const data = {
-        //     month : dateObj.toLocaleString("default", { month: "long" }),
-        //     payment: "dssd",
-        //     status: "Due",
-        //     chamberId:element2.chamberId,
-        //     createdAt: new Date().toISOString(),
-        //     }
-        //     Member.findOneAndUpdate({Chamber: element2.chamberId},{ $push:{ "chamberDet": data }} , {new: true}, (err:any, doc:any) => {
-        //       if (err) {
-        //          console.log(err)
-        //       }
-        //       console.log(doc)
-        //   });
-        //   });
-    }
-    catch (error) {
-        console.log(error);
-    }
-}));
-// cron.schedule("59 11 * * *", async  () => {
+//Services
+// cron.schedule("* * * * *", async  () => {
 //   try {
-//   const data =await Parking.find({})
-//     data.forEach((element:any) => {
-//       const dateObj = new Date()
-//       const data1 = {
-//         month : dateObj.toLocaleString("default", { month: "long" }),
-//         payment: "payment",
-//         status: "Due",
-//         parkingId: element.id,
-//         price: element.price,
-//         createdAt: new Date().toISOString(),
-//         }
-//      Member.findOneAndUpdate({_id:element.memberId},{ $push:{ "parkingBilling": data1 }} , {new: true}, (err:any, doc:any) => {
+//     const date = new Date().toLocaleString("default", { month: "long" }) + " " + new Date().getUTCFullYear()
+//     const member = await Member.find({})
+//     const arr:any[] = []
+//     const ser =  await   Servcies.find({})
+//     const   addServices =  async () => {
+//       await member.forEach( async (element:any) => {
+//         element.services.forEach((element2:any) => {
+//           const data = {
+//              memberid:element.id,
+//              _id:element2._id
+//           }
+//           arr.push(data)
+//         });
+//       });
+//       const fin:any[] = []
+//    await   arr.forEach(  async (set:any) => {
+//         const data1 = await ser.find((elment:any) =>  elment.id  === set._id )
+//         const data12 = {
+//           price: data1.servicesPrice,
+//           serviceName: data1.servicesName,
+//           serviceId:data1.id,
+//           memberId:set.memberid
+//         }  
+//         const member =  await Member.findOneAndUpdate({_id:set.memberid  , "paymentBilling.month": date },{  $push: { "paymentBilling.$.list": data12 }   },  { new: true, upsert: true }).exec()
+//         console.log(member)
+//       });
+//     }
+//     const   addMonth =  async () => {
+//     const member = await Member.find({})
+//     // console.log(member)
+//   const arr:any[] = []
+//     const ser =  await   Servcies.find({})
+//    await  member.forEach(async  (element:any) => {
+//     const fin = {
+//       status: "Due",
+//       createdAt: new Date().toISOString(),
+//       month : date,
+//     }
+//          Member.findOneAndUpdate({_id: element.id},{ $push:{ "paymentBilling": fin }} , {new: true}, (err:any, doc:any) => {
 //         if (err) {
 //            console.log(err)
 //         }
-//     console.log(doc)
-//   });    
-// })
+//         console.log(doc)
+//       })
+//     })
+//     }
+//     await addMonth()
+//     await addServices()
 //   } catch (error) {
 //    console.log(error) 
 //   }

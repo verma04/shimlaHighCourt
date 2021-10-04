@@ -1,70 +1,100 @@
 import { useState, useEffect } from 'react';
 
-import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { useGetMembers } from '../../apollo/actions'
+
+import moment from 'moment'
+import { useNotifications } from '../../apollo/actions'
 import  { Section  } from './Style';
 import { Header } from '../ComanStyle/Header'
 import ContentLoader, { Facebook } from 'react-content-loader'
 
 import { useGetUser } from '../../apollo/actions';
 import { useRouter } from "next/router";
+import { Table } from '../ComanStyle/Table';
  const  Dashboard = () => {
 
-    interface RocketInventoryVars {
-        year: number;
-      }
-      
-    const { data, loading, error } = useGetUser();
-  const router = useRouter();
   
+      
+
+  
+  const { data,  error } = useNotifications();
 
 console.log(data)
-
         return (
             <>
    
-          <Section>
-                 <div className="flex" >
-                     
-                     <Header>
-                 <div className='flex-1' >
-   
-   <div onClick={()=>router.push("/admin/members")} className="flex-item" >
-   <i className="fas fa-comments"></i>
+         <Table>
 
-   <h4>Total Member</h4>
+         <div className="head">
+<h1>My Activity Log</h1>
 
-   <span></span>
-   </div>
-   <div className="flex-item" >
-   <i className="fas fa-comments"></i>
-   <h4>OurDue Payments</h4>
 
-<span>0</span>
-       </div>
-    <div  onClick={()=>router.push("/admin/chambers")} className="flex-item" >
-    <i className="fas fa-comments"></i>
-    <h4>Total Chambers</h4>
+</div>
 
-<span>300</span>
-       </div>
+                    
 
-       <div className="flex-item" >
-       <i className="fas fa-comments"></i>
-       <h4>Parking Subscriptions</h4>
+<div className='flex-2' >
 
-<span>200</span>
-       </div>
+ 
+        <div className='garph' >
 
-                     </div>
-                     </Header>
-          
+          <div  className="graphl-top" > 
 
-          <h1>Welcome To dashbaord     {data && data.getMember.notifcations.length}</h1>
-                     
-                     </div> 
-                 
-                     </Section>
+
+<h3>My Activity Log</h3>
+
+
+
+
+
+</div>
+
+<div className="graphl-bottom" >
+
+<table id="customers">
+  <tr id="top" >
+    <th>Status</th>
+    <th>Time</th>
+    <th>Subject</th>
+  
+    
+
+  </tr>
+  {data && data.notifications.map((number:any)=>
+  <tr key={number.id} >
+<th>
+
+
+  <span style={{background:"red"}}  className="open" >
+ {number.type}
+  
+  </span>
+
+
+</th>
+
+<th> {moment(number.createdAt).fromNow() } </th>
+
+<th style={{width:"40%"}}>{number.message}</th>
+  </tr>
+  
+  )
+
+  }
+ 
+
+</table>
+</div>
+
+
+
+</div>
+      </div>
+       
+       
+
+    
+
+         </Table>
             
             </>
         )

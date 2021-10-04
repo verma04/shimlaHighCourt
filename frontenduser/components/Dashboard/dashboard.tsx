@@ -1,23 +1,36 @@
 import { useState, useEffect } from 'react';
-
+import moment from 'moment';
+import Image from 'next/image';
 import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
-import { useNotifications  , useUserServices  ,useUserPayments } from '../../apollo/actions'
+import { useNotifications  , useUserServices  ,useUserPayments , useGetUserActivities } from '../../apollo/actions'
 import  { Section  } from './Style';
 import { Header } from '../ComanStyle/Header'
 import ContentLoader, { Facebook } from 'react-content-loader'
-
+import { Pop } from '../ComanStyle/Pop';
 import { useGetUser } from '../../apollo/actions';
 import { useRouter } from "next/router";
  const  Dashboard = () => {
 
   const router = useRouter();
-  
-  const { data, loading, error } = useNotifications();
+
+  const [ set , setState] = useState(false)
+  const {data:data2, loading:loading1  } = useGetUserActivities();
+  const { data,  error } = useNotifications();
 
   const { data:data1 , error:error1 } =useUserServices();
 
-  const { data:data12 , error:error12 } =useUserPayments();
-  console.log(data12)
+  const { data:data12 , error:error12 , loading } =useUserPayments();
+  
+  if(loading) {
+    return (
+      <div>
+sdsdds
+      </div>
+    )
+  }
+
+  
+
         return (
             <>
    
@@ -31,14 +44,10 @@ import { useRouter } from "next/router";
    <i className="fas fa-comments"></i>
 
    <h4>Notifications </h4>
-   {data && data.notifcations === null ? (
 
- <span> {data && data.notifcations.length}</span>
-   ):
-   (
-    <span>0</span>
-   )
- }
+
+ <span> {data && data.notifications.length}</span>
+
   
    </div>
    <div className="flex-item" >
@@ -49,25 +58,108 @@ import { useRouter } from "next/router";
        </div>
     <div  onClick={()=>router.push("/admin/chambers")} className="flex-item" >
     <i className="fas fa-comments"></i>
-    <h4> Chambers</h4>
+    <h4>Assign Services</h4>
 
-<span>300</span>
+<span>{data1 && data1.getUserServices.length}</span>
        </div>
 
-       <div className="flex-item" >
+       {/* <div className="flex-item" >
        <i className="fas fa-comments"></i>
        <h4>Parking Subscriptions</h4>
 
 <span>200</span>
-       </div>
+       </div> */}
 
                      </div>
                      </Header>
           
+                     <div className='flex-2' >
+        <div className='garph' >
 
-          <h1>Welcome To dashbaord</h1>
-                     
-                     </div> 
+          <div  className="graphl-top" > 
+
+
+<h3>Month Payments Collections Statistics</h3>
+
+
+</div>
+
+<div  className="graphl-bottom" > 
+
+
+</div>
+</div>
+<div className='payments' >
+<div  className="payments-top" > 
+<h3>Latest Activities</h3>
+
+</div>
+
+<div  className="payments-bottom" > 
+{data2 &&  data2.getUserActivities.map((data:any)  =>
+
+<div  onClick={()=> router.push(`${data.topic}`)} className="pay"  key={data.id} >
+<div className="pay-top" >
+<div className="img-wrapper" >
+                  <Image
+          layout="fill"
+          objectFit="contain"
+      src="https://res.cloudinary.com/dzcmadjl1/image/upload/v1633329837/cbylw8q3itvb7fqh75ij.png"
+      alt="Picture of the author"
+     
+    />
+                  </div>
+
+                  <span>{data.message}</span>
+
+    </div>
+
+    <div className="pay-bottom" >
+
+        <span>{moment(data.createdAt).fromNow()}</span>
+    </div>
+</div>
+)
+
+}
+
+</div>
+
+
+
+</div>
+
+        </div>
+
+             
+                    </div>
+
+
+                    {/* {(data12 && data12.getUserPayments)[data12 && data12.getUserPayments.length - 1].status === "Due" && setState(true)  }
+                    {set ? (
+        
+          <>
+            <Pop>
+            <div data-aos="fade-top" className="modal-content">
+            <span  onClick={()=> setState(false)} className="close">&#10005;</span>
+    <div className="container">
+    
+    Payment Pending
+    
+     
+    </div>
+
+  </div>
+     
+     
+            </Pop>
+          </>
+         
+      
+      ) : (
+ null
+      )}
+                   */}
                      </Section>
             
             </>

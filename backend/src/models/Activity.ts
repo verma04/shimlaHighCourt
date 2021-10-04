@@ -4,12 +4,12 @@ const ActivitySchema = new Schema({
    
       message: {
         type: String ,
-        required:true,
+     
        },
 
         topic: {
             type: String ,
-            required:true,
+        
        }
 ,
     
@@ -19,7 +19,7 @@ const ActivitySchema = new Schema({
 
       activityId: {
             type: String ,
-            required:true,
+    
            },
     
 

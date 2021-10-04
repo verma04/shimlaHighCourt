@@ -119,7 +119,9 @@ const arr:string[]= []
 
     const data =  await Member.findOne({_id:id})
 
-    return data.notifications
+
+
+    return data.notifcations
   },
  
   async getUserPayments(_:any ,{  }:any, context:any) {
