@@ -9,6 +9,12 @@ import ContentLoader, { Facebook } from 'react-content-loader'
 import { Pop } from '../ComanStyle/Pop';
 import { useGetUser } from '../../apollo/actions';
 import { useRouter } from "next/router";
+
+ 
+import Payment from './payment'
+
+
+
  const  Dashboard = () => {
 
   const router = useRouter();
@@ -20,6 +26,13 @@ import { useRouter } from "next/router";
   const { data:data1 , error:error1 } =useUserServices();
 
   const { data:data12 , error:error12 , loading } =useUserPayments();
+  
+
+ 
+
+	const [name, setName] = useState('Mehul')
+
+
   
   if(loading) {
     return (
@@ -85,7 +98,32 @@ sdsdds
 </div>
 
 <div  className="graphl-bottom" > 
+{
+  data12 && data12.getUserPayments.map((number:any) => 
 
+  <div key={number.id}>
+
+ {number.list.map( (data1:any) =>
+ <div  key={data1.id}>
+
+
+
+
+
+   </div>
+ 
+ )
+
+ }
+
+<Payment  data = {number.list.map((item:any) => item.price).reduce((prev:any, curr:any) => prev + curr, 0) } />
+
+
+    </div>
+  
+  
+  )
+}
 
 </div>
 </div>
@@ -160,6 +198,7 @@ sdsdds
  null
       )}
                    */}
+                
                      </Section>
             
             </>

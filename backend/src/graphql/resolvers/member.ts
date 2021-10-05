@@ -49,7 +49,7 @@ const MemberResolvers  = {
 
 
     const data =  await Member.findOne({_id:id})
-
+  console.log(data)
     return data
 
   },

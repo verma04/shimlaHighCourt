@@ -45,6 +45,7 @@ const MemberResolvers = {
             return __awaiter(this, void 0, void 0, function* () {
                 const { id } = checkAuth(context);
                 const data = yield Member.findOne({ _id: id });
+                console.log(data);
                 return data;
             });
         },
