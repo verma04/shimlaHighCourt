@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+var mongoose = require('mongoose');
 const { UserInputError } = require('apollo-server');
 var slugify = require('slugify')
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
@@ -7,7 +8,7 @@ const checkAuth = require('../../util/checkAuth');
 const { Member } = require('../../models/Member');
 const { Servcies } = require('../../models/Services');
 const { Activity } = require('../../models/Activity');
-
+const {  PaymentSchedule } = require('../../models/PaymentSchedule')
 const { Payments } = require('../../models/payments');
 function generateToken(user:any) {
   return jwt.sign(
@@ -49,7 +50,7 @@ const MemberResolvers  = {
 
 
     const data =  await Member.findOne({_id:id})
-  console.log(data)
+ 
     return data
 
   },
@@ -129,11 +130,11 @@ const arr:string[]= []
     const {id} = checkAuth(context);
 
    
+const data =  await PaymentSchedule.find({member:mongoose.Types.ObjectId(id) , status:"Due"}).sort({createdAt: -1})
 
+  
+ return data
 
-    const data =  await Member.findOne({_id:id})
-
-    return data.paymentBilling
   },
 
   },

@@ -13,6 +13,6 @@ module.exports = {
     //   commentCount: (parent) => parent.comments.length,
     // },
     Query: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, usersResolvers.Query), ServicesResolvers.Query), MemberResolvers.Query), activityResolvers.Query), paymentsResolvers.Query), ticketResolvers.Query),
-    Mutation: Object.assign(Object.assign(Object.assign(Object.assign({}, usersResolvers.Mutation), ServicesResolvers.Mutation), MemberResolvers.Mutation), ticketResolvers.Mutation),
+    Mutation: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, usersResolvers.Mutation), ServicesResolvers.Mutation), MemberResolvers.Mutation), paymentsResolvers.Mutation), ticketResolvers.Mutation),
 };
 //# sourceMappingURL=index.js.map

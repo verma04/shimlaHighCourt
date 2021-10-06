@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MemberResolvers = void 0;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+var mongoose = require('mongoose');
 const { UserInputError } = require('apollo-server');
 var slugify = require('slugify');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
@@ -19,6 +20,7 @@ const checkAuth = require('../../util/checkAuth');
 const { Member } = require('../../models/Member');
 const { Servcies } = require('../../models/Services');
 const { Activity } = require('../../models/Activity');
+const { PaymentSchedule } = require('../../models/PaymentSchedule');
 const { Payments } = require('../../models/payments');
 function generateToken(user) {
     return jwt.sign({
@@ -45,7 +47,6 @@ const MemberResolvers = {
             return __awaiter(this, void 0, void 0, function* () {
                 const { id } = checkAuth(context);
                 const data = yield Member.findOne({ _id: id });
-                console.log(data);
                 return data;
             });
         },
@@ -99,8 +100,8 @@ const MemberResolvers = {
         getUserPayments(_, {}, context) {
             return __awaiter(this, void 0, void 0, function* () {
                 const { id } = checkAuth(context);
-                const data = yield Member.findOne({ _id: id });
-                return data.paymentBilling;
+                const data = yield PaymentSchedule.find({ member: mongoose.Types.ObjectId(id), status: "Due" }).sort({ createdAt: -1 });
+                return data;
             });
         },
     },

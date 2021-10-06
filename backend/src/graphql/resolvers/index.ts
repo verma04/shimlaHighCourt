@@ -27,7 +27,7 @@ module.exports = {
     ...usersResolvers.Mutation,
     ...ServicesResolvers.Mutation,
     ...MemberResolvers.Mutation,
-    // ...parkingResolvers.Mutation
+    ...paymentsResolvers.Mutation,
     ...ticketResolvers.Mutation
   },
 

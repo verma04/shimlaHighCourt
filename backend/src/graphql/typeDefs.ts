@@ -1,10 +1,13 @@
 // const { default: gql } = require('graphql-tag');
 const { Servcies } = require('../models/Services');
 import { POINT_CONVERSION_COMPRESSED } from "constants";
+
 import { Member } from "../models/Member";
 const { gql } = require('apollo-server');
 const cron = require('node-cron');
 const {ObjectId} = require('mongodb'); 
+const {  PaymentSchedule } = require('../models/PaymentSchedule')
+var uuid = require('uuid');
 // const { Parking } = require('../models/Parking');
 module.exports = gql`
   type Post {
@@ -50,11 +53,6 @@ module.exports = gql`
     
   }
 type Due  {
-    month: String!
-    payment: String!
-    status: String!
-    chamberId: String!
-    createdAt: String!
     id: ID
   }
   type Chamber {
@@ -163,6 +161,17 @@ type comment {
     
 
 }
+type pay {
+  id: ID!
+  totalmoney: String
+   paymentId: String
+  status:String
+  serviceID:String
+  month: String
+  createdAt: String
+  paymentBilling: [paymentList]
+
+}
 type ticket {
 id:ID
   ticketTitle: String
@@ -206,13 +215,15 @@ id:ID
 
     getActivity:[Activity]!
     duePayment: [Due]!
-    getpayments: [Payments]!
+    getpayments: [pay]!
     notifications: [Notifications]
     getUserPayments:[Payments]
     getUserticket:[ticket]
     getticket:[ticket]
     getUserticketById(id: String):ticket
     getUserActivities: [Activity]
+    userAllPayments: [pay]
+   
   }
   type Mutation {
     register(   username: String! password: String! confirmPassword: String! email: String!, phone: String!): User!
@@ -260,6 +271,8 @@ id:ID
     getUserticketByIdClose(id: String!, status: String!):ticket
     getUserticketByIdCommentAdmin(id: String!, answer: String!):ticket
     deleteMember(id: ID!): Member
+
+    servicepayment(  payment_id: String ,  userid: String ,  serviceID: String!): pay
   }
 
 `;
@@ -316,136 +329,136 @@ id:ID
 
 
 
+
 //Services
-// cron.schedule("* * * * *", async  () => {
+cron.schedule("0 */45 * * * *", async  () => {
 
-//   try {
+  try {
    
-//     const date = new Date().toLocaleString("default", { month: "long" }) + " " + new Date().getUTCFullYear()
-//     const member = await Member.find({})
-
-
-//     const arr:any[] = []
-  
-  
-//     const ser =  await   Servcies.find({})
-  
-
-
-//     const   addServices =  async () => {
-//       await member.forEach( async (element:any) => {
-         
-//         element.services.forEach((element2:any) => {
-       
     
-//           const data = {
-//              memberid:element.id,
-//              _id:element2._id
+    const date = new Date().toISOString()
+    const  uniq = uuid.v4();
+    const member = await Member.find({})
+   const ser =await Servcies.find({})
+
   
-  
-//           }
-  
-//           arr.push(data)
-  
-       
-//         });
-          
-//       });
+ await    member.forEach( async  (element:any)=> {
+
       
-//       const fin:any[] = []
-  
-//    await   arr.forEach(  async (set:any) => {
-//         const data1 = await ser.find((elment:any) =>  elment.id  === set._id )
-  
+
+        const fin = new PaymentSchedule  ({
+        status: "Due",
+        createdAt: new Date().toISOString(),
+        month : date,
+        uniq,
+        member: element._id,
        
+      })
+
+      const  data =  await  fin.save()
+     
+
+      // console.log(data)
+
+     });
+
+    
+    const arr:any[] = []
+
+
+      
+
+  // await  paySeh.forEach(  async (element:any) => {
+
+  //   // console.log(element.member)
+     
+  //   // console.log(member)
+    
+
+  // const filter = await Member.find({id: element.member })
+
+ 
+
+  //   });
+
+  const paySeh = await PaymentSchedule.find({})
+
+  await member.forEach((element:any)=> {
+
+
+
+    PaymentSchedule.find({$and:[  {member:element._id}  ,{     uniq:uniq}]}, function(err:any, user:any) 
+ {
+    if (err)
+    {
+console.log(err)
+    }
    
-  
-//         const data12 = {
-//           price: data1.servicesPrice,
-//           serviceName: data1.servicesName,
-//           serviceId:data1.id,
-//           memberId:set.memberid
+
+    
+
+    element.services.forEach(async (set:any) => {
+
+     
+    const data1 = await ser.find((elment:any) =>  elment.id  === set._id )
+
+    console.log(data1 , uniq)
+
+    const data12 = {
+                price: data1.servicesPrice,
+                serviceName: data1.servicesName,
+                serviceId:data1.id,
+                memberId:set.memberid
+              }  
+
+              PaymentSchedule.findOneAndUpdate({$and:[  {member:element._id}  ,{     uniq:uniq}]} , {  $push: { "list": data12 }   }, function(err:any, user:any) 
+              {
+                 if (err)
+                 {
+             console.log(err)
+                 }
+
+                 console.log(user)
+   
+                })
+            
+
+              //         try {
+     
+          
+//           Member.findOneAndUpdate({_id:set.memberid  , "paymentBilling.uniq": uniq },{  $push: { "paymentBilling.$.list": data12 }   },  {  multi: true , new: true, upsert: true }, (err:any, doc:any) => {
+//             if (err) {
+//               console.log(set.memberid , uniq )
+//                throw err
+//             }
         
-  
-//         }  
-  
-//         const member =  await Member.findOneAndUpdate({_id:set.memberid  , "paymentBilling.month": date },{  $push: { "paymentBilling.$.list": data12 }   },  { new: true, upsert: true }).exec()
-  
-//         console.log(member)
-  
-     
-     
-  
-  
+//             console.log(doc)
+        
+//           })
           
-       
-//       });
-  
-  
-
-//     }
-
-
-
-//     const   addMonth =  async () => {
-//     const member = await Member.find({})
-
-
-//     // console.log(member)
-  
-
-
-//   const arr:any[] = []
-//     const ser =  await   Servcies.find({})
-
-    
-     
-//    await  member.forEach(async  (element:any) => {
-
-  
-//     const fin = {
-//       status: "Due",
-//       createdAt: new Date().toISOString(),
-//       month : date,
-     
-     
-//     }
-
-
-//          Member.findOneAndUpdate({_id: element.id},{ $push:{ "paymentBilling": fin }} , {new: true}, (err:any, doc:any) => {
-//         if (err) {
-//            console.log(err)
 //         }
-
+//         catch (err) {
+//           throw err
+//         }
       
-//         console.log(doc)
+    });
 
-//       })
+  
 
-//     })
+ });
 
- 
-
-
-//     }
-
-
-//     await addMonth()
-//     await addServices()
- 
-
-
+  });
+   
+  
  
 
 
 
     
-//   } catch (error) {
+  } catch (error) {
 
  
-//    console.log(error) 
-//   }
+   console.log(error) 
+  }
   
-// });
-
-
+});

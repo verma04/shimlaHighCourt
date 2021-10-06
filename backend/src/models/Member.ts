@@ -61,6 +61,9 @@ const MemberSchema = new Schema({
       status: {
         type: String,
       },
+      uniq: {
+        type: String,
+      },
       createdAt: String,
       list: [
         {  

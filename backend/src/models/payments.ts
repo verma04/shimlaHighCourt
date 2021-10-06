@@ -7,15 +7,38 @@ const PaymentsSchema = new Schema({
        type: String ,
       
       },
-      price: {
+      paymentId: {
+        type: String ,
+        require: true
+      },
+      totalmoney: {
+        type: String ,
+       
+       },
+       status: {
+        type: String,
+      },
+      month: {
         type: String ,
        
        },
        
-     
-      createdAt: String,
+     createdAt: String,
     
-  
+      paymentBilling: [
+        {  
+       price: {
+            type: String ,
+           
+           },
+        serviceName: {
+            type: String,
+          },
+          serviceId: {
+            type: String,
+          },
+         },
+      ],
 
 
   
