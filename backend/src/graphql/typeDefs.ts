@@ -214,7 +214,7 @@ id:ID
   getMember: Member!
 
     getActivity:[Activity]!
-    duePayment: [Due]!
+    duePayment: [Payments]!
     getpayments: [pay]!
     notifications: [Notifications]
     getUserPayments:[Payments]
@@ -223,6 +223,7 @@ id:ID
     getUserticketById(id: String):ticket
     getUserActivities: [Activity]
     userAllPayments: [pay]
+    userAllDuePayments: [pay]
    
   }
   type Mutation {
@@ -278,37 +279,58 @@ id:ID
 `;
 
 //Notificatons
-// cron.schedule("* * * * *", async  () => {
+cron.schedule("0 */45 * * * *", async  () => {
 
-//    try {
-//     const member = await Member.find({})
+   try {
+    const member = await PaymentSchedule.find({"status":"Due"})
+
+    console.log(member)
+
+
+    member.forEach((element:any)  => {
+
+  
+                   const data1 = {
+             type:"Red",
+              message:`Payment due ${element.month}`,
+     createdAt: new Date().toISOString(),
+           }
+
+               Member.findOneAndUpdate({_id: element.member},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
+       if (err) {
+          console.log(err)
+       }
+       console.log(doc)
+      })
+          
+    });
 
  
     
-//        member.forEach((element:any) => {
+    //    member.forEach((element:any) => {
 
 
-//         const data  =  element.paymentBilling.find((element1:any) => element1.status === "Due" )   
+    //     const data  =  element.paymentBilling.find((element1:any) => element1.status === "Due" )   
 
-//                const data1 = {
-//              type:"Red",
-//               message:`Payment due ${data.month}`,
-//      createdAt: new Date().toISOString(),
-//            }
+    //            const data1 = {
+    //          type:"Red",
+    //           message:`Payment due ${data.month}`,
+    //  createdAt: new Date().toISOString(),
+    //        }
        
-//      console.log(data1 , element.id)
+    //  console.log(data1 , element.id)
 
-//      console.log(element)
-//      Member.findOneAndUpdate({_id: element.id},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
-//        if (err) {
-//           console.log(err)
-//        }
-//        console.log(doc)
-//       })
+    //  console.log(element)
+    //  Member.findOneAndUpdate({_id: element.id},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
+    //    if (err) {
+    //       console.log(err)
+    //    }
+    //    console.log(doc)
+    //   })
       
 
          
-//        });
+    //    });
       
 
      
@@ -316,13 +338,13 @@ id:ID
 
     
 
-//    } catch (error) {
+   } catch (error) {
 
-//     console.log(error)
+    console.log(error)
      
-//    }
+   }
    
-// });
+});
 
 
 

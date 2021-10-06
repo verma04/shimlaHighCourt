@@ -126,11 +126,14 @@ export const GET_DUEPAYMENTS = gql`
 query  getduepayments {
   duePayment {
     id
-    createdAt
-    chamberId
     status
-    payment
+    createdAt
     month
+    list {
+      serviceName
+      serviceId
+      price
+    }
   }
 
 }
@@ -152,9 +155,19 @@ query  getpayments {
  
   getpayments {
     
-    memberId
-    price
+    id
+    paymentId
+    status
+    totalmoney
+    month
     createdAt
+    paymentBilling {
+      serviceName
+      serviceId
+      price
+    }
+ 
+      
   }
 }
 `

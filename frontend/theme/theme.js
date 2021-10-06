@@ -77,7 +77,7 @@ h1 {
   ul {
     list-style: none;
     li {
-      
+      line-height: 1.6;
     cursor: pointer;
     color: ${props => props.theme.colors.text1};
 

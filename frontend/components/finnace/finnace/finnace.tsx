@@ -83,7 +83,7 @@ const Finnace = () => {
  {data && data.getServices.map((data:any ) =>
     
           <tr key={data.id} >
-    <th><span>enabled</span></th>
+    <th><span style={{background:"green"}}  >enabled</span></th>
     <th>{data.uniq}</th>
     <th>{data.servicesName}</th>
     <th>{data.servicesPrice}</th>

@@ -54,19 +54,24 @@ import Image from 'next/image'
     <Link
   
    
-  href="/admin/parking"
+  href="/"
   passHref
 >
 <i  id={router.pathname == "/admin/parking" ? "active" : ""} className="fas fa-school"> <h3>My Profile</h3> </i>  
 </Link>
+
+
     <Link
   
    
-       href="/admin/activities"
+       href="/"
        passHref
     >
     <i id={router.pathname == "/admin/activities" ? "active" : ""} className="fas fa-city"><h3>Change Password</h3></i>  
     </Link>
+
+
+
  
     <Link
   
@@ -97,7 +102,7 @@ import Image from 'next/image'
       <Link
   
    
-  href="/logout"
+  href="/"
   passHref
 >
    

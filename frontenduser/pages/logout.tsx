@@ -11,6 +11,7 @@ const Logout = ({}) => {
   const fetchDataAsync = async () => {
      await   localStorage.removeItem("jwtToken");      
     await router.push("/login")
+    await window.location.reload()
   }
 
   useEffect(  () => {

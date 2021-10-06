@@ -10,7 +10,7 @@ import ContentLoader, { Facebook } from 'react-content-loader'
 import { useGetUser , useUserServices } from '../../apollo/actions';
 import { useRouter } from "next/router";
 import { Table } from '../ComanStyle/Table';
-import Invoice from './invoice'
+
 import { Pop } from '../ComanStyle/Pop';
 
  const  Dashboard = () => {

@@ -23,7 +23,8 @@ import {
       interface payment {
         memberId:String
         price:String
-        createdAt:string
+        createdAt:string,
+        paymentId:string
       }
      
       
@@ -84,13 +85,13 @@ import {
     />
                   </div>
 
-                  <span>{data.memberId}</span>
+                  <span>{data.paymentId}</span>
 
     </div>
 
     <div className="pay-bottom" >
 
-        <span>{moment(data.createdAt).format('LLLL')}</span>
+        <span>{moment(data.createdAt).fromNow()}</span>
     </div>
 </div>
 )

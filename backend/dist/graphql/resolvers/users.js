@@ -15,6 +15,7 @@ const jwt = require('jsonwebtoken');
 const { UserInputError } = require('apollo-server');
 const { Member } = require('../../models/Member');
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
+const { PaymentSchedule } = require('../../models/PaymentSchedule');
 const { User } = require('../../models/User');
 const checkAuth = require('../../util/checkAuth');
 function generateToken(user) {
@@ -32,13 +33,8 @@ const usersResolvers = {
         },
         duePayment(_, {}, context) {
             return __awaiter(this, void 0, void 0, function* () {
-                const member = yield Member.find({});
-                const arr = [];
-                yield member.forEach((element) => {
-                    arr.push(...element.chamberDet);
-                });
-                const data = arr.filter((element1) => element1.status === "Due");
-                return data;
+                const Sch = yield PaymentSchedule.find({ "status": "Due" }).sort({ createdAt: -1 });
+                return Sch;
             });
         }
     },

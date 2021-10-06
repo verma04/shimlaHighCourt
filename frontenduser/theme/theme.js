@@ -82,6 +82,9 @@ h1 {
     color: white;
     margin-right: 0.5rem;
 }
+li {
+  line-height:1.6;
+}
 .color-text-white {
     color: var(--color-scale-white) !important;
 }

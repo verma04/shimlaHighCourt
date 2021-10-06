@@ -223,7 +223,7 @@ id:ID
   getMember: Member!
 
     getActivity:[Activity]!
-    duePayment: [Due]!
+    duePayment: [Payments]!
     getpayments: [pay]!
     notifications: [Notifications]
     getUserPayments:[Payments]
@@ -232,6 +232,7 @@ id:ID
     getUserticketById(id: String):ticket
     getUserActivities: [Activity]
     userAllPayments: [pay]
+    userAllDuePayments: [pay]
    
   }
   type Mutation {
@@ -286,29 +287,44 @@ id:ID
 
 `;
 //Notificatons
-// cron.schedule("* * * * *", async  () => {
-//    try {
-//     const member = await Member.find({})
-//        member.forEach((element:any) => {
-//         const data  =  element.paymentBilling.find((element1:any) => element1.status === "Due" )   
-//                const data1 = {
-//              type:"Red",
-//               message:`Payment due ${data.month}`,
-//      createdAt: new Date().toISOString(),
-//            }
-//      console.log(data1 , element.id)
-//      console.log(element)
-//      Member.findOneAndUpdate({_id: element.id},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
-//        if (err) {
-//           console.log(err)
-//        }
-//        console.log(doc)
-//       })
-//        });
-//    } catch (error) {
-//     console.log(error)
-//    }
-// });
+cron.schedule("0 */45 * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const member = yield PaymentSchedule.find({ "status": "Due" });
+        console.log(member);
+        member.forEach((element) => {
+            const data1 = {
+                type: "Red",
+                message: `Payment due ${element.month}`,
+                createdAt: new Date().toISOString(),
+            };
+            Member_1.Member.findOneAndUpdate({ _id: element.member }, { $push: { "notifcations": data1 } }, { new: true }, (err, doc) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log(doc);
+            });
+        });
+        //    member.forEach((element:any) => {
+        //     const data  =  element.paymentBilling.find((element1:any) => element1.status === "Due" )   
+        //            const data1 = {
+        //          type:"Red",
+        //           message:`Payment due ${data.month}`,
+        //  createdAt: new Date().toISOString(),
+        //        }
+        //  console.log(data1 , element.id)
+        //  console.log(element)
+        //  Member.findOneAndUpdate({_id: element.id},{ $push:{ "notifcations": data1 }} , {new: true}, (err:any, doc:any) => {
+        //    if (err) {
+        //       console.log(err)
+        //    }
+        //    console.log(doc)
+        //   })
+        //    });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}));
 //Services
 cron.schedule("0 */45 * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
     try {

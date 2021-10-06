@@ -29,11 +29,11 @@ import { useNotifications } from '../../../apollo/actions';
     />
                   </div>
                   <Link
-           href="/dashbaord"
+           href="/"
            passHref
           
     >
- <i  id={router.pathname == "/dashbaord" ? "active" : ""} className="fas fa-list"> <h3>  Dashboard</h3> </i>  
+ <i  id={router.pathname === '/' ? "active" : ""} className="fas fa-fw fa-tachometer-alt"> <h3>  Dashboard</h3> </i>  
     </Link>
    
  
@@ -45,7 +45,14 @@ import { useNotifications } from '../../../apollo/actions';
 >
 <i id={router.pathname == "/assigned-services" ? "active" : ""} className="fas fa-laptop-house"> <h3>Assigned Services</h3> </i>  
  </Link>
- 
+ <Link
+  
+   
+  href="/due-payments"
+  passHref
+>
+<i id={router.pathname == "/due-payments" ? "active" : ""} className="fas fa-money-bill-wave"> <h3>Due Payments</h3> </i>  
+ </Link>
     <Link
   
    
@@ -78,7 +85,7 @@ import { useNotifications } from '../../../apollo/actions';
        href="/notifications"
        passHref
     >
-    <i className="fas fa-bell"> <h3>My Notification 
+    <i id={router.pathname == "/notifications" ? "active" : ""} className="fas fa-bell"> <h3>My Notification 
        
    
 
@@ -92,7 +99,7 @@ import { useNotifications } from '../../../apollo/actions';
   href="/payment-history"
   passHref
 >
-<i id={router.pathname == "/payments" ? "active" : ""} className="fas fa-money-check"> <h3>Payment
+<i id={router.pathname == "/payment-history" ? "active" : ""} className="fas fa-money-check"> <h3>Payment
    History
 
 
@@ -109,6 +116,8 @@ import { useNotifications } from '../../../apollo/actions';
  <i id={router.pathname == "/activities" ? "active" : ""} className="fas fa-cog"> <h3>My Activity Log</h3> </i>  
       </Link>
 
+
+
   
       <Link
   
@@ -117,7 +126,7 @@ import { useNotifications } from '../../../apollo/actions';
   passHref
 >
    
-   <i className="fas fa-cog"> <h3>Logout</h3></i>  
+   <i className="fa fa-sign-out-alt"> <h3>Logout</h3></i>  
     
     
     </Link>

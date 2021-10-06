@@ -4,7 +4,7 @@ import  { InMemoryCache ,ApolloClient, } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloLink, concat } from 'apollo-link';
-const httpLink = new HttpLink({ uri: 'http://localhost:5000' });
+const httpLink = new HttpLink({ uri: 'http://3.131.190.17:5000/' });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
 

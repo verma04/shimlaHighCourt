@@ -106,14 +106,14 @@ const  Ticket = () => {
 
 </th>
 
-<th> {moment(number.createdAt).format('LLLL') } </th>
+<th> {moment(number.createdAt).fromNow() } </th>
 {number.editedAt === null ?
 (
 <th>   </th>
 )
 :
 (
-<th> {moment(number.editedAt).format('LLLL') }  </th>
+<th> {moment(number.editedAt).fromNow() }  </th>
 )
 
 }

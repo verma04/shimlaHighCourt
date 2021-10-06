@@ -106,7 +106,7 @@ import 'antd/dist/antd.css';
           <table>
             <tr>
               <th>Gross Total :</th>
-              <td>Rs. {info.paymentBilling.map(item => item.price).reduce((prev  , curr) => prev + curr, 0)}</td>
+              <td>Rs. {info.paymentBilling.map(item =>    parseInt(item.price)).reduce((prev  , curr) => prev + curr, 0)}</td>
             </tr>
             <tr>
               <th>IGST @6% :</th>
@@ -118,7 +118,7 @@ import 'antd/dist/antd.css';
             </tr>
             <tr>
               <th>Nett Total :</th>
-              <td>Rs. {info.paymentBilling.map(item => item.price).reduce((prev  , curr) => prev + curr, 0)}</td>
+              <td>Rs. {info.paymentBilling.map(item =>  parseInt(item.price)).reduce((prev  , curr) => prev + curr, 0)}</td>
             </tr>
           </table>
         </Col>

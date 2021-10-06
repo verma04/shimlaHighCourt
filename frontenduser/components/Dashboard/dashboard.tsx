@@ -54,7 +54,7 @@ import Payment from './payment'
                      <Header>
                  <div className='flex-1' >
    
-   <div onClick={()=>router.push("/admin/members")} className="flex-item" >
+   <div onClick={()=>router.push("/notifications")} className="flex-item" >
    <i className="fas fa-comments"></i>
 
    <h4>Notifications </h4>
@@ -64,13 +64,13 @@ import Payment from './payment'
 
   
    </div>
-   <div className="flex-item" >
+   <div onClick={()=>router.push("/due-payments")} className="flex-item" >
    <i className="fas fa-comments"></i>
    <h4>OurDue Payments</h4>
 
 <span>{data12 && data12.getUserPayments.length}</span>
        </div>
-    <div  onClick={()=>router.push("/admin/chambers")} className="flex-item" >
+    <div  onClick={()=>router.push("/assigned-services")} className="flex-item" >
     <i className="fas fa-comments"></i>
     <h4>Assign Services</h4>
 
@@ -100,15 +100,15 @@ import Payment from './payment'
 
 <div  className="graphl-bottom" > 
 {
-  data12 && data12.getUserPayments.map((number:any) => 
+  data12 && data12.getUserPayments.slice(0,2).map((number:any) => 
 
   <div  className="card" key={number.id}>
 
-    <span style={{color:"red"}} > Payment Due {number.status}</span>
+    <span style={{color:"red"}} > Payment  {number.status}</span>
 
-    <span>Month: {moment(number.month).format('LLLL')}</span>
+    <span>{moment(number.month).format('LL')}</span>
 
- {number.list.map( (data1:any) =>
+{number.list.map( (data1:any) =>
  <ul  key={data1.id}>
 
 <li>Service: {data1.serviceName}   Price: {data1.price}</li>
@@ -144,6 +144,7 @@ import Payment from './payment'
 
 <div  onClick={()=> router.push(`${data.topic}`)} className="pay"  key={data.id} >
 <div className="pay-top" >
+ 
 <div className="img-wrapper" >
                   <Image
           layout="fill"

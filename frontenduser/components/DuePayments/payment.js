@@ -92,9 +92,9 @@ function App({data, id}) {
 	return (
 		<>
 		{data1 && data1.servicepayment && window.location.reload()}
-        <button onClick={displayRazorpay} >
+        <button style={{width:"10rem", fontSize:"1rem", height:'2rem'}}  onClick={displayRazorpay} >
 
- Pay  {data}
+ Pay  
 </button>
 	
 		</>

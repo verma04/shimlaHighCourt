@@ -133,6 +133,9 @@ tr {
       i {
         cursor: pointer;
       }
+      li:  {
+        line-height: 2;
+      };
       .octicon {
     display: inline-block;
     overflow: visible !important;
