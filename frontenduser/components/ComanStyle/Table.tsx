@@ -70,13 +70,26 @@ justify-content:center;
    justify-content:center;
    align-items:center;
    flex-direction: column;
+
+  
    
    #customers {
 
   border-collapse: collapse;
   width: 100%;
   height: 100%;
+  .not-found {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+ 
+       width: 300%;
 
+     height: 4rem;
+     h2 {
+      font-weight: 800;
+     }
+   }
 }
 
 #customers td, #customers th {

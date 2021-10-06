@@ -75,17 +75,17 @@ justify-content:center;
  .flex-2 {
       width: 100%;
     
-
+      height: 45rem;
       margin-top: 4rem;
-     
+      overflow: visible;
       display:flex;
-    
+      overflow: auto;
    justify-content:space-between;
-   align-items:flex-start;
-   margin-bottom: 4rem;
+   align-items:center;
+
    .garph {
      width:66%;
-
+     height: 100%;
      background-color:white;
      border-radius: 1rem;
      display:flex;
@@ -95,7 +95,7 @@ justify-content:center;
    flex-direction: column;
    .graphl-top{
      width: 100%;
-    height: 4.5rem;
+    height: 10%;
     border-radius: calc(.35rem - 1px) calc(.35rem - 1px) 0 0;
 
     margin-bottom: 0;
@@ -111,40 +111,16 @@ justify-content:center;
     }
    }
    .graphl-bottom{
-     margin-bottom: 4rem;
      width: 100%;
     height: 90%;
     display:flex;
-   justify-content:flex-start;
-   align-items:flex-start;
-
-   flex-wrap: wrap;
-    
-
-   .card {
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-     margin-left: 1rem;
-     margin-right: 1em;
-     margin-top: 2rem;
-     width: 29%;
-    
-     height: 15rem;
-
-      display: flex;
-       justify-content: space-evenly;
-       align-items: center;
-       align-items: center;
-       flex-direction: column;
-       button {
-         width: 40%;
-         height: 20%;
-         font-size: 1rem;
-       }
-   }
+   justify-content:center;
+   align-items:center;
+   flex-direction: column;
    }
    }
    .payments {
-    height: 45rem;
+     height: 100%;
      width: 30%;
      background-color:white;
      border-radius: 1rem;
@@ -169,49 +145,9 @@ justify-content:center;
      width: 100%;
     height: 90%;
     display:flex;
-   justify-content:flex-start;
+   justify-content:center;
    align-items:center;
    flex-direction: column;
-   .pay {
-     width: 100%;
-     height: 12%;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     margin-top: 2%;
-     flex-direction: column;
-     .pay-top {
-       width: 100%;
-       height: 50%;
-       display: flex;
-     justify-content: flex-start;
-     align-items: center;
-    .img-wrapper {
-      width: 10%;
-      margin-left: 10%;
-      height: 90%;
-      position: relative;
-    }
-    span {
-    
-      padding-left: 10%;
-      color: #858796;
-    }
-     }
-
-     .pay-bottom {
-       width: 100%;
-       height: 50%;
-       display: flex;
-     justify-content: center;
-     align-items: center;
-      span {
-        color: #858796;
-        font-size: 0.8rem;
-      }
-   
-     }
-   }
    }
    }
    

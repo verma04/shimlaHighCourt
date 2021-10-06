@@ -124,6 +124,16 @@ const  Ticket = () => {
 
   }
 
+{/* 
+{data && data.getUserticket.length ===0 &&
+
+<div  className="not-found">
+
+<h2>Not data Found</h2>
+</div>
+
+  } */}
+
 </table>
 </div>
 

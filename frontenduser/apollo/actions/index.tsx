@@ -16,7 +16,9 @@ import {
   USER_TICKET,
   USER_ID_TICKET_COMMENT,
   USER_ID_TICKET_CLOSE,
-  USER_ACT 
+  USER_ACT ,
+  SER_PAYMENT,
+  ALL_PAYMENTS
   
 
  
@@ -173,6 +175,59 @@ export const useLazyGetUser = () => useLazyQuery(GET_USER)
 export const useGetUser = () => useQuery(GET_USER)
 
 export const useGetUserActivities = () => useQuery(USER_ACT)
+
+
+
+export const useServicepayment = () => useMutation(SER_PAYMENT, {
+
+
+
+  update(cache, { data: { servicepayment }}) {
+
+    
+    console.log(servicepayment)
+  
+  
+    const {userAllPayments}:any = cache.readQuery({query:ALL_PAYMENTS})
+
+
+    const {getUserPayments}:any = cache.readQuery({query:GET__PAYMENT})
+    // cache.writeQuery({
+    //   query:  USER_SERVICES,
+    //   data: { userServices: assignServices.arr},
+    //   variables: {
+    //     id: assignServices.id
+    // }
+    // });
+     const filter = getUserPayments.filter((element:any) => element.id !==  servicepayment.serviceID  ) 
+
+    // console.log(getUserPayments , "sdds")
+    //  console.log(filter, "d")
+
+    // cache.writeQuery({
+    //   query: ALL_PAYMENTS,
+    //   data: { userAllPayments:  [ servicepayment ,  ...userAllPayments ,   ] },
+     
+    // });
+
+    cache.writeQuery({
+      query: GET__PAYMENT,
+      data: { getUserPayments:  filter },
+     
+    });
+ 
+ 
+    //  const { token } = signedInUser;
+    //  localStorage.setItem("jwtToken", token);
+  }
+
+})
+
+
+export const useAllServicepayment = () => useQuery(ALL_PAYMENTS, {
+
+
+})
 
 
 // Auth actions end -----------------------

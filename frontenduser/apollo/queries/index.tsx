@@ -151,6 +151,58 @@ export const ADD_TICKET = gql`
 `
 
 
+export const SER_PAYMENT = gql`
+  mutation servicepayment(
+    $payment_id: String!
+    $userid: String!
+    $serviceID: String!
+  ) {
+    servicepayment( 
+      payment_id: $payment_id
+      userid: $userid
+      serviceID: $serviceID
+    ) {
+      id
+    paymentId
+    serviceID
+    status
+    month
+    createdAt
+    totalmoney
+    paymentBilling {
+      serviceName
+      serviceId
+      price
+    }
+  
+ 
+            
+    }
+  }
+`
+
+export const ALL_PAYMENTS = gql`
+  query userAllPayments  {
+   userAllPayments  {
+    id
+    paymentId
+    status
+    totalmoney
+    month
+    createdAt
+    paymentBilling {
+      serviceName
+      serviceId
+      price
+    }
+ 
+            
+   }  
+  }
+`
+
+
+
 export const USER_TICKET = gql`
  query getUserticket {
   getUserticket {

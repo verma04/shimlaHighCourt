@@ -37,6 +37,14 @@ import { useNotifications } from '../../../apollo/actions';
     </Link>
    
  
+    <Link
+  
+   
+  href="/assigned-services"
+  passHref
+>
+<i id={router.pathname == "/assigned-services" ? "active" : ""} className="fas fa-laptop-house"> <h3>Assigned Services</h3> </i>  
+ </Link>
  
     <Link
   
@@ -74,21 +82,21 @@ import { useNotifications } from '../../../apollo/actions';
        
    
 
-<span> ({data && data.notifications.length})</span>
+<span> </span>
  </h3>  </i>  
     </Link>
 
     <Link
   
    
-  href="/notifications"
+  href="/payment-history"
   passHref
 >
-<i className="fas fa-money-check"> <h3>Payment
-  
+<i id={router.pathname == "/payments" ? "active" : ""} className="fas fa-money-check"> <h3>Payment
+   History
 
 
-<span> ({data && data.notifications.length})</span>
+<span> </span>
 </h3>  </i>  
 </Link>
 
@@ -100,6 +108,7 @@ import { useNotifications } from '../../../apollo/actions';
     >
  <i id={router.pathname == "/activities" ? "active" : ""} className="fas fa-cog"> <h3>My Activity Log</h3> </i>  
       </Link>
+
   
       <Link
   

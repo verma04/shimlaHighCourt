@@ -10,7 +10,7 @@ import { Pop } from '../ComanStyle/Pop';
 import { useGetUser } from '../../apollo/actions';
 import { useRouter } from "next/router";
 
- 
+
 import Payment from './payment'
 
 
@@ -28,6 +28,7 @@ import Payment from './payment'
   const { data:data12 , error:error12 , loading } =useUserPayments();
   
 
+  console.log(data12)
  
 
 	const [name, setName] = useState('Mehul')
@@ -37,7 +38,7 @@ import Payment from './payment'
   if(loading) {
     return (
       <div>
-sdsdds
+
       </div>
     )
   }
@@ -67,7 +68,7 @@ sdsdds
    <i className="fas fa-comments"></i>
    <h4>OurDue Payments</h4>
 
-<span>{data12 && data12.getUserPayments.filter((element:any) => element.status === "Due" ).length}</span>
+<span>{data12 && data12.getUserPayments.length}</span>
        </div>
     <div  onClick={()=>router.push("/admin/chambers")} className="flex-item" >
     <i className="fas fa-comments"></i>
@@ -101,22 +102,27 @@ sdsdds
 {
   data12 && data12.getUserPayments.map((number:any) => 
 
-  <div key={number.id}>
+  <div  className="card" key={number.id}>
+
+    <span style={{color:"red"}} > Payment Due {number.status}</span>
+
+    <span>Month: {moment(number.month).format('LLLL')}</span>
 
  {number.list.map( (data1:any) =>
- <div  key={data1.id}>
+ <ul  key={data1.id}>
+
+<li>Service: {data1.serviceName}   Price: {data1.price}</li>
 
 
 
 
-
-   </div>
+   </ul>
  
  )
 
  }
 
-<Payment  data = {number.list.map((item:any) => item.price).reduce((prev:any, curr:any) => prev + curr, 0) } />
+<Payment id={number.id}  data = {number.list.map((item:any) => parseInt(item.price)).reduce((prev:any, curr:any) => prev + curr, 0) } />
 
 
     </div>
