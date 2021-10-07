@@ -1,14 +1,12 @@
 const env = process.env.NODE_ENV || "development";
 const config = {
   development: {
-    clientEndpoint: "http://localhost/graphql",
-    serverEndpoint: "http://localhost/graphql",
-    wsEndpoint: "ws://localhost/graphql"
+    clientEndpoint: "http://localhost:5000",
+
   },
   production: {
-    clientEndpoint: "http://192.168.55.141/graphql",
-    serverEndpoint: "http://192.168.55.141/graphql",
-    wsEndpoint: "ws://192.168.55.141/graphql"
+    clientEndpoint: "http://13.59.174.174:5000/",
+  
   }
 }[env];
 
