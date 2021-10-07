@@ -42,3 +42,4 @@ yarn.lock
 
 *.js
 !_*.js
+.vercel

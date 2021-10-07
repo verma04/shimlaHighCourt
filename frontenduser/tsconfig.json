@@ -11,8 +11,9 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "jsx": "preserve"
+    
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/ticket/View/[id].tss", "components/Ticket/Editor.js", "components/Dashboard/payment.js", "components/Dashboard/dashboard.js"],
   "exclude": ["node_modules"]
