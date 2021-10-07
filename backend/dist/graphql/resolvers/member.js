@@ -25,7 +25,7 @@ const { Payments } = require('../../models/payments');
 function generateToken(user) {
     return jwt.sign({
         id: user.id,
-    }, `"sddsdds"`, { expiresIn: '1h' });
+    }, `"sddsdds"`, { expiresIn: '1111111111111111111111111111111111111111111111111111111111111h' });
 }
 const MemberResolvers = {
     Query: {

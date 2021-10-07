@@ -17,7 +17,7 @@ function generateToken(user:any) {
   
     },
     `"sddsdds"`,
-    { expiresIn: '1h' }
+    { expiresIn: '1111111111111111111111111111111111111111111111111111111111111h' }
   );
 }
 
